@@ -1,0 +1,10 @@
+#@data/values-schema
+---
+cpu: "50m"
+debugPort: 8001
+image: ""
+dxpMetadata: #@ True
+initMetadata: #@ False
+memory: "50Mi"
+serviceId: ""
+virtualInstanceId: ""

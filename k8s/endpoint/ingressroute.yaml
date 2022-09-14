@@ -1,0 +1,23 @@
+#@ load("@ytt:data", "data")
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: #@ data.values.id
+  labels:
+    app: #@ data.values.id
+spec:
+  entryPoints:
+    - websecure
+  routes:
+  - kind: Rule
+    match: #@ "{}.localdev.me".format(data.values.id)
+    services:
+    - name: #@ data.values.id
+      port: 80
+  - kind: Rule
+    match: #@ data.values.virtualInstanceId
+    services:
+    - name: #@ data.values.id
+      port: 80
+  tls:
+    secretName: #@ data.values.tlsSecretName

@@ -1,0 +1,18 @@
+#@ load("@ytt:data", "data")
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: #@ data.values.serviceId
+  labels:
+    app: #@ data.values.serviceId
+spec:
+  entryPoints:
+    - websecure
+  routes:
+  - kind: Rule
+    match: #@ "Host(`{}.localdev.me`)".format(data.values.serviceId)
+    services:
+    - name: #@ data.values.serviceId
+      port: 80
+  tls:
+    secretName: lxc-localdev-secret

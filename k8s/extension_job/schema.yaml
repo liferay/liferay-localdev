@@ -1,0 +1,8 @@
+#@data/values-schema
+---
+cpu: "50m"
+image: ""
+initMetadata: #@ False
+memory: "50Mi"
+serviceId: ""
+virtualInstanceId: ""

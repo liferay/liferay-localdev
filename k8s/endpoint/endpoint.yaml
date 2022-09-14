@@ -1,0 +1,10 @@
+#@ load("@ytt:data", "data")
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: #@ data.values.id
+subsets:
+  - addresses:
+      - ip: #@ data.values.dockerHostAddress
+    ports:
+      - port: #@ data.values.dockerHostPort

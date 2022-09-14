@@ -1,0 +1,29 @@
+#@ load("@ytt:data", "data")
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: #@ data.values.id
+  labels:
+    app: #@ data.values.id
+spec:
+  rules:
+  - host: #@ "{}.localdev.me".format(data.values.id)
+    http:
+      paths:
+      - backend:
+          service:
+            name: #@ data.values.id
+            port:
+              number: 80
+        path: /
+        pathType: ImplementationSpecific
+  - host: #@ data.values.virtualInstanceId
+    http:
+      paths:
+      - backend:
+          service:
+            name: #@ data.values.id
+            port:
+              number: 80
+        path: /
+        pathType: ImplementationSpecific

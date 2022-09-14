@@ -1,0 +1,12 @@
+#@ load("@ytt:data", "data")
+apiVersion: v1
+kind: Service
+metadata:
+  name: #@ data.values.id
+  labels:
+    app: #@ data.values.id
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80

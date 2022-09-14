@@ -1,0 +1,21 @@
+#@ load("@ytt:data", "data")
+apiVersion: k3d.io/v1alpha4
+kind: Simple
+metadata:
+  name: lxc-localdev
+kubeAPI:
+  hostIP: "0.0.0.0"
+  hostPort: "6443"
+ports:
+  - port: 443:443
+    nodeFilters:
+      - loadbalancer
+options:
+  k3d:
+    wait: true
+subnet: "172.150.0.0/16"
+hostAliases:
+  - ip: 172.150.0.1
+    hostnames:
+    #@ for/end hostAlias in data.values.hostAliases:
+      - #@ "{}.localdev.me".format(hostAlias)

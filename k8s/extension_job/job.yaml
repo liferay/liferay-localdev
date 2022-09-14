@@ -1,0 +1,39 @@
+#@ load("@ytt:data", "data")
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: #@ data.values.serviceId
+  labels:
+    app: #@ data.values.serviceId
+spec:
+  template:
+    metadata:
+      labels:
+        app: #@ data.values.serviceId
+    spec:
+      containers:
+      - name: #@ data.values.serviceId
+        image: #@ data.values.image
+        resources:
+          limits:
+            memory: #@ data.values.memory
+            cpu: #@ data.values.cpu
+        volumeMounts:
+          - mountPath: /etc/liferay/lxc/dxp-metadata
+            name: lxc-dxp-metadata
+            readOnly: true
+          #@ if data.values.initMetadata:
+          - mountPath: /etc/liferay/lxc/ext-init-metadata
+            name: lxc-ext-init-metadata
+            readOnly: true
+          #@ end
+      restartPolicy: OnFailure
+      volumes:
+        - name: lxc-dxp-metadata
+          configMap:
+            name: #@ "{}-lxc-dxp-metadata".format(data.values.virtualInstanceId)
+        #@ if data.values.initMetadata:
+        - name: lxc-ext-init-metadata
+          configMap:
+            name: #@ "{}-{}-lxc-ext-init-metadata".format(data.values.serviceId, data.values.virtualInstanceId)
+        #@ end
