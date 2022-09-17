@@ -7,7 +7,7 @@ set -e
 declare -a host_aliases=("dxp" "vi")
 HOST_ALIASES="['dxp', 'vi']"
 
-ytt -f /k8s/k3d --data-value-yaml "hostAliases=$HOST_ALIASES" > .cluster_config.yaml
+ytt -f /repo/k8s/k3d --data-value-yaml "hostAliases=$HOST_ALIASES" > .cluster_config.yaml
 
 # create k3d cluster with local registry
 
@@ -29,12 +29,12 @@ until [ "${SA}" == "1" ]; do
 done
 echo -e "\rSERVICEACOUNT_STATUS: Available."
 
-kubectl create -f /k8s/k3d/token.yaml
-kubectl create -f /k8s/k3d/rbac.yaml
+kubectl create -f /repo/k8s/k3d/token.yaml
+kubectl create -f /repo/k8s/k3d/rbac.yaml
 
 kubectl create secret generic localdev-tls-secret \
-  --from-file=tls.crt=/k8s/tls/localdev.me.crt \
-  --from-file=tls.key=/k8s/tls/localdev.me.key  \
+  --from-file=tls.crt=/repo/k8s/tls/localdev.me.crt \
+  --from-file=tls.key=/repo/k8s/tls/localdev.me.key  \
   --namespace default
 
 # poll until coredns is updated with docker host address
@@ -61,11 +61,11 @@ echo -e "\rINGRESSROUTE_CRD: ${CRD}"
 for hostAlias in ${host_aliases[@]}
 do
   ytt \
-    -f /k8s/endpoint \
+    -f /repo/k8s/endpoint \
     --data-value "id=${hostAlias}" \
     --data-value-yaml "dockerHostAddress=${ADDRESS}" \
     --data-value "virtualInstanceId=dxp.localdev.me" | kubectl apply -f-
 done
 
 
-echo "Cluster is ready.  Run 'tilt up' to deploy DXP and extensions"
+echo "lxc-localdev cluster is ready."
