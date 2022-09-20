@@ -1,0 +1,33 @@
+virtual_instance_id="dxp.localdev.me"
+
+# Tilt methods
+def process_extension(
+    name, projectPath, virtual_instance_id, source_deps = [],
+    objects = [], port_forwards = [], resource_deps = [], links = []):
+
+  custom_build(
+    name,
+    "./gradlew %s:buildClientExtensionDockerImage -PimageId=$EXPECTED_REF" % projectPath.replace("/", ":"),
+    deps=['/workspace/%s/src' % projectPath] + source_deps,
+    ignore=[]
+  )
+
+  local("./gradlew %s:createClientExtensionConfig --stacktrace" % projectPath.replace("/", ":"))
+
+  config_json_file = "/workspace/%s/build/%s.client-extension-config.json" % (projectPath, name)
+  data_values_file = "/workspace/%s/values.yaml" % projectPath
+
+  k8s_yaml(
+    local("ytt -f /repo/k8s/extension -f %s -f %s --data-value virtualInstanceId=%s" 
+            % (config_json_file, data_values_file, virtual_instance_id)))
+  watch_file(config_json_file)
+  watch_file(data_values_file)
+
+  k8s_resource(
+    labels=['extensions'],
+    port_forwards=port_forwards,
+    objects=['%s-%s-lxc-ext-provision-metadata:configmap' % (name, virtual_instance_id)] + objects,
+    resource_deps=resource_deps,
+    workload=name,
+    links=links
+  )

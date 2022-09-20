@@ -67,5 +67,4 @@ do
     --data-value "virtualInstanceId=dxp.localdev.me" | kubectl apply -f-
 done
 
-
 echo "lxc-localdev cluster is ready."
