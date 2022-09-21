@@ -33,8 +33,22 @@ RUN curl -fsSL https://raw.githubusercontent.com/tilt-dev/tilt/master/scripts/in
 # Install ytt
 RUN wget -O- https://carvel.dev/install.sh | bash
 
-COPY entrypoint.sh /entrypoint.sh
+RUN curl -fsSl https://raw.githubusercontent.com/liferay/liferay-blade-cli/master/cli/installers/global | bash
 
 WORKDIR /workspace
+
+RUN blade init -v dxp-7.4-u42
+
+COPY workspace/build.gradle /workspace/build.gradle
+
+COPY workspace/configs /workspace/configs/
+
+COPY workspace/gradle/ /workspace/gradle/
+
+COPY workspace/gradle.properties /workspace/gradle.properties
+
+RUN ./gradlew --version
+
+COPY entrypoint.sh /entrypoint.sh
 
 ENTRYPOINT [ "/entrypoint.sh" ]
