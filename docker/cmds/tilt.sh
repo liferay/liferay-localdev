@@ -1,9 +1,21 @@
 #!/usr/bin/env bash
 
-LOCALDEV_REPO=$1
-LIFERAY_CACHE=$2
-CLIENT_EXTENSIONS_SOURCE=$3
-CLIENT_EXTENSIONS_DEPLOY=$3
+set -ex
+
+if [ -z "$LOCALDEV_REPO" ]; then
+  echo "Must specify LOCALDEV_REPO env var"
+  exit 1
+fi
+
+if [ -z "$LIFERAY_CACHE" ]; then
+  echo "Must specify LIFERAY_CACHE env var"
+  exit 1
+fi
+
+if [ -z "$CLIENT_EXTENSIONS_SOURCE" ]; then
+  echo "Must specify CLIENT_EXTENSIONS_SOURCE env var"
+  exit 1
+fi
 
 docker \
   run \
@@ -13,7 +25,6 @@ docker \
   -v $LOCALDEV_REPO:/repo \
   -v $LIFERAY_CACHE:/root/.liferay/ \
   -v $CLIENT_EXTENSIONS_SOURCE:/workspace/client-extensions \
-  -v $CLIENT_EXTENSIONS_DEPLOY:/workspace/build/docker/client-extensions \
   --expose 10350 \
   -p 10350:10350 \
   -e DO_NOT_TRACK="1" \

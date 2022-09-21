@@ -1,19 +1,29 @@
 #!/usr/bin/env bash
 
-set -xe
+set -ex
 
-CLIENT_EXTENSIONS_DEPLOY_PATH=$1
-DEPLOY_PATH=$2
-ADD_HOST=$3
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
 #ADD_HOST=coupon-action-springboot.localdev.me:172.150.0.1
 IMAGE=dxp-lxc-localdev
 
-KUBERNETES_CERTIFICATE=$(./lxc-localdev-cmd.sh /repo/scripts/k8s-certificate.sh)
-KUBERNETES_TOKEN=$(./lxc-localdev-cmd.sh /repo/scripts/k8s-token.sh)
+if [ -z "$LOCALDEV_REPO" ]; then
+  echo "Must specify LOCALDEV_REPO env var"
+  exit 1
+fi
+
+
+if [ -z "$ADD_HOST" ]; then
+  echo "Must specify ADD_HOST env var"
+  exit 1
+fi
+
+KUBERNETES_CERTIFICATE=$($SCRIPT_DIR/lxc-localdev-cmd.sh /repo/scripts/k8s-certificate.sh)
+KUBERNETES_TOKEN=$($SCRIPT_DIR/lxc-localdev-cmd.sh /repo/scripts/k8s-token.sh)
 
 docker run \
-  -v "$CLIENT_EXTENSIONS_DEPLOY_PATH:/opt/liferay/osgi/client-extensions" \
-  -v "$DEPLOY_PATH:/mnt/liferay/deploy" \
+  --name ${IMAGE}-runner \
+  --rm \
   -v liferayData:/opt/liferay/data:rw \
   -p 8000:8000 \
   -p 8080:8080 \

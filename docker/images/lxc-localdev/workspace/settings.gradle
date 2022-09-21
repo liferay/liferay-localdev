@@ -1,0 +1,24 @@
+buildscript {
+	dependencies {
+		classpath group: "biz.aQute.bnd", name: "biz.aQute.bnd", version: "5.2.0"
+		classpath(group: "com.liferay", name: "com.liferay.gradle.plugins.workspace", version: "4.0.999") {
+			exclude group: "biz.aQute.bnd", module: "biz.aQute.bnd"
+		}
+    classpath group: "org.springframework.boot", name: "spring-boot-gradle-plugin", version: "2.7.3"
+	}
+
+	repositories {
+		maven {
+			url file("temp_repo").toURL()
+		}
+		maven {
+			url "https://repository-cdn.liferay.com/nexus/content/groups/public"
+		}
+
+		maven {
+			url "https://repository.liferay.com/nexus/content/groups/public"
+		}
+	}
+}
+
+apply plugin: "com.liferay.workspace"

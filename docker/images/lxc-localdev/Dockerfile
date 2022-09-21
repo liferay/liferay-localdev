@@ -47,6 +47,10 @@ COPY workspace/gradle/ /workspace/gradle/
 
 COPY workspace/gradle.properties /workspace/gradle.properties
 
+COPY workspace/settings.gradle /workspace/settings.gradle
+
+COPY workspace/temp_repo /workspace/temp_repo
+
 RUN ./gradlew --version
 
 COPY entrypoint.sh /entrypoint.sh
