@@ -22,12 +22,8 @@ spec:
           limits:
             memory: #@ data.values.memory
             cpu: #@ data.values.cpu
-        env:
-          - name: DEBUG_PORT
-            value: #@ "{}".format(data.values.debugPort)
         ports:
           - containerPort: 80
-          - containerPort: #@ data.values.debugPort
         volumeMounts:
           #@ if data.values.dxpMetadata:
           - mountPath: /etc/liferay/lxc/dxp-metadata

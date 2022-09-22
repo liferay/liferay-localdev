@@ -4,7 +4,9 @@ set -ex
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-#ADD_HOST=coupon-action-springboot.localdev.me:172.150.0.1
+ADD_HOST1=coupon-action-springboot.localdev.me:172.150.0.1
+ADD_HOST2=coupon-action-nodejs.localdev.me:172.150.0.1
+ADD_HOST3=coupon-remote-app.localdev.me:172.150.0.1
 IMAGE=dxp-lxc-localdev
 
 if [ -z "$LOCALDEV_REPO" ]; then
@@ -12,11 +14,6 @@ if [ -z "$LOCALDEV_REPO" ]; then
   exit 1
 fi
 
-
-if [ -z "$ADD_HOST" ]; then
-  echo "Must specify ADD_HOST env var"
-  exit 1
-fi
 
 KUBERNETES_CERTIFICATE=$($SCRIPT_DIR/lxc-localdev-cmd.sh /repo/scripts/k8s-certificate.sh)
 KUBERNETES_TOKEN=$($SCRIPT_DIR/lxc-localdev-cmd.sh /repo/scripts/k8s-token.sh)
@@ -33,6 +30,8 @@ docker run \
   -e KUBERNETES_NAMESPACE=default \
   -e KUBERNETES_CERTIFICATE="$KUBERNETES_CERTIFICATE" \
   -e KUBERNETES_TOKEN="$KUBERNETES_TOKEN" \
-  --add-host "$ADD_HOST" \
+  --add-host "$ADD_HOST1" \
+  --add-host "$ADD_HOST2" \
+  --add-host "$ADD_HOST3" \
   --network k3d-lxc-localdev \
   $IMAGE

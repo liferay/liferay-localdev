@@ -1,0 +1,72 @@
+.rca-container *{
+    font-family: inherit;
+}
+
+.rca-container {
+    flex-direction: row;
+    justify-content: center;
+    position: relative;
+}
+
+.rca-box {
+    width: 450px;
+    box-shadow: 1px 1px 10px 9px #cccc;
+    border-radius: 30px;
+    z-index: 1;
+    position: relative;
+}
+
+.first-section{
+    background-color: #f7bc35a6;
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+    border-radius: 30px;
+}
+
+.rca-box h1{
+    text-align: center;
+    font-size: 60px;
+    font-weight: bold;
+    width: 40%;
+    margin: 0;
+}
+
+.second-section {
+    text-align: center;
+    padding-bottom: 45px;
+}
+
+.second-section p{
+    text-align: center;
+    font-weight: 100;
+    font-size: 12px;
+    margin-bottom: 0;
+}
+
+.second-section p .percentage{
+    font-size: 60px;
+    font-weight: bold;
+    opacity: 1 !important;
+}
+
+.second-section button{
+    margin-top: 20px;
+    border: 0;
+    background-color: #f7bc35a6;
+    padding: 20px;
+    border-radius: 40px;
+    font-weight: bold;
+    font-size: 17px;
+    cursor: pointer;
+}
+
+.second-section button:hover{
+    background-color: #e2be07;
+}
+
+button img{
+    width: 15px;
+    height: 15px;
+    margin-left: 10px;
+}

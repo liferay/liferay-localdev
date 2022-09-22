@@ -37,21 +37,32 @@ RUN curl -fsSl https://raw.githubusercontent.com/liferay/liferay-blade-cli/maste
 
 WORKDIR /workspace
 
+# setup a workspace to build client-extensions with
+
+# use latest available
 RUN blade init -v dxp-7.4-u42
 
 COPY workspace/build.gradle /workspace/build.gradle
 
-COPY workspace/configs /workspace/configs/
+#COPY workspace/configs /workspace/configs/
 
 COPY workspace/gradle/ /workspace/gradle/
 
 COPY workspace/gradle.properties /workspace/gradle.properties
 
+# copy sample client extensions both test and warmup caches
+COPY workspace/sample-client-extensions /workspace/sample-client-extensions
+
 COPY workspace/settings.gradle /workspace/settings.gradle
 
+# custom workspace plugin
 COPY workspace/temp_repo /workspace/temp_repo
 
-RUN ./gradlew --version
+# warm up the caches
+RUN ./gradlew build
+
+# remove samples
+RUN rm -rf /workspace/sample-client-extensions /workspace/
 
 COPY entrypoint.sh /entrypoint.sh
 

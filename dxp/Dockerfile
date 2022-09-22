@@ -1,4 +1,4 @@
-FROM rotty3000/dxp:7.4.13.SNAPSHOT-20220914130753
+FROM rotty3000/dxp:7.4.13.SNAPSHOT-20220921210136
 
 ENV LIFERAY_WORKSPACE_ENVIRONMENT=lxc
 ENV JPDA_ADDRESS=0.0.0.0:8000 
@@ -8,9 +8,18 @@ ENV LIFERAY_MODULE_PERIOD_FRAMEWORK_PERIOD_PROPERTIES_PERIOD_OSGI_PERIOD_CONSOLE
 COPY --chown=liferay:liferay deploy /mnt/liferay/deploy
 COPY --chown=liferay:liferay configs /home/liferay/configs
 COPY --chown=liferay:liferay 101_copy_configs.sh /usr/local/liferay/scripts/pre-configure/101_copy_configs.sh
-COPY ca.crt /opt/liferay
+
+USER root
+
+COPY ca.crt /usr/lib/jvm/zulu11/lib/security
+
+RUN echo "hello guys"
 
 RUN \
-	cd /opt/liferay \
-	&& keytool -keystore cacerts -storepass changeit \
-		-noprompt -trustcacerts -importcert -alias project-cert -file ca.crt
+	keytool -noprompt -trustcacerts -importcert \
+		-alias project-cert \
+		-storepass changeit \
+		-cacerts \
+		-file /usr/lib/jvm/zulu11/lib/security/ca.crt
+
+USER liferay:liferay
