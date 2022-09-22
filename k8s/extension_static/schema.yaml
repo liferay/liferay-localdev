@@ -1,8 +1,9 @@
 #@data/values-schema
 ---
-cpu: "100m"
+cpu: "50m"
 image: ""
-initMetadata: #@ True
-memory: "100Mi"
+dxpMetadata: #@ True
+initMetadata: #@ False
+memory: "50Mi"
 serviceId: ""
 virtualInstanceId: ""

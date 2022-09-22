@@ -1,0 +1,52 @@
+#@ load("@ytt:data", "data")
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: #@ data.values.serviceId
+  labels:
+    app: #@ data.values.serviceId
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: #@ data.values.serviceId
+  template:
+    metadata:
+      labels:
+        app: #@ data.values.serviceId
+    spec:
+      containers:
+      - name: #@ data.values.serviceId
+        image: #@ data.values.image
+        resources:
+          limits:
+            memory: #@ data.values.memory
+            cpu: #@ data.values.cpu
+        env:
+          - name: DEBUG_PORT
+            value: #@ "{}".format(data.values.debugPort)
+        ports:
+          - containerPort: 80
+          - containerPort: #@ data.values.debugPort
+        volumeMounts:
+          #@ if data.values.dxpMetadata:
+          - mountPath: /etc/liferay/lxc/dxp-metadata
+            name: lxc-dxp-metadata
+            readOnly: true
+          #@ end
+          #@ if data.values.initMetadata:
+          - mountPath: /etc/liferay/lxc/ext-init-metadata
+            name: lxc-ext-init-metadata
+            readOnly: true
+          #@ end
+      volumes:
+        #@ if data.values.dxpMetadata:
+        - name: lxc-dxp-metadata
+          configMap:
+            name: #@ "{}-lxc-dxp-metadata".format(data.values.virtualInstanceId)
+        #@ end
+        #@ if data.values.initMetadata:
+        - name: lxc-ext-init-metadata
+          configMap:
+            name: #@ "{}-{}-lxc-ext-init-metadata".format(data.values.serviceId, data.values.virtualInstanceId)
+        #@ end

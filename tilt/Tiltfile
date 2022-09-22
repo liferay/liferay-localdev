@@ -3,12 +3,11 @@ update_settings(max_parallel_updates=1)
 watch_file('/repo/k8s/endpoint/')
 watch_file('/repo/k8s/extension_deployment/')
 watch_file('/repo/k8s/extension_job/')
+watch_file('/repo/k8s/extension_static/')
 
 if config.tilt_subcommand == 'down':
   local('kubectl delete cm -l lxc.liferay.com/metadataType=dxp')
   local('kubectl delete cm -l lxc.liferay.com/metadataType=ext-init')
 
-for tiltfile in str(local("find /workspace -name Tiltfile -not -path '*/node_modules/*' -not -path '*/node_modules_cache/*'")).splitlines():
+for tiltfile in str(local("find /workspace -name Tiltfile -not -path '*/node_modules/*' -not -path '*/node_modules_cache/*' 2>/dev/null")).splitlines():
   include(tiltfile)
-
-#include("/workspace/extensions/coupon-action-springboot/Tiltfile")
