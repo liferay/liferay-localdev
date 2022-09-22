@@ -62,7 +62,7 @@ COPY workspace/temp_repo /workspace/temp_repo
 RUN ./gradlew build
 
 # remove samples
-RUN rm -rf /workspace/sample-client-extensions /workspace/
+RUN rm -rf /workspace/sample-client-extensions
 
 COPY entrypoint.sh /entrypoint.sh
 

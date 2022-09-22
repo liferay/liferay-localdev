@@ -6,19 +6,18 @@ def process_extension(
 
   custom_build(
     name,
-    "/workspace/gradlew :%s:buildClientExtensionDockerImage -PimageId=$EXPECTED_REF" % projectPath.replace("/", ":"),
+    "/workspace/gradlew :%s:buildClientExtensionDockerImage --stacktrace --scan -PimageId=$EXPECTED_REF" % projectPath.replace("/", ":"),
     deps=[
       '/workspace/%s/src' % projectPath,
       '/workspace/%s/build.gradle' % projectPath,
       '/workspace/%s/client-extension.yaml' % projectPath,
-      '/workspace/%s/build/Dockerfile' % projectPath,
+      '/workspace/%s/Dockerfile' % projectPath,
     ] + source_deps,
     ignore=[])
 
   local("/workspace/gradlew :%s:createClientExtensionConfig --stacktrace" % projectPath.replace("/", ":"))
 
   config_json_file = "/workspace/%s/build/%s.client-extension-config.json" % (projectPath, name)
-  watch_file(config_json_file)
 
   if yamlTemplateName != "extension_static":
     k8s_yaml(

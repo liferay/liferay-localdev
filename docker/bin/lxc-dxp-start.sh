@@ -6,7 +6,6 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 ADD_HOST1=coupon-action-springboot.localdev.me:172.150.0.1
 ADD_HOST2=coupon-action-nodejs.localdev.me:172.150.0.1
-ADD_HOST3=coupon-remote-app.localdev.me:172.150.0.1
 IMAGE=dxp-lxc-localdev
 
 if [ -z "$LOCALDEV_REPO" ]; then
@@ -32,6 +31,5 @@ docker run \
   -e KUBERNETES_TOKEN="$KUBERNETES_TOKEN" \
   --add-host "$ADD_HOST1" \
   --add-host "$ADD_HOST2" \
-  --add-host "$ADD_HOST3" \
   --network k3d-lxc-localdev \
   $IMAGE

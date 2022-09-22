@@ -1,6 +1,16 @@
 gradle.projectsEvaluated {
   buildDockerImage.dependsOn = buildDockerImage.dependsOn.findAll { !it.path.startsWith(":client-extensions") }
-  project.subprojects.findAll { sub -> sub.tasks.findByName('buildClientExtensionDockerImage') != null }.each { sub ->
+
+  subprojects.findAll { sub -> sub.tasks.findByName('buildClientExtensionDockerImage') != null }.each { sub ->
       createDockerContainer.hostConfig.extraHosts.add(sub.name + ".localdev.me:172.150.0.1")
+  }
+
+  subprojects.each {
+    if (hasProperty('buildScan')) {
+      buildScan {
+        termsOfServiceUrl = 'https://gradle.com/terms-of-service'
+        termsOfServiceAgree = 'yes'
+      }
+    }
   }
 }
