@@ -6,7 +6,7 @@ def process_extension(
 
   custom_build(
     name,
-    "/workspace/gradlew :%s:buildClientExtensionDockerImage --stacktrace --scan -PimageId=$EXPECTED_REF" % projectPath.replace("/", ":"),
+    "/workspace/gradlew :%s:buildClientExtensionDockerImage --stacktrace -PimageId=$EXPECTED_REF" % projectPath.replace("/", ":"),
     deps=[
       '/workspace/%s/src' % projectPath,
       '/workspace/%s/build.gradle' % projectPath,

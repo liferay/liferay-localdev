@@ -30,6 +30,6 @@ createClientExtensionConfig {
   templateName = "springboot"
 }
 
-buildClientExtension {
+assembleClientExtension {
   from bootJar
 }
