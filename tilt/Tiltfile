@@ -8,5 +8,5 @@ watch_file('/repo/k8s/extension_static/')
 if config.tilt_subcommand == 'down':
   local('kubectl delete cm -l lxc.liferay.com/metadataType=ext-init')
 
-for tiltfile in str(local("find /workspace -name Tiltfile -not -path '*/build/*' -not -path '*/node_modules/*' -not -path '*/node_modules_cache/*' 2>/dev/null")).splitlines():
+for tiltfile in str(local("find /workspace/client-extensions -name Tiltfile -not -path '*/build/*' -not -path '*/node_modules/*' -not -path '*/node_modules_cache/*' 2>/dev/null")).splitlines():
   include(tiltfile)
