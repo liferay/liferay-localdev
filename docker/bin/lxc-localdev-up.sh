@@ -12,11 +12,6 @@ if [ -z "$LIFERAY_CACHE" ]; then
   exit 1
 fi
 
-if [ -z "$CLIENT_EXTENSIONS_SOURCE" ]; then
-  echo "Must specify CLIENT_EXTENSIONS_SOURCE env var"
-  exit 1
-fi
-
 docker \
   run \
   --name lxc-localdev-runner \
@@ -24,10 +19,9 @@ docker \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -v $LOCALDEV_REPO:/repo \
   -v $LIFERAY_CACHE:/root/.liferay/ \
-  -v $CLIENT_EXTENSIONS_SOURCE:/workspace/client-extensions \
+  -v $(pwd):/workspace/client-extensions \
   --expose 10350 \
   -p 10350:10350 \
   -e DO_NOT_TRACK="1" \
   lxc-localdev \
-  tilt \
-  $@
+  tilt up -f /repo/tilt/Tiltfile --stream

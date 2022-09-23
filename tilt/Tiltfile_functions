@@ -19,14 +19,14 @@ def process_extension(
 
   config_json_file = "/workspace/%s/build/%s.client-extension-config.json" % (projectPath, name)
 
+  init_metadata = False
+
   if yamlTemplateName != "extension_static":
-    k8s_yaml(
-      local("ytt -f /repo/k8s/%s -f %s --data-value-yaml initMetadata=true --data-value image=%s --data-value serviceId=%s --data-value virtualInstanceId=%s" 
-              % (yamlTemplateName, config_json_file, name, name, virtual_instance_id)))
-  else:
-    k8s_yaml(
-      local("ytt -f /repo/k8s/%s -f %s --data-value image=%s --data-value serviceId=%s --data-value virtualInstanceId=%s" 
-              % (yamlTemplateName, config_json_file, name, name, virtual_instance_id)))
+    init_metadata = True
+
+  k8s_yaml(
+    local("ytt -f /repo/k8s/%s -f %s --data-value-yaml initMetadata=%s --data-value image=%s --data-value serviceId=%s --data-value virtualInstanceId=%s" 
+            % (yamlTemplateName, config_json_file, init_metadata, name, name, virtual_instance_id)))
 
   if yamlTemplateName != "extension_job":
     objects = [

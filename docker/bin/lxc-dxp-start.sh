@@ -4,8 +4,8 @@ set -ex
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-ADD_HOST1=coupon-action-springboot.localdev.me:172.150.0.1
-ADD_HOST2=coupon-action-nodejs.localdev.me:172.150.0.1
+ADD_HOST1=coupon-issued-function.localdev.me:172.150.0.1
+ADD_HOST2=coupon-added-function.localdev.me:172.150.0.1
 IMAGE=dxp-lxc-localdev
 
 if [ -z "$LOCALDEV_REPO" ]; then
