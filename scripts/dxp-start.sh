@@ -11,12 +11,12 @@ if [ -z "$LOCALDEV_REPO" ]; then
   exit 1
 fi
 
-
 KUBERNETES_CERTIFICATE=$(/repo/scripts/k8s-certificate.sh)
 KUBERNETES_TOKEN=$(/repo/scripts/k8s-token.sh)
 
 docker run \
   --name ${IMAGE}-server \
+  --network k3d-localdev \
   --rm \
   -v liferayData:/opt/liferay/data:rw \
   -p 8000:8000 \
@@ -29,5 +29,4 @@ docker run \
   -e KUBERNETES_TOKEN="$KUBERNETES_TOKEN" \
   --add-host "$ADD_HOST1" \
   --add-host "$ADD_HOST2" \
-  --network k3d-localdev \
   $IMAGE
