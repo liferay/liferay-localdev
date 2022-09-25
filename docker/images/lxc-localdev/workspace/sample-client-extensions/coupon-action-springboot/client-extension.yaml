@@ -9,3 +9,7 @@ coupon-action-springboot:
   description: Coupon Issued Action
   resourcePath: /coupons/issued
   oauth2Application: coupon-action-user-agent
+
+runtime:
+  type: springboot
+  workload: deployment

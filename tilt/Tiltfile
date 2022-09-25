@@ -1,9 +1,52 @@
+# Function process_extension
+def process_extension(
+    name, projectPath, workload, virtual_instance_id='dxp.localdev.me', source_deps = [],
+    objects = [], port_forwards = [], resource_deps = [], links = []):
+
+  custom_build(
+    name,
+    "/workspace/gradlew --project-dir /workspace :%s:buildClientExtensionDockerImage --stacktrace -PimageId=$EXPECTED_REF" % projectPath.replace("/", ":"),
+    deps=[
+      '/workspace/%s/src' % projectPath,
+      '/workspace/%s/build.gradle' % projectPath,
+      '/workspace/%s/client-extension.yaml' % projectPath,
+      '/workspace/%s/Dockerfile' % projectPath,
+    ] + source_deps,
+    ignore=[])
+
+  local("/workspace/gradlew --project-dir /workspace :%s:createClientExtensionConfig --stacktrace" % projectPath.replace("/", ":"))
+
+  config_json_file = "/workspace/%s/build/%s.client-extension-config.json" % (projectPath, name)
+
+  init_metadata = False
+
+  if workload != "static":
+    init_metadata = True
+
+  k8s_yaml(
+    local("ytt -f /repo/k8s/workloads/%s -f %s --data-value-yaml initMetadata=%s --data-value image=%s --data-value serviceId=%s --data-value virtualInstanceId=%s" 
+            % (workload, config_json_file, init_metadata, name, name, virtual_instance_id)))
+
+  if workload != "job":
+    objects = [
+      "%s:ingress" % name,
+      "%s:ingressroute" % name
+    ]
+
+  k8s_resource(
+    labels=['extensions'],
+    port_forwards=port_forwards,
+    objects=['%s-%s-lxc-ext-provision-metadata:configmap' % (name, virtual_instance_id)] + objects,
+    resource_deps=['dxp.localdev.me'] + resource_deps,
+    workload=name,
+    links=links)
+
+#main code
+
 update_settings(max_parallel_updates=1)
 
 watch_file('/repo/k8s/endpoint/')
-watch_file('/repo/k8s/extension_deployment/')
-watch_file('/repo/k8s/extension_job/')
-watch_file('/repo/k8s/extension_static/')
+watch_file('/repo/k8s/workloads/')
 
 if config.tilt_subcommand == 'down':
   local('kubectl delete cm -l lxc.liferay.com/metadataType=ext-init')
@@ -29,5 +72,28 @@ local_resource(
   ],
   labels=['dxp'])
 
-for tiltfile in str(local("find /workspace/client-extensions -name Tiltfile -not -path '*/build/*' -not -path '*/node_modules/*' -not -path '*/node_modules_cache/*' 2>/dev/null")).splitlines():
-  include(tiltfile)
+#for tiltfile in str(local("find /workspace/client-extensions -name Tiltfile -not -path '*/build/*' -not -path '*/node_modules/*' -not -path '*/node_modules_cache/*' 2>/dev/null")).splitlines():
+#  include(tiltfile)
+
+for client_extension_yaml_file in str(local("find /workspace/client-extensions -name client-extension.yaml -not -path '*/build/*' -not -path '*/node_modules/*' -not -path '*/node_modules_cache/*' 2>/dev/null")).splitlines():
+  print(client_extension_yaml_file)
+  print(os.path.basename(os.path.dirname(client_extension_yaml_file)))
+  print("FILENAME: %s" % client_extension_yaml_file)
+  print("PARENT DIR: %s" % os.path.basename(os.path.dirname(client_extension_yaml_file)))
+  client_extension_name=os.path.basename(os.path.dirname(client_extension_yaml_file))
+  client_extension_object=read_yaml(client_extension_yaml_file)
+  print(type(client_extension_object))
+  for item in client_extension_object.keys():
+      print(item)
+  
+  resource_deps=[]
+  if client_extension_object['runtime'].get('deps') != None:
+    resource_deps=[client_extension_object['runtime']['deps'][0]]
+
+  if client_extension_object.get('runtime'):
+    print("RUNTIME: %s" % client_extension_object['runtime']['type'])
+    process_extension(
+      client_extension_name, 
+      "client-extensions/%s" % client_extension_name, 
+      client_extension_object['runtime']['workload'],
+      resource_deps=resource_deps)

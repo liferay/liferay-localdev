@@ -67,4 +67,7 @@ do
     --data-value "virtualInstanceId=dxp.localdev.me" | kubectl apply -f-
 done
 
-echo "lxc-localdev cluster is ready."
+# build DXP image
+/repo/scripts/dxp-build.sh
+
+echo "lxc-localdev has been provisioned and is ready for development.  Run lxc-localdev-up.sh from your client-extensions workspace."

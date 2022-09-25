@@ -26,10 +26,6 @@ repositories {
 	} 
 }
 
-createClientExtensionConfig {
-  templateName = "springboot"
-}
-
 assembleClientExtension {
   from bootJar
 }

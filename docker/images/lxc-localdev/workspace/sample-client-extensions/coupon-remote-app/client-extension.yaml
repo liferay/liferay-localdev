@@ -10,3 +10,7 @@ coupon-remote-app:
   urls:
     - static/js/main.*.js
   useESM: false
+
+runtime:
+  type: static
+  workload: static
