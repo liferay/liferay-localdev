@@ -2,4 +2,4 @@
 
 set -ex
 
-docker kill dxp-lxc-localdev-runner
+docker kill dxp-localdev-server

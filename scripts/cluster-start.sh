@@ -16,7 +16,7 @@ k3d cluster create \
   --registry-create registry.localdev.me:5000 \
   --wait
 
-kubectl config use-context k3d-lxc-localdev
+kubectl config use-context k3d-localdev
 kubectl config set-context --current --namespace=default
 
 # poll until default service account is created
@@ -67,4 +67,4 @@ do
     --data-value "virtualInstanceId=dxp.localdev.me" | kubectl apply -f-
 done
 
-echo "lxc-localdev cluster is ready."
+echo "localdev cluster is ready."

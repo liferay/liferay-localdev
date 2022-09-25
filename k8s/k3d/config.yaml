@@ -2,9 +2,8 @@
 apiVersion: k3d.io/v1alpha4
 kind: Simple
 metadata:
-  name: lxc-localdev
+  name: localdev
 kubeAPI:
-  #!hostIP: "0.0.0.0"
   hostPort: "6443"
 ports:
   - port: 443:443

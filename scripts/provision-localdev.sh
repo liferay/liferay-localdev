@@ -16,7 +16,7 @@ k3d cluster create \
   --registry-create registry.localdev.me:5000 \
   --wait
 
-kubectl config use-context k3d-lxc-localdev
+kubectl config use-context k3d-localdev
 kubectl config set-context --current --namespace=default
 
 # poll until default service account is created
@@ -70,4 +70,4 @@ done
 # build DXP image
 /repo/scripts/dxp-build.sh
 
-echo "lxc-localdev has been provisioned and is ready for development.  Run lxc-localdev-up.sh from your client-extensions workspace."
+echo "localdev has been provisioned and is ready for development.  Run localdev-up.sh from your client-extensions workspace."

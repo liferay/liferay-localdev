@@ -10,5 +10,5 @@ docker \
   --rm \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -v $LOCALDEV_REPO:/repo \
-  lxc-localdev \
-  $@
+  localdev \
+  /repo/scripts/provision-localdev.sh

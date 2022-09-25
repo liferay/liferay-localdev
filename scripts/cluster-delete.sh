@@ -2,4 +2,4 @@
 
 set -e
 
-k3d cluster delete lxc-localdev
+k3d cluster delete localdev

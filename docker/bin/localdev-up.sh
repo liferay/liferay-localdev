@@ -7,11 +7,11 @@ if [ -z "$LOCALDEV_REPO" ]; then
   exit 1
 fi
 
-(sleep 5 && open http://localhost:10350) &
+(sleep 5 && open "http://localhost:10350/r/(all)/overview") &
 
 docker \
   run \
-  --name lxc-localdev-server \
+  --name localdev-server \
   --rm \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -v $LOCALDEV_REPO:/repo \
@@ -19,5 +19,5 @@ docker \
   --expose 10350 \
   -p 10350:10350 \
   -e DO_NOT_TRACK="1" \
-  lxc-localdev \
+  localdev \
   tilt up -f /repo/tilt/Tiltfile --stream

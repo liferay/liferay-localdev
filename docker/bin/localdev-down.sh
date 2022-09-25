@@ -19,5 +19,7 @@ docker \
   -v $LOCALDEV_REPO:/repo \
   -v $LIFERAY_CACHE:/root/.liferay/ \
   -v $(pwd):/workspace/client-extensions \
-  lxc-localdev \
+  localdev \
   tilt down -f /repo/tilt/Tiltfile
+
+docker kill localdev-server

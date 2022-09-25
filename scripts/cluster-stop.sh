@@ -2,4 +2,4 @@
 
 set -e
 
-k3d cluster stop lxc-localdev
+k3d cluster stop localdev

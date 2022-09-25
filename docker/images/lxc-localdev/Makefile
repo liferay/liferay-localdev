@@ -1,6 +1,6 @@
 VERSION = $(shell date +v%Y%m%d)-$(shell git describe --tags --always --dirty)
 
-IMG = "gamerson/lxc-localdev"
+IMG = "gamerson/localdev"
 
 all: image
 

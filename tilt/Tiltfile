@@ -56,7 +56,7 @@ if config.tilt_subcommand == 'down':
 
 local_resource(
   'dxp.localdev.me', 
-  cmd="/repo/scripts/dxp-build.sh",
+  cmd="",
   serve_cmd="/repo/scripts/dxp-start.sh",
   deps=["/repo/dxp"],
   readiness_probe=probe(
