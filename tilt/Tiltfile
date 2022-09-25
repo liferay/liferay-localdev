@@ -7,6 +7,27 @@ watch_file('/repo/k8s/extension_static/')
 
 if config.tilt_subcommand == 'down':
   local('kubectl delete cm -l lxc.liferay.com/metadataType=ext-init')
+  local('/repo/scripts/dxp-stop.sh')
+
+# build and launch dxp
+
+local_resource(
+  'dxp.localdev.me', 
+  cmd="/repo/scripts/dxp-build.sh",
+  serve_cmd="/repo/scripts/dxp-start.sh",
+  deps=["/repo/dxp"],
+  readiness_probe=probe(
+      initial_delay_secs=120,
+      timeout_secs=10,
+      period_secs=5,
+      failure_threshold=15,
+      http_get=http_get_action(port=8080, host='host.docker.internal', scheme='http', path='/health')),
+  trigger_mode = TRIGGER_MODE_MANUAL,
+  links=[
+    link('https://dxp.localdev.me'),
+    link('https://dxp.localdev.me/o/api', 'Liferay API Explorer'),
+  ],
+  labels=['dxp'])
 
 for tiltfile in str(local("find /workspace/client-extensions -name Tiltfile -not -path '*/build/*' -not -path '*/node_modules/*' -not -path '*/node_modules_cache/*' 2>/dev/null")).splitlines():
   include(tiltfile)

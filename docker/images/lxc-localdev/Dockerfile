@@ -5,6 +5,8 @@ RUN apt-get update && \
     curl \
     git \
     jq \
+    yq \
+    iputils-ping \
     openssl \
     sudo \
     vim \

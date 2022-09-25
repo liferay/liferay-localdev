@@ -2,8 +2,6 @@
 
 set -ex
 
-SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-
 ADD_HOST1=coupon-issued-function.localdev.me:172.150.0.1
 ADD_HOST2=coupon-added-function.localdev.me:172.150.0.1
 IMAGE=dxp-lxc-localdev
@@ -14,8 +12,8 @@ if [ -z "$LOCALDEV_REPO" ]; then
 fi
 
 
-KUBERNETES_CERTIFICATE=$($SCRIPT_DIR/lxc-localdev-cmd.sh /repo/scripts/k8s-certificate.sh)
-KUBERNETES_TOKEN=$($SCRIPT_DIR/lxc-localdev-cmd.sh /repo/scripts/k8s-token.sh)
+KUBERNETES_CERTIFICATE=$(/repo/scripts/k8s-certificate.sh)
+KUBERNETES_TOKEN=$(/repo/scripts/k8s-token.sh)
 
 docker run \
   --name ${IMAGE}-runner \

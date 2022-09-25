@@ -38,6 +38,6 @@ def process_extension(
     labels=['client-extensions'],
     port_forwards=port_forwards,
     objects=['%s-%s-lxc-ext-provision-metadata:configmap' % (name, virtual_instance_id)] + objects,
-    resource_deps=resource_deps,
+    resource_deps=['dxp-server'] + resource_deps,
     workload=name,
     links=links)
