@@ -3,5 +3,5 @@
 set -e
 
 docker build \
-  -t dxp-localdev \
-  /repo/docker/images/dxp-localdev
+  -t dxp-server \
+  /repo/docker/images/dxp-server

@@ -4,7 +4,7 @@ set -ex
 
 ADD_HOST1=coupon-issued-function.localdev.me:172.150.0.1
 ADD_HOST2=coupon-added-function.localdev.me:172.150.0.1
-IMAGE=dxp-localdev
+IMAGE=dxp-server
 
 if [ -z "$LOCALDEV_REPO" ]; then
   echo "Must specify LOCALDEV_REPO env var"
@@ -15,7 +15,7 @@ KUBERNETES_CERTIFICATE=$(/repo/scripts/k8s-certificate.sh)
 KUBERNETES_TOKEN=$(/repo/scripts/k8s-token.sh)
 
 docker run \
-  --name ${IMAGE}-server \
+  --name ${IMAGE} \
   --network k3d-localdev \
   --rm \
   -v liferayData:/opt/liferay/data:rw \
