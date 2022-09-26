@@ -61,8 +61,13 @@ RUN export ARCH=$(dpkg --print-architecture) && \
     export YTTSUM=$(shasum -a 256 ytt-linux-$ARCH) && \
     export CHECKSUM=$(grep ytt-linux-$ARCH checksums.txt) && \
     [ "$YTTSUM" = "$CHECKSUM" ] && \
-    mv ytt-linux-$ARCH /usr/local/bin/ytt
+    mv ytt-linux-$ARCH /usr/local/bin/ytt && \
+    chmod +x /usr/local/bin/ytt
 
+# Install yq
+RUN wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 && chmod a+x /usr/local/bin/yq
+
+# Install blade
 RUN curl -fsSl https://raw.githubusercontent.com/liferay/liferay-blade-cli/master/cli/installers/global | bash
 
 WORKDIR /workspace

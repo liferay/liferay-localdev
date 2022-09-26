@@ -86,14 +86,18 @@ for client_extension_yaml_file in str(local("find /workspace/client-extensions -
   for item in client_extension_object.keys():
       print(item)
   
+  workload='static'
   resource_deps=[]
-  if client_extension_object['runtime'].get('deps') != None:
-    resource_deps=[client_extension_object['runtime']['deps'][0]]
 
   if client_extension_object.get('runtime'):
-    print("RUNTIME: %s" % client_extension_object['runtime']['type'])
-    process_extension(
-      client_extension_name, 
-      "client-extensions/%s" % client_extension_name, 
-      client_extension_object['runtime']['workload'],
-      resource_deps=resource_deps)
+    if client_extension_object['runtime'].get('workload') != None:
+      workload=client_extension_object['runtime']['workload'] 
+
+    if client_extension_object['runtime'].get('deps') != None:
+      resource_deps=[client_extension_object['runtime']['deps'][0]]
+
+  process_extension(
+    client_extension_name, 
+    "client-extensions/%s" % client_extension_name, 
+    workload=workload,
+    resource_deps=resource_deps)

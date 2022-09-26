@@ -19,10 +19,12 @@ docker run \
   --network ${DOCKER_NETWORK} \
   --rm \
   -v /var/run/docker.sock:/var/run/docker.sock \
+  -v localdevGradleCache:/root/.gradle \
+  -v localdevLiferayCache:/root/.liferay \
   -v $LOCALDEV_REPO:/repo \
   -v $(pwd):/workspace/client-extensions \
   --expose 10350 \
   -p 10350:10350 \
   -e DO_NOT_TRACK="1" \
-  localdev \
+  localdev-server \
   tilt up -f /repo/tilt/Tiltfile --stream
