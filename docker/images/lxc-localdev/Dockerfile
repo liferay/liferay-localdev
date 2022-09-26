@@ -80,19 +80,10 @@ COPY workspace/gradle/ /workspace/gradle/
 
 COPY workspace/gradle.properties /workspace/gradle.properties
 
-# copy sample client extensions both test and warmup caches
-COPY workspace/sample-client-extensions /workspace/sample-client-extensions
-
 COPY workspace/settings.gradle /workspace/settings.gradle
 
 # custom workspace plugin
 COPY workspace/temp_repo /workspace/temp_repo
-
-# warm up the caches
-RUN ./gradlew build
-
-# remove samples
-RUN rm -rf /workspace/sample-client-extensions
 
 COPY entrypoint.sh /entrypoint.sh
 
