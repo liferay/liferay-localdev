@@ -7,11 +7,16 @@ if [ -z "$LOCALDEV_REPO" ]; then
   exit 1
 fi
 
+if [ -z "$DOCKER_NETWORK" ]; then
+  echo "Must specify DOCKER_NETWORK env var"
+  exit 1
+fi
+
 (sleep 5 && open "http://localhost:10350/r/(all)/overview") &
 
-docker \
-  run \
+docker run \
   --name localdev-server \
+  --network ${DOCKER_NETWORK} \
   --rm \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -v $LOCALDEV_REPO:/repo \
