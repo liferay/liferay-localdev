@@ -58,7 +58,7 @@ local_resource(
   'dxp.localdev.me', 
   cmd="",
   serve_cmd="/repo/scripts/dxp-start.sh",
-  deps=["/repo/dxp"],
+  deps=["/repo/docker/images/dxp-localdev"],
   readiness_probe=probe(
       initial_delay_secs=120,
       timeout_secs=10,
