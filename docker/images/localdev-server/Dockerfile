@@ -79,8 +79,6 @@ RUN blade init -v dxp-7.4-u42
 
 COPY workspace/build.gradle /workspace/build.gradle
 
-#COPY workspace/configs /workspace/configs/
-
 COPY workspace/gradle/ /workspace/gradle/
 
 COPY workspace/gradle.properties /workspace/gradle.properties
