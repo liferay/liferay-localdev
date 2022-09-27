@@ -13,10 +13,10 @@ if [ -z "$DOCKER_NETWORK" ]; then
 fi
 
 docker run \
-  --name localdev-start \
+  --name localdev-cluster-start \
   --network ${DOCKER_NETWORK} \
   --rm \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -v $LOCALDEV_REPO:/repo \
-  localdev \
+  localdev-server \
   /repo/scripts/cluster-start.sh

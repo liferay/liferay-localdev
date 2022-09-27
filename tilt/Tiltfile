@@ -76,13 +76,9 @@ local_resource(
 #  include(tiltfile)
 
 for client_extension_yaml_file in str(local("find /workspace/client-extensions -name client-extension.yaml -not -path '*/build/*' -not -path '*/node_modules/*' -not -path '*/node_modules_cache/*' 2>/dev/null")).splitlines():
-  print(client_extension_yaml_file)
-  print(os.path.basename(os.path.dirname(client_extension_yaml_file)))
-  print("FILENAME: %s" % client_extension_yaml_file)
-  print("PARENT DIR: %s" % os.path.basename(os.path.dirname(client_extension_yaml_file)))
   client_extension_name=os.path.basename(os.path.dirname(client_extension_yaml_file))
   client_extension_object=read_yaml(client_extension_yaml_file)
-  print(type(client_extension_object))
+
   for item in client_extension_object.keys():
       print(item)
   
