@@ -81,6 +81,8 @@ COPY workspace/build.gradle /workspace/build.gradle
 
 COPY workspace/gradle/ /workspace/gradle/
 
+COPY workspace/gradlew /workspace/gradlew
+
 COPY workspace/gradle.properties /workspace/gradle.properties
 
 COPY workspace/settings.gradle /workspace/settings.gradle
