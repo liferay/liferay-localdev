@@ -9,23 +9,18 @@ HOST_ALIASES="['dxp', 'vi']"
 
 ytt -f /repo/k8s/k3d --data-value-yaml "hostAliases=$HOST_ALIASES" > .cluster_config.yaml
 
-# start k3d cluster
+# create k3d cluster with local registry
 CLUSTER=$(k3d cluster list -o json | jq -r '.[] | select(.name=="localdev")')
 
-if [ "$CLUSTER" == "" ];then
-  echo "'localdev' cluster does not exist"
+if [ "$CLUSTER" != "" ];then
+  echo "'localdev' cluster already exist"
   exit 1
 fi
 
-# is cluster running?
-CLUSTER_STATUS=$(jq -r '.serversRunning > 0' <<< $CLUSTER)
-
-if [ "$CLUSTER_STATUS" == "true" ];then
-  echo "'localdev' cluster is already started"
-  exit 1
-fi
-
-k3d cluster start localdev
+k3d cluster create \
+  --config .cluster_config.yaml \
+  --registry-create registry.localdev.me:5000 \
+  --wait
 
 kubectl config use-context k3d-localdev
 kubectl config set-context --current --namespace=default
