@@ -13,7 +13,7 @@ ytt -f /repo/k8s/k3d --data-value-yaml "hostAliases=$HOST_ALIASES" > .cluster_co
 CLUSTER=$(k3d cluster list -o json | jq -r '.[] | select(.name=="localdev")')
 
 if [ "$CLUSTER" == "" ];then
-  echo "localdev cluster does not exist"
+  echo "'localdev' environment does not exist"
   exit 1
 fi
 
@@ -21,7 +21,7 @@ fi
 CLUSTER_STATUS=$(jq -r '.serversRunning > 0' <<< $CLUSTER)
 
 if [ "$CLUSTER_STATUS" == "true" ];then
-  echo "localdev cluster is already started"
+  echo "'localdev' environment is already started"
   exit 1
 fi
 
@@ -30,4 +30,4 @@ k3d cluster start localdev
 kubectl config use-context k3d-localdev
 kubectl config set-context --current --namespace=default
 
-echo "localdev cluster is ready."
+echo "'localdev' environment is ready."

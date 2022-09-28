@@ -13,7 +13,7 @@ ytt -f /repo/k8s/k3d --data-value-yaml "hostAliases=$HOST_ALIASES" > .cluster_co
 CLUSTER=$(k3d cluster list -o json | jq -r '.[] | select(.name=="localdev")')
 
 if [ "$CLUSTER" != "" ];then
-  echo "localdev cluster already exist"
+  echo "'localdev' environment already exist"
   exit 1
 fi
 
@@ -73,4 +73,4 @@ do
     --data-value "virtualInstanceId=dxp.localdev.me" | kubectl apply -f-
 done
 
-echo "localdev cluster is ready."
+echo "'localdev' environment is ready."
