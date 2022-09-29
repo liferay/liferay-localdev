@@ -3,3 +3,5 @@
 set -e
 
 k3d cluster stop localdev
+
+docker container stop localdev-dnsmasq
