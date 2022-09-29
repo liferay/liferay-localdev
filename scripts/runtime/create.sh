@@ -73,4 +73,11 @@ do
     --data-value "virtualInstanceId=dxp.localdev.me" | kubectl apply -f-
 done
 
+# start dnsmasq to route *.localdev.me to localdev gateway
+docker run \
+  --name localdev-dnsmasq \
+  --network k3d-localdev \
+  --rm \
+  localdev-dnsmasq
+
 echo "'localdev' environment is ready."

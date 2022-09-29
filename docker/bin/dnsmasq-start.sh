@@ -3,7 +3,7 @@
 set -ex
 
 docker run \
-  --name dnsmasq-start \
+  --name localdev-dnsmasq \
   --network k3d-localdev \
   --rm \
   --entrypoint dnsmasq \
