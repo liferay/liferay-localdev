@@ -12,15 +12,11 @@ USER root
 
 COPY ca.crt /usr/lib/jvm/zulu11/lib/security
 
-RUN echo "hello guys"
-
 RUN \
 	keytool -noprompt -trustcacerts -importcert \
 		-alias project-cert \
 		-storepass changeit \
 		-cacerts \
 		-file /usr/lib/jvm/zulu11/lib/security/ca.crt
-
-RUN echo "nameserver 172.150.0.1" > /etc/resolv.conf
 
 USER liferay:liferay
