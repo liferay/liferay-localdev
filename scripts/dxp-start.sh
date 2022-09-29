@@ -20,7 +20,7 @@ DNS_ADDRESS=$(\
 
 docker run \
   --name ${IMAGE} \
-  --dns $DNS_ADDRESS \
+  --dns ${DNS_ADDRESS} \
   --network k3d-localdev \
   --rm \
   -v liferayData:/opt/liferay/data:rw \
