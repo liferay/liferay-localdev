@@ -4,4 +4,4 @@ set -e
 
 k3d cluster delete localdev
 
-docker container rm -f localdev-dnsmasq
+docker container rm -f dxp-server localdev-dnsmasq localdev-up

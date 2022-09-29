@@ -30,6 +30,6 @@ k3d cluster start localdev
 kubectl config use-context k3d-localdev
 kubectl config set-context --current --namespace=default
 
-docker container start localdev-dnsmasq
+/repo/scripts/dnsmasq-start.sh
 
 echo "'localdev' environment is ready."
