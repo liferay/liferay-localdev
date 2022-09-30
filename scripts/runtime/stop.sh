@@ -4,4 +4,4 @@ set -e
 
 k3d cluster stop localdev
 
-docker container stop dxp-server localdev-dnsmasq localdev-up
+docker container stop dxp-server localdev-dnsmasq localdev-up >/dev/null 2>&1
