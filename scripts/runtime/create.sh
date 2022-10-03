@@ -14,7 +14,7 @@ CLUSTER=$(k3d cluster list -o json | jq -r '.[] | select(.name=="localdev")')
 
 if [ "$CLUSTER" != "" ];then
   echo "'localdev' environment already exists"
-  exit 1
+  exit 0
 fi
 
 k3d cluster create \
@@ -75,4 +75,4 @@ done
 
 /repo/scripts/dnsmasq-start.sh
 
-echo "'localdev' environment is ready."
+echo "'localdev' runtime environment created."
