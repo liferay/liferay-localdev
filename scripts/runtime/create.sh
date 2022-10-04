@@ -29,7 +29,7 @@ kubectl config set-context --current --namespace=default
 
 SA="0"
 
-echo -n "SERVICEACOUNT_STATUS: waiting..."
+echo "SERVICEACOUNT_STATUS: waiting..."
 until [ "${SA}" == "1" ]; do
 	SA=$(kubectl get sa -o json | jq -r '.items | length')
 done
@@ -47,7 +47,7 @@ kubectl create secret generic localdev-tls-secret \
 
 ADDRESS=""
 
-echo -n "DOCKER_HOST_ADDRESS: waiting..."
+echo "DOCKER_HOST_ADDRESS: waiting..."
 until [ "${ADDRESS}" != "" ]; do
 	ADDRESS=$(kubectl get cm coredns --namespace kube-system -o jsonpath='{.data.NodeHosts}' | grep host.k3d.internal | awk '{print $1}')
 done
@@ -57,7 +57,7 @@ echo -e "DOCKER_HOST_ADDRESS: ${ADDRESS}"
 
 CRD=""
 
-echo -n "INGRESSROUTE_CRD: waiting..."
+echo "INGRESSROUTE_CRD: waiting..."
 until [ "$CRD" != "" ]; do
   CRD=$(kubectl get crd ingressroutes.traefik.containo.us --ignore-not-found)
 done
