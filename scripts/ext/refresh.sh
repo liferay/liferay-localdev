@@ -2,6 +2,11 @@
 
 set -e
 
-tilt trigger "(Tiltfile)" --host host.docker.internal
+CONTAINER=$(docker container list --format '{{json .}}' | jq -sr '.[] | select(.Names=="localdev-extension-runtime")')
 
-echo "'localdev' extension environment refreshed."
+if [ "$CONTAINER" == "" ]; then
+    echo "'localdev' extension environment stopped."
+    exit 1
+fi
+
+docker exec -i localdev-extension-runtime /repo/scripts/ext/exec/refresh.sh
