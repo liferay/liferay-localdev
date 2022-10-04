@@ -9,6 +9,10 @@ if [ "$CLUSTER" == "" ];then
   exit 1
 fi
 
+if /repo/scripts/ext/status.sh; then
+  exit 0
+fi
+
 export DO_NOT_TRACK=1
 
 tilt up -f /repo/tilt/Tiltfile
