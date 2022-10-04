@@ -2,20 +2,12 @@
 
 set -e
 
-# Make sure that extensions can resolve host aliases
-
-declare -a host_aliases=("dxp" "vi")
-HOST_ALIASES="['dxp', 'vi']"
-
-ytt -f /repo/k8s/k3d --data-value-yaml "hostAliases=$HOST_ALIASES" > .cluster_config.yaml
-
 # start k3d cluster
-CLUSTER=$(k3d cluster list -o json | jq -r '.[] | select(.name=="localdev")')
+/repo/scripts/runtime/create.sh
 
-if [ "$CLUSTER" == "" ];then
-  echo "'localdev' runtime environment does not exist."
-  exit 1
-fi
+/repo/scripts/dnsmasq-start.sh
+
+CLUSTER=$(k3d cluster list -o json | jq -r '.[] | select(.name=="localdev")')
 
 # is cluster running?
 CLUSTER_STATUS=$(jq -r '.serversRunning > 0' <<< $CLUSTER)
@@ -26,10 +18,5 @@ if [ "$CLUSTER_STATUS" == "true" ];then
 fi
 
 k3d cluster start localdev
-
-kubectl config use-context k3d-localdev
-kubectl config set-context --current --namespace=default
-
-/repo/scripts/dnsmasq-start.sh
 
 echo "'localdev' runtime environment is started."

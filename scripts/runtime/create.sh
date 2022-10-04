@@ -2,20 +2,24 @@
 
 set -e
 
+# create k3d cluster with local registry
+CLUSTER=$(k3d cluster list -o json | jq -r '.[] | select(.name=="localdev")')
+
+if [ "$CLUSTER" != "" ];then
+  echo "'localdev' environment already exists"
+
+  kubectl config use-context k3d-localdev
+  kubectl config set-context --current --namespace=default
+
+  exit 0
+fi
+
 # Make sure that extensions can resolve host aliases
 
 declare -a host_aliases=("dxp" "vi")
 HOST_ALIASES="['dxp', 'vi']"
 
 ytt -f /repo/k8s/k3d --data-value-yaml "hostAliases=$HOST_ALIASES" > .cluster_config.yaml
-
-# create k3d cluster with local registry
-CLUSTER=$(k3d cluster list -o json | jq -r '.[] | select(.name=="localdev")')
-
-if [ "$CLUSTER" != "" ];then
-  echo "'localdev' environment already exists"
-  exit 0
-fi
 
 k3d cluster create \
   --config .cluster_config.yaml \
@@ -72,7 +76,5 @@ do
     --data-value-yaml "dockerHostAddress=${ADDRESS}" \
     --data-value "virtualInstanceId=dxp.localdev.me" | kubectl apply -f-
 done
-
-/repo/scripts/dnsmasq-start.sh
 
 echo "'localdev' runtime environment created."

@@ -2,14 +2,10 @@
 
 set -e
 
-CLUSTER=$(k3d cluster list -o json | jq -r '.[] | select(.name=="localdev")')
-
-if [ "$CLUSTER" == "" ];then
-  echo "'localdev' runtime environment does not exist."
-  exit 1
-fi
+/repo/scripts/runtime/start.sh
 
 if /repo/scripts/ext/status.sh; then
+  echo "'localdev' extension environment is already started."
   exit 0
 fi
 
