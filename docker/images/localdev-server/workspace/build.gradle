@@ -1,15 +1,34 @@
+import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
+
 gradle.projectsEvaluated {
   buildDockerImage.dependsOn = buildDockerImage.dependsOn.findAll { !it.path.startsWith(":client-extensions") }
 
-  subprojects.findAll { sub -> sub.tasks.findByName('buildClientExtensionDockerImage') != null }.each { sub ->
-      createDockerContainer.hostConfig.extraHosts.add(sub.name + ".localdev.me:172.150.0.1")
-  }
+  subprojects {
+    if (path.startsWith(":client-extensions") && file("client-extension.yaml").exists()) {
+      apply plugin: "com.bmuschko.docker-remote-api"
 
-  subprojects.each {
-    if (hasProperty('buildScan')) {
-      buildScan {
-        termsOfServiceUrl = 'https://gradle.com/terms-of-service'
-        termsOfServiceAgree = 'yes'
+      if (file("Dockerfile").exists()) {
+        task buildClientExtensionDockerImage(type: DockerBuildImage) {
+          inputDir = projectDir
+          images.add(imageId)
+        }
+      } else {
+        task buildClientExtensionDockerImage(type: DockerBuildImage) {
+          dependsOn "assembleClientExtension"
+          inputDir = project.file("${buildDir}/clientExtension")
+          images.add(imageId)
+        }
+
+        assembleClientExtension {
+          from "/repo/k8s/tls/ca.crt"
+        }
+      }
+
+      if (hasProperty('buildScan')) {
+        buildScan {
+          termsOfServiceUrl = 'https://gradle.com/terms-of-service'
+          termsOfServiceAgree = 'yes'
+        }
       }
     }
   }
