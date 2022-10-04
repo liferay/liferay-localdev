@@ -2,6 +2,11 @@
 
 set -e
 
-tilt down -f /repo/tilt/Tiltfile
+CONTAINER=$(docker container list --format '{{json .}}' | jq -sr '.[] | select(.Names=="localdev-extension-runtime")')
 
-echo "'localdev' extension environment stopped."
+if [ "$CONTAINER" == "" ]; then
+    echo "'localdev' extension environment stopped."
+    exit 0
+fi
+
+docker exec -i localdev-extension-runtime /repo/scripts/ext/exec/stop.sh
