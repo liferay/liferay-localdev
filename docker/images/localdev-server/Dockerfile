@@ -92,4 +92,8 @@ COPY workspace/temp_repo /workspace/temp_repo
 
 COPY entrypoint.sh /entrypoint.sh
 
+COPY ca.crt /usr/local/share/ca-certificates/localdev.me.crt
+
+RUN update-ca-certificates
+
 ENTRYPOINT [ "/entrypoint.sh" ]
