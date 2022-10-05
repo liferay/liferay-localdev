@@ -18,9 +18,9 @@ def process_extension(
     ] + more_deps,
     ignore=[])
 
-  local("/workspace/gradlew --project-dir /workspace :%s:createClientExtensionConfig --stacktrace" % projectPath.replace("/", ":"))
+  local("/workspace/gradlew --project-dir /workspace :%s:assembleClientExtension --stacktrace" % projectPath.replace("/", ":"))
 
-  config_json_file = "/workspace/%s/build/%s.client-extension-config.json" % (projectPath, name)
+  config_json_file = "/workspace/%s/build/clientExtension/%s.client-extension-config.json" % (projectPath, name)
 
   init_metadata = False
 
