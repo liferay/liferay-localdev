@@ -77,18 +77,19 @@ WORKDIR /workspace
 # use latest available
 RUN blade init -v dxp-7.4-u42
 
-COPY workspace/build.gradle /workspace/build.gradle
-
+# these commands are sorted from least likely to most likely to change to better cache layers
 COPY workspace/gradle/ /workspace/gradle/
 
 COPY workspace/gradlew /workspace/gradlew
 
-COPY workspace/gradle.properties /workspace/gradle.properties
-
 COPY workspace/settings.gradle /workspace/settings.gradle
+
+COPY workspace/gradle.properties /workspace/gradle.properties
 
 # custom workspace plugin
 COPY workspace/temp_repo /workspace/temp_repo
+
+COPY workspace/build.gradle /workspace/build.gradle
 
 COPY entrypoint.sh /entrypoint.sh
 
