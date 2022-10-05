@@ -109,6 +109,10 @@ for client_extension_yaml_file in str(local("find /workspace/client-extensions -
     if client_extension_object['runtime'].get('watch') != None:
       watch=client_extension_object['runtime']['watch']
 
+  # TODO call a script that can expand globs that may be passed into watch property
+  # paths=local(/repo/scripts/unroll-globs.sh watch)
+  # source_deps=paths
+
   process_extension(
     client_extension_name,
     "client-extensions/%s" % client_extension_name,
