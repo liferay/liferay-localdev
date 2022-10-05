@@ -30,6 +30,10 @@ DNS_ADDRESS=$(\
     jq --raw-output '.[0].Containers[] | select(.Name=="localdev-dnsmasq") | .IPv4Address' | \
     cut -d'/' -f1)
 
+docker build \
+  -t dxp-server \
+  /repo/docker/images/dxp-server
+
 docker run \
   --name ${IMAGE} \
   --dns ${DNS_ADDRESS} \

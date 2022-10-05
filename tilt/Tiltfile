@@ -76,7 +76,7 @@ local_resource(
       timeout_secs=5,
       period_secs=5,
       failure_threshold=99,
-      http_get=http_get_action(port=8080, host='host.docker.internal', scheme='http', path='/health')),
+      exec=exec_action(["/repo/scripts/dxp-status.sh"])),
   trigger_mode = TRIGGER_MODE_MANUAL,
   links=[
     link('https://dxp.localdev.me'),
