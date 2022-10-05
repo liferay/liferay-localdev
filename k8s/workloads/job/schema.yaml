@@ -5,4 +5,5 @@ image: ""
 initMetadata: #@ True
 memory: "100Mi"
 serviceId: ""
+targetPort: 80
 virtualInstanceId: ""

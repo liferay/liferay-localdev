@@ -26,8 +26,8 @@ spec:
           - name: DEBUG_PORT
             value: #@ "{}".format(data.values.debugPort)
         ports:
-          - containerPort: 80
           - containerPort: #@ data.values.debugPort
+          - containerPort: #@ data.values.targetPort
         volumeMounts:
           #@ if data.values.dxpMetadata:
           - mountPath: /etc/liferay/lxc/dxp-metadata

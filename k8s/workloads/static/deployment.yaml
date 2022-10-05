@@ -23,7 +23,7 @@ spec:
             memory: #@ data.values.memory
             cpu: #@ data.values.cpu
         ports:
-          - containerPort: 80
+          - containerPort: #@ data.values.targetPort
         volumeMounts:
           #@ if data.values.dxpMetadata:
           - mountPath: /etc/liferay/lxc/dxp-metadata

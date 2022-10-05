@@ -7,4 +7,5 @@ dxpMetadata: #@ True
 initMetadata: #@ False
 memory: "512Mi"
 serviceId: ""
+targetPort: 80
 virtualInstanceId: ""
