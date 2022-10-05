@@ -1,17 +1,21 @@
 # Function process_extension
 def process_extension(
-    name, projectPath, workload, virtual_instance_id='dxp.localdev.me', source_deps = [],
-    objects = [], port_forwards = [], resource_deps = [], links = []):
+    name, projectPath, workload, targetPort, virtual_instance_id='dxp.localdev.me', 
+    source_deps=[], objects=[], port_forwards=[], resource_deps=[], links=[]):
+
+  more_deps = []
+  for source_dep in source_deps:
+    more_deps.append("/workspace/%s/%s" % (projectPath, source_dep)) 
 
   custom_build(
     name,
     "/workspace/gradlew --project-dir /workspace :%s:buildClientExtensionDockerImage --stacktrace -PimageId=$EXPECTED_REF" % projectPath.replace("/", ":"),
     deps=[
-      '/workspace/%s/src' % projectPath,
-      '/workspace/%s/build.gradle' % projectPath,
-      '/workspace/%s/client-extension.yaml' % projectPath,
-      '/workspace/%s/Dockerfile' % projectPath,
-    ] + source_deps,
+      "/workspace/%s/src" % projectPath,
+      "/workspace/%s/build.gradle" % projectPath,
+      "/workspace/%s/client-extension.yaml" % projectPath,
+      "/workspace/%s/Dockerfile" % projectPath,
+    ] + more_deps,
     ignore=[])
 
   local("/workspace/gradlew --project-dir /workspace :%s:createClientExtensionConfig --stacktrace" % projectPath.replace("/", ":"))
@@ -24,8 +28,16 @@ def process_extension(
     init_metadata = True
 
   k8s_yaml(
-    local("ytt -f /repo/k8s/workloads/%s -f %s --data-value-yaml initMetadata=%s --data-value image=%s --data-value serviceId=%s --data-value virtualInstanceId=%s" 
-            % (workload, config_json_file, init_metadata, name, name, virtual_instance_id)))
+    local("""
+      ytt \
+        -f /repo/k8s/workloads/%s \
+        -f %s \
+        --data-value-yaml initMetadata=%s \
+        --data-value image=%s \
+        --data-value serviceId=%s \
+        --data-value-yaml targetPort=%s \
+        --data-value virtualInstanceId=%s"""
+        % (workload, config_json_file, init_metadata, name, name, targetPort, virtual_instance_id)))
 
   if workload != "job":
     objects = [
@@ -76,10 +88,13 @@ local_resource(
 #  include(tiltfile)
 
 for client_extension_yaml_file in str(local("find /workspace/client-extensions -name client-extension.yaml -not -path '*/build/*' -not -path '*/node_modules/*' -not -path '*/node_modules_cache/*' 2>/dev/null")).splitlines():
-  client_extension_name=os.path.basename(os.path.dirname(client_extension_yaml_file))
+  project_path=os.path.dirname(client_extension_yaml_file)
+  client_extension_name=os.path.basename(project_path)
   client_extension_object=read_yaml(client_extension_yaml_file)
   workload='static'
   resource_deps=[]
+  targetPort=80
+  watch=[]
 
   if client_extension_object.get('runtime'):
     if client_extension_object['runtime'].get('workload') != None:
@@ -88,8 +103,16 @@ for client_extension_yaml_file in str(local("find /workspace/client-extensions -
     if client_extension_object['runtime'].get('deps') != None:
       resource_deps=[client_extension_object['runtime']['deps'][0]]
 
+    if client_extension_object['runtime'].get('port') != None:
+      targetPort=client_extension_object['runtime']['port']
+
+    if client_extension_object['runtime'].get('watch') != None:
+      watch=client_extension_object['runtime']['watch']
+
   process_extension(
     client_extension_name, 
     "client-extensions/%s" % client_extension_name, 
+    source_deps=watch,
+    targetPort=targetPort,
     workload=workload,
     resource_deps=resource_deps)
