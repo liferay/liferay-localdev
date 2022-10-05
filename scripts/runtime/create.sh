@@ -23,7 +23,7 @@ ytt -f /repo/k8s/k3d --data-value-yaml "hostAliases=$HOST_ALIASES" > .cluster_co
 
 k3d cluster create \
   --config .cluster_config.yaml \
-  --registry-create registry.localdev.me:5000 \
+  --registry-create registry.localdev.me:50505 \
   --wait
 
 kubectl config use-context k3d-localdev
