@@ -1,11 +1,11 @@
 # Function process_extension
 def process_extension(
-    name, projectPath, workload, targetPort, virtual_instance_id='dxp.localdev.me', 
+    name, projectPath, workload, targetPort, virtual_instance_id='dxp.localdev.me',
     source_deps=[], objects=[], port_forwards=[], resource_deps=[], links=[]):
 
   more_deps = []
   for source_dep in source_deps:
-    more_deps.append("/workspace/%s/%s" % (projectPath, source_dep)) 
+    more_deps.append("/workspace/%s/%s" % (projectPath, source_dep))
 
   custom_build(
     name,
@@ -67,7 +67,7 @@ if config.tilt_subcommand == 'down':
 # build and launch dxp
 
 local_resource(
-  'dxp.localdev.me', 
+  'dxp.localdev.me',
   cmd="",
   serve_cmd="/repo/scripts/dxp-restart.sh",
   deps=["/repo/docker/images/dxp-server"],
@@ -98,7 +98,7 @@ for client_extension_yaml_file in str(local("find /workspace/client-extensions -
 
   if client_extension_object.get('runtime'):
     if client_extension_object['runtime'].get('workload') != None:
-      workload=client_extension_object['runtime']['workload'] 
+      workload=client_extension_object['runtime']['workload']
 
     if client_extension_object['runtime'].get('deps') != None:
       resource_deps=[client_extension_object['runtime']['deps'][0]]
@@ -110,8 +110,8 @@ for client_extension_yaml_file in str(local("find /workspace/client-extensions -
       watch=client_extension_object['runtime']['watch']
 
   process_extension(
-    client_extension_name, 
-    "client-extensions/%s" % client_extension_name, 
+    client_extension_name,
+    "client-extensions/%s" % client_extension_name,
     source_deps=watch,
     targetPort=targetPort,
     workload=workload,
