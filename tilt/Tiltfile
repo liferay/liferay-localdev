@@ -69,7 +69,7 @@ if config.tilt_subcommand == 'down':
 local_resource(
   'dxp.localdev.me', 
   cmd="",
-  serve_cmd="/repo/scripts/dxp-start.sh",
+  serve_cmd="/repo/scripts/dxp-restart.sh",
   deps=["/repo/docker/images/dxp-server"],
   readiness_probe=probe(
       initial_delay_secs=120,
