@@ -9,6 +9,18 @@ if [ -z "$LOCALDEV_REPO" ]; then
   exit 1
 fi
 
+EXISTING_DXP_SERVER=$(docker ps -f name=dxp-server | grep dxp-server | awk '{print $1}')
+
+if [ ! -z "$EXISTING_DXP_SERVER" ]; then
+  docker kill $EXISTING_DXP_SERVER
+
+  EXISTING_DXP_SERVER=$(docker ps -f name=dxp-server | grep dxp-server | awk '{print $1}')
+  if [ ! -z "$EXISTING_DXP_SERVER" ]; then
+    echo "Existing dxp-server container still running, please stop $EXISTING_DXP_SERVER before restarting."
+    exit 1
+  fi
+fi
+
 KUBERNETES_CERTIFICATE=$(/repo/scripts/k8s-certificate.sh)
 KUBERNETES_TOKEN=$(/repo/scripts/k8s-token.sh)
 
