@@ -10,13 +10,17 @@ gradle.projectsEvaluated {
       if (file("Dockerfile").exists()) {
         task buildClientExtensionDockerImage(type: DockerBuildImage) {
           inputDir = projectDir
-          images.add(imageId)
+          if (project.hasProperty("imageId")) {
+            images.add(project.property("imageId"))
+          }
         }
       } else {
         task buildClientExtensionDockerImage(type: DockerBuildImage) {
           dependsOn "assembleClientExtension"
           inputDir = project.file("${buildDir}/clientExtension")
-          images.add(imageId)
+          if (project.hasProperty("imageId")) {
+            images.add(project.property("imageId"))
+          }
         }
 
         assembleClientExtension {
