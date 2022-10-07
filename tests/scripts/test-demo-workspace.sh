@@ -46,4 +46,13 @@ docker run \
   localdev-server \
   /repo/scripts/ext/stop.sh
 
-docker container rm -f dxp-server
+docker container rm -f localdev-test-start dxp-server
+
+docker run \
+  --rm \
+  --name \
+  localdev-runtime-stop \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  -v ${LOCALDEV_REPO}:/repo \
+  localdev-server \
+  /repo/scripts/runtime/stop.sh
