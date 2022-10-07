@@ -8,7 +8,7 @@ REPO="${LOCALDEV_REPO:-/repo}"
 CLUSTER=$(k3d cluster list -o json | jq -r '.[] | select(.name=="localdev")')
 
 if [ "$CLUSTER" != "" ];then
-  echo "[001] 'localdev' runtime environment already exists"
+  echo "'localdev' runtime environment already exists"
 
   kubectl config use-context k3d-localdev
   kubectl config set-context --current --namespace=default

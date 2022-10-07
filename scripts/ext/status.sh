@@ -7,7 +7,7 @@ REPO="${LOCALDEV_REPO:-/repo}"
 CONTAINER=$(docker container list --format '{{json .}}' | jq -sr '.[] | select(.Names=="localdev-extension-runtime")')
 
 if [ "$CONTAINER" == "" ]; then
-    echo "[003] 'localdev' extension environment stopped."
+    echo "'localdev' extension environment stopped."
     exit 1
 fi
 

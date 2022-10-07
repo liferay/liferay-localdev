@@ -7,7 +7,7 @@ REPO="${LOCALDEV_REPO:-/repo}"
 ${REPO}/scripts/runtime/start.sh
 
 if ${REPO}/scripts/ext/status.sh; then
-  echo "[004] 'localdev' extension environment is already started."
+  echo "'localdev' extension environment is already started."
   exit 0
 fi
 
