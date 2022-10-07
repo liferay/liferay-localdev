@@ -2,6 +2,8 @@
 
 set -e
 
+REPO="${LOCALDEV_REPO:-/repo}"
+
 CONTAINER=$(docker container list --format '{{json .}}' | jq -sr '.[] | select(.Names=="localdev-extension-runtime")')
 
 if [ "$CONTAINER" == "" ]; then
@@ -9,4 +11,4 @@ if [ "$CONTAINER" == "" ]; then
     exit 1
 fi
 
-docker exec -i localdev-extension-runtime /repo/scripts/ext/exec/refresh.sh
+docker exec -i localdev-extension-runtime ${REPO}/scripts/ext/exec/refresh.sh

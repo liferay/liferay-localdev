@@ -1,3 +1,6 @@
+# global vars
+repo=os.environ.get('LOCALDEV_REPO', '/repo')
+
 # Function process_extension
 def process_extension(
     name, projectPath, workload, targetPort, virtual_instance_id='dxp.localdev.me',
@@ -30,14 +33,14 @@ def process_extension(
   k8s_yaml(
     local("""
       ytt \
-        -f /repo/k8s/workloads/%s \
+        -f %s/k8s/workloads/%s \
         -f %s \
         --data-value-yaml initMetadata=%s \
         --data-value image=%s \
         --data-value serviceId=%s \
         --data-value-yaml targetPort=%s \
         --data-value virtualInstanceId=%s"""
-        % (workload, config_json_file, init_metadata, name, name, targetPort, virtual_instance_id)))
+        % (repo, workload, config_json_file, init_metadata, name, name, targetPort, virtual_instance_id)))
 
   if workload != "job":
     objects = [
@@ -57,26 +60,26 @@ def process_extension(
 
 update_settings(max_parallel_updates=1)
 
-watch_file('/repo/k8s/endpoint/')
-watch_file('/repo/k8s/workloads/')
+watch_file("%s/k8s/endpoint/" % repo)
+watch_file("%s/k8s/workloads/" % repo)
 
 if config.tilt_subcommand == 'down':
   local('kubectl delete cm -l lxc.liferay.com/metadataType=ext-init')
-  local('/repo/scripts/dxp-stop.sh')
+  local("%s/scripts/dxp-stop.sh" % repo)
 
 # build and launch dxp
 
 local_resource(
   'dxp.localdev.me',
   cmd="",
-  serve_cmd="/repo/scripts/dxp-restart.sh",
-  deps=["/repo/docker/images/dxp-server"],
+  serve_cmd="%s/scripts/dxp-restart.sh" % repo,
+  deps=["%s/docker/images/dxp-server" % repo],
   readiness_probe=probe(
       initial_delay_secs=120,
       timeout_secs=5,
       period_secs=5,
       failure_threshold=99,
-      exec=exec_action(["/repo/scripts/dxp-status.sh"])),
+      exec=exec_action(["%s/scripts/dxp-status.sh" % repo])),
   trigger_mode = TRIGGER_MODE_MANUAL,
   links=[
     link('https://dxp.localdev.me'),
