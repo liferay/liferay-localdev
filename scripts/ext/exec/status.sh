@@ -2,7 +2,6 @@
 
 set -e
 
-export LOCALDEV_REPO=/repo
 export KUBECONFIG=$(k3d kubeconfig write localdev 2>/dev/null)
 
 PID=$(tilt get session -o json | jq -r '.items[] | select(.kind=="Session") | .status.pid' 2>/dev/null)

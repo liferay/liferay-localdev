@@ -2,15 +2,17 @@
 
 set -e
 
-/repo/scripts/runtime/start.sh
+REPO="${LOCALDEV_REPO:-/repo}"
 
-if /repo/scripts/ext/status.sh; then
-  echo "'localdev' extension environment is already started."
+${REPO}/scripts/runtime/start.sh
+
+if ${REPO}/scripts/ext/status.sh; then
+  echo "[004] 'localdev' extension environment is already started."
   exit 0
 fi
 
 export DO_NOT_TRACK=1
 
-tilt up -f /repo/tilt/Tiltfile
+tilt up -f ${REPO}/tilt/Tiltfile
 
 echo "'localdev' extension environment started."

@@ -2,11 +2,13 @@
 
 set -e
 
+REPO="${LOCALDEV_REPO:-/repo}"
+
 # create k3d cluster with local registry
 CLUSTER=$(k3d cluster list -o json | jq -r '.[] | select(.name=="localdev")')
 
 if [ "$CLUSTER" != "" ];then
-  echo "'localdev' environment already exists"
+  echo "[001] 'localdev' runtime environment already exists"
 
   kubectl config use-context k3d-localdev
   kubectl config set-context --current --namespace=default
@@ -19,7 +21,7 @@ fi
 declare -a host_aliases=("dxp" "vi")
 HOST_ALIASES="['dxp', 'vi']"
 
-ytt -f /repo/k8s/k3d --data-value-yaml "hostAliases=$HOST_ALIASES" > .cluster_config.yaml
+ytt -f ${REPO}/k8s/k3d --data-value-yaml "hostAliases=$HOST_ALIASES" > .cluster_config.yaml
 
 k3d cluster create \
   --config .cluster_config.yaml \
@@ -39,12 +41,12 @@ until [ "${SA}" == "1" ]; do
 done
 echo -e "SERVICEACOUNT_STATUS: Available."
 
-kubectl create -f /repo/k8s/k3d/token.yaml
-kubectl create -f /repo/k8s/k3d/rbac.yaml
+kubectl create -f ${REPO}/k8s/k3d/token.yaml
+kubectl create -f ${REPO}/k8s/k3d/rbac.yaml
 
 kubectl create secret generic localdev-tls-secret \
-  --from-file=tls.crt=/repo/k8s/tls/localdev.me.crt \
-  --from-file=tls.key=/repo/k8s/tls/localdev.me.key  \
+  --from-file=tls.crt=${REPO}/k8s/tls/localdev.me.crt \
+  --from-file=tls.key=${REPO}/k8s/tls/localdev.me.key  \
   --namespace default
 
 # poll until coredns is updated with docker host address
@@ -71,7 +73,7 @@ echo -e "INGRESSROUTE_CRD: ${CRD}"
 for hostAlias in ${host_aliases[@]}
 do
   ytt \
-    -f /repo/k8s/endpoint \
+    -f ${REPO}/k8s/endpoint \
     --data-value "id=${hostAlias}" \
     --data-value-yaml "dockerHostAddress=${ADDRESS}" \
     --data-value "virtualInstanceId=dxp.localdev.me" | kubectl apply -f-

@@ -4,10 +4,7 @@ set -ex
 
 IMAGE=dxp-server
 
-if [ -z "$LOCALDEV_REPO" ]; then
-  echo "Must specify LOCALDEV_REPO env var"
-  exit 1
-fi
+REPO="${LOCALDEV_REPO:-/repo}"
 
 EXISTING_DXP_SERVER=$(docker ps -f name=dxp-server | grep dxp-server | awk '{print $1}')
 
@@ -21,8 +18,8 @@ if [ ! -z "$EXISTING_DXP_SERVER" ]; then
   fi
 fi
 
-KUBERNETES_CERTIFICATE=$(/repo/scripts/k8s-certificate.sh)
-KUBERNETES_TOKEN=$(/repo/scripts/k8s-token.sh)
+KUBERNETES_CERTIFICATE=$(${REPO}/scripts/k8s-certificate.sh)
+KUBERNETES_TOKEN=$(${REPO}/scripts/k8s-token.sh)
 
 # find the IP address of the dnsmasq container
 DNS_ADDRESS=$(\
@@ -32,7 +29,7 @@ DNS_ADDRESS=$(\
 
 docker build \
   -t dxp-server \
-  /repo/docker/images/dxp-server
+  ${REPO}/docker/images/dxp-server
 
 docker run \
   --name ${IMAGE} \
