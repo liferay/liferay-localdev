@@ -1,0 +1,28 @@
+name: CI Test
+
+on:
+  pull_request:
+    paths-ignore:
+      - '*.commits'
+      - '*.markdown'
+      - '**/*.markdown'
+
+env:
+  LC_ALL: en_US.UTF-8
+
+jobs:
+  TestDemoWorkspace:
+    name: Test Demo Workspace
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Build
+        shell: bash
+        env:
+          GITHUB_CI: "true"
+          DOCKER_NETWORK: "host"
+        run: |
+          export LOCALDEV_REPO=${GITHUB_WORKSPACE}
+          ./tests/scripts/test-demo-workspace.sh

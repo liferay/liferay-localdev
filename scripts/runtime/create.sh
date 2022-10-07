@@ -38,6 +38,7 @@ SA="0"
 echo "SERVICEACOUNT_STATUS: waiting..."
 until [ "${SA}" == "1" ]; do
 	SA=$(kubectl get sa -o json | jq -r '.items | length')
+  sleep 1
 done
 echo -e "SERVICEACOUNT_STATUS: Available."
 
@@ -56,6 +57,7 @@ ADDRESS=""
 echo "DOCKER_HOST_ADDRESS: waiting..."
 until [ "${ADDRESS}" != "" ]; do
 	ADDRESS=$(kubectl get cm coredns --namespace kube-system -o jsonpath='{.data.NodeHosts}' | grep host.k3d.internal | awk '{print $1}')
+  sleep 1
 done
 echo -e "DOCKER_HOST_ADDRESS: ${ADDRESS}"
 
@@ -66,6 +68,7 @@ CRD=""
 echo "INGRESSROUTE_CRD: waiting..."
 until [ "$CRD" != "" ]; do
   CRD=$(kubectl get crd ingressroutes.traefik.containo.us --ignore-not-found)
+  sleep 1
 done
 echo -e "INGRESSROUTE_CRD: ${CRD}"
 
