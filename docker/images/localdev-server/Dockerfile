@@ -65,7 +65,9 @@ RUN export ARCH=$(dpkg --print-architecture) && \
     chmod +x /usr/local/bin/ytt
 
 # Install yq
-RUN wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 && chmod a+x /usr/local/bin/yq
+RUN export ARCH=$(dpkg --print-architecture) && \
+    wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_$ARCH && \
+    chmod a+x /usr/local/bin/yq
 
 # Install blade
 RUN curl -fsSl https://raw.githubusercontent.com/liferay/liferay-blade-cli/master/cli/installers/global | bash
