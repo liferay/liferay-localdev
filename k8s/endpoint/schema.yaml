@@ -2,6 +2,6 @@
 ---
 id: "dxp"
 dockerHostAddress: ""
-dockerHostPort: 8080
+dockerHostPort: 18081
 tlsSecretName: "localdev-tls-secret"
 virtualInstanceId: "dxp.localdev.me"

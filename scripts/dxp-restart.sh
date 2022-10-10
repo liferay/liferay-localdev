@@ -38,7 +38,7 @@ docker run \
   --rm \
   -v liferayData:/opt/liferay/data:rw \
   -p 8000:8000 \
-  -p 8080:8080 \
+  -p 18081:8080 \
   -p 11311:11311 \
   -e KUBERNETES_SERVICE_HOST=k3d-localdev-server-0 \
   -e KUBERNETES_SERVICE_PORT=6443 \
