@@ -10,9 +10,20 @@ def process_extension(
   for source_dep in source_deps:
     more_deps.append("/workspace/%s/%s" % (projectPath, source_dep))
 
+  gradlePath=projectPath.replace('/', ':')
+
+  build_args=" ".join([
+    "/workspace/gradlew",
+    "--project-dir",
+    "/workspace",
+    ":%s:clean" % gradlePath,
+    ":%s:buildClientExtensionDockerImage" % gradlePath,
+    "--stacktrace",
+    "-PimageId=$EXPECTED_REF"])
+
   custom_build(
     name,
-    "/workspace/gradlew --project-dir /workspace :%s:buildClientExtensionDockerImage --stacktrace -PimageId=$EXPECTED_REF" % projectPath.replace("/", ":"),
+    build_args,
     deps=[
       "/workspace/%s/src" % projectPath,
       "/workspace/%s/build.gradle" % projectPath,
@@ -21,7 +32,16 @@ def process_extension(
     ] + more_deps,
     ignore=[])
 
-  local("/workspace/gradlew --project-dir /workspace :%s:assembleClientExtension --stacktrace" % projectPath.replace("/", ":"))
+  assemble_args=" ".join([
+    "/workspace/gradlew",
+    "--project-dir",
+    "/workspace",
+    ":%s:clean" % gradlePath,
+    ":%s:assembleClientExtension" % gradlePath,
+    "--stacktrace",
+  ])
+
+  local(assemble_args)
 
   config_json_file = "/workspace/%s/build/clientExtension/%s.client-extension-config.json" % (projectPath, name)
 
