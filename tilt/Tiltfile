@@ -25,10 +25,11 @@ def process_extension(
     name,
     build_args,
     deps=[
-      "/workspace/%s/src" % projectPath,
+      "/workspace/%s/Dockerfile" % projectPath,
+      "/workspace/%s/assets" % projectPath,
       "/workspace/%s/build.gradle" % projectPath,
       "/workspace/%s/client-extension.yaml" % projectPath,
-      "/workspace/%s/Dockerfile" % projectPath,
+      "/workspace/%s/src" % projectPath,
     ] + more_deps,
     ignore=[])
 
