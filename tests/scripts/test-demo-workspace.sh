@@ -39,32 +39,31 @@ git clone \
   localdev-server-test \
   /repo/scripts/ext/start.sh) &
 
-FOUND_CONFIG_MAPS=0
+FOUND_EXT_PROVISION_CONFIG_MAPS=0
 
-until [ "$FOUND_CONFIG_MAPS" == "4" ]; do
-  FOUND_CONFIG_MAPS=$(docker exec -i localdev-server-test-start /entrypoint.sh kubectl get cm | grep ext-init-metadata | wc -l | xargs)
-  sleep 5
+until [ "$FOUND_EXT_PROVISION_CONFIG_MAPS" == "7" ]; do
+  sleep 1
+  FOUND_EXT_PROVISION_CONFIG_MAPS=$(docker exec -i localdev-server-test-start /entrypoint.sh kubectl get cm | grep ext-provision-metadata | wc -l | xargs)
+  echo "FOUND_EXT_PROVISION_CONFIG_MAPS=${FOUND_EXT_PROVISION_CONFIG_MAPS}"
+done
+
+FOUND_EXT_INIT_CONFIG_MAPS=0
+
+until [ "$FOUND_EXT_INIT_CONFIG_MAPS" == "4" ]; do
+  sleep 1
+  FOUND_EXT_INIT_CONFIG_MAPS=$(docker exec -i localdev-server-test-start /entrypoint.sh kubectl get cm | grep ext-init-metadata | wc -l | xargs)
+  echo "FOUND_EXT_INIT_CONFIG_MAPS=${FOUND_EXT_INIT_CONFIG_MAPS}"
 done
 
 docker run \
   --rm \
-  --name localdev-server-test-stop \
-  --network ${DOCKER_NETWORK} \
-  -v /var/run/docker.sock:/var/run/docker.sock \
-  -v ${LOCALDEV_REPO}:/repo \
-  -v ${LOCALDEV_REPO}/tests/work/gartner-client-extensions-demo:/workspace/client-extensions \
-  -v localdevGradleCache:/root/.gradle \
-  -v localdevLiferayCache:/root/.liferay \
-  localdev-server-test \
-  /repo/scripts/ext/stop.sh
-
-docker container rm -f localdev-server-test-start dxp-server
-
-docker run \
-  --rm \
-  --name localdev-server-test-stop \
+  --name localdev-runtime-delete \
   --network ${DOCKER_NETWORK} \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -v ${LOCALDEV_REPO}:/repo \
   localdev-server-test \
-  /repo/scripts/runtime/stop.sh
+  /repo/scripts/runtime/delete.sh
+
+docker container rm \
+  -f \
+  localdev-server-test-start
