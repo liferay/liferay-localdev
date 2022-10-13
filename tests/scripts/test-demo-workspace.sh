@@ -23,7 +23,6 @@ docker build \
 rm -rf ${LOCALDEV_REPO}/tests/work/
 
 git clone \
-  --branch frontendClientExtensions \
   --depth 1 https://github.com/gamerson/gartner-client-extensions-demo \
   ${LOCALDEV_REPO}/tests/work/gartner-client-extensions-demo
 
