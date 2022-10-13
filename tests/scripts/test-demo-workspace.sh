@@ -55,16 +55,15 @@ until [ "$FOUND_EXT_INIT_CONFIG_MAPS" == "4" ]; do
   echo "FOUND_EXT_INIT_CONFIG_MAPS=${FOUND_EXT_INIT_CONFIG_MAPS}"
 done
 
-docker container rm \
-  -f \
-  localdev-server-test-start \
-  dxp-server
-
 docker run \
   --rm \
-  --name localdev-server-test-stop \
+  --name localdev-runtime-delete \
   --network ${DOCKER_NETWORK} \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -v ${LOCALDEV_REPO}:/repo \
   localdev-server-test \
-  /repo/scripts/runtime/stop.sh
+  /repo/scripts/runtime/delete.sh
+
+docker container rm \
+  -f \
+  localdev-server-test-start
