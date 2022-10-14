@@ -7,7 +7,7 @@ metadata:
     app: #@ data.values.serviceId
 spec:
   rules:
-  - host: #@ "{}.localdev.me".format(data.values.serviceId)
+  - host: #@ "{}.{}.lfr.dev".format(data.values.serviceId, data.values.custCode)
     http:
       paths:
       - backend:

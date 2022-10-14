@@ -1,9 +1,10 @@
 # global vars
 repo=os.environ.get('LOCALDEV_REPO', '/repo')
+cust_code=os.environ.get('CUST_CODE')
 
 # Function process_extension
 def process_extension(
-    name, projectPath, workload, targetPort, virtual_instance_id='dxp.localdev.me',
+    name, projectPath, workload, targetPort, virtual_instance_id="dxp.%s.lfr.dev" % cust_code,
     source_deps=[], objects=[], port_forwards=[], resource_deps=[], links=[], cpu='', memory=''):
 
   more_deps = []
@@ -68,7 +69,7 @@ def process_extension(
     port_forwards=port_forwards,
     objects=objects,
     #objects=['%s-%s-lxc-ext-provision-metadata:configmap' % (name, virtual_instance_id)] + objects,
-    resource_deps=['dxp.localdev.me'] + resource_deps,
+    resource_deps=['dxp.lfr.dev'] + resource_deps,
     workload=name,
     links=links)
 
@@ -88,7 +89,7 @@ if config.tilt_subcommand == 'down':
 # build and launch dxp
 
 local_resource(
-  'dxp.localdev.me',
+  "dxp.%s.lfr.dev" % cust_code,
   cmd="",
   serve_cmd="%s/scripts/dxp-restart.sh" % repo,
   deps=["%s/docker/images/dxp-server" % repo],
@@ -100,8 +101,8 @@ local_resource(
       exec=exec_action(["%s/scripts/dxp-status.sh" % repo])),
   trigger_mode = TRIGGER_MODE_MANUAL,
   links=[
-    link('https://dxp.localdev.me'),
-    link('https://dxp.localdev.me/o/api', 'Liferay API Explorer'),
+    link("https://dxp.%s.lfr.dev" % cust_code),
+    link("https://dxp.%s.lfr.dev/o/api" % cust_code, 'Liferay API Explorer'),
   ],
   labels=['DXP'])
 

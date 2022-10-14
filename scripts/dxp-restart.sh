@@ -19,6 +19,7 @@ if [ ! -z "$EXISTING_DXP_SERVER" ]; then
 fi
 
 docker build \
+  --build-arg CUST_CODE=${CUST_CODE} \
   -t dxp-server \
   ${REPO}/docker/images/dxp-server
 

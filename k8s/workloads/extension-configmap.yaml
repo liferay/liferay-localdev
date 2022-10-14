@@ -17,8 +17,8 @@ metadata:
     dxp.lxc.liferay.com/virtualInstanceId: #@ data.values.virtualInstanceId
     ext.lxc.liferay.com/serviceId: #@ data.values.serviceId
   annotations:
-    ext.lxc.liferay.com/mainDomain: #@ "{}.localdev.me".format(data.values.serviceId)
-    ext.lxc.liferay.com/domains: #@ "{}.localdev.me".format(data.values.serviceId)
+    ext.lxc.liferay.com/mainDomain: #@ "{}.{}.lfr.dev".format(data.values.serviceId, data.values.custCode)
+    ext.lxc.liferay.com/domains: #@ "{}.{}.lfr.dev".format(data.values.serviceId, data.values.custCode)
 data:
 #@ for/end jsonfile in [ f for f in files if f.endswith(".json") ]:
   _: #@ template.replace(parse(jsonfile))

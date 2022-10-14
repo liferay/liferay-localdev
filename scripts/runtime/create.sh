@@ -25,7 +25,7 @@ ytt -f ${REPO}/k8s/k3d --data-value-yaml "hostAliases=$HOST_ALIASES" > .cluster_
 
 k3d cluster create \
   --config .cluster_config.yaml \
-  --registry-create registry.localdev.me:50505 \
+  --registry-create registry.lfr.dev:50505 \
   --wait
 
 kubectl config use-context k3d-localdev
@@ -46,8 +46,8 @@ kubectl create -f ${REPO}/k8s/k3d/token.yaml
 kubectl create -f ${REPO}/k8s/k3d/rbac.yaml
 
 kubectl create secret generic localdev-tls-secret \
-  --from-file=tls.crt=${REPO}/k8s/tls/localdev.me.crt \
-  --from-file=tls.key=${REPO}/k8s/tls/localdev.me.key  \
+  --from-file=tls.crt=${REPO}/k8s/tls/lfr.dev.crt \
+  --from-file=tls.key=${REPO}/k8s/tls/lfr.dev.key  \
   --namespace default
 
 # poll until coredns is updated with docker host address
@@ -79,7 +79,7 @@ do
     -f ${REPO}/k8s/endpoint \
     --data-value "id=${hostAlias}" \
     --data-value-yaml "dockerHostAddress=${ADDRESS}" \
-    --data-value "virtualInstanceId=dxp.localdev.me" | kubectl apply -f-
+    --data-value "virtualInstanceId=dxp.${CUST_CODE}.lfr.dev" | kubectl apply -f-
 done
 
 echo "'localdev' runtime environment created."

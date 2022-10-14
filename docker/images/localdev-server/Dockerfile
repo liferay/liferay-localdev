@@ -95,7 +95,7 @@ COPY workspace/build.gradle /workspace/build.gradle
 
 COPY entrypoint.sh /entrypoint.sh
 
-COPY ca.crt /usr/local/share/ca-certificates/localdev.me.crt
+COPY ca.crt /usr/local/share/ca-certificates/lfr.dev.crt
 
 RUN update-ca-certificates
 
