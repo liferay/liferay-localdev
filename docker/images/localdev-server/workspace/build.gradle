@@ -29,6 +29,32 @@ gradle.projectsEvaluated {
         }
       }
 
+      task applyClientExtensionConfigMap {
+        doLast {
+          def serviceId = project.property("serviceId")
+          def virtualInstanceId = project.property("virtualInstanceId")
+
+          def kubeApplyArgs = [
+            "ytt",
+            "-f /repo/k8s/workloads/extension-configmap.yaml",
+            "--data-value serviceId=${serviceId}",
+            "--data-value virtualInstanceId=${virtualInstanceId}",
+          ]
+
+          fileTree("${buildDir}/clientExtension").matching {
+            include "*.client-extension-config.json"
+          }.each {
+            kubeApplyArgs += "-f ${it}"
+          }
+
+          kubeApplyArgs += "| kubectl apply -f-"
+
+          exec {
+            commandLine = ['bash', '-c', kubeApplyArgs.join(' ')]
+          }
+        }
+      }
+
       if (hasProperty('buildScan')) {
         buildScan {
           termsOfServiceUrl = 'https://gradle.com/terms-of-service'
