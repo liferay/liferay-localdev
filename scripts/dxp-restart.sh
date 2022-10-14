@@ -18,18 +18,21 @@ if [ ! -z "$EXISTING_DXP_SERVER" ]; then
   fi
 fi
 
+docker build \
+  -t dxp-server \
+  ${REPO}/docker/images/dxp-server
+
 KUBERNETES_CERTIFICATE=$(${REPO}/scripts/k8s-certificate.sh)
 KUBERNETES_TOKEN=$(${REPO}/scripts/k8s-token.sh)
+
+# ensure the dnsmasq server has been started
+${REPO}/scripts/dnsmasq-start.sh
 
 # find the IP address of the dnsmasq container
 DNS_ADDRESS=$(\
   docker network inspect k3d-localdev | \
     jq --raw-output '.[0].Containers[] | select(.Name=="localdev-dnsmasq") | .IPv4Address' | \
     cut -d'/' -f1)
-
-docker build \
-  -t dxp-server \
-  ${REPO}/docker/images/dxp-server
 
 docker run \
   --name ${IMAGE} \

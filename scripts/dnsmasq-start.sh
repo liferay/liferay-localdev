@@ -9,6 +9,8 @@ if [ "$CONTAINER" != "" ]; then
     exit 0
 fi
 
+REPO="${LOCALDEV_REPO:-/repo}"
+
 docker build \
   -t localdev-dnsmasq \
   ${REPO}/docker/images/localdev-dnsmasq
