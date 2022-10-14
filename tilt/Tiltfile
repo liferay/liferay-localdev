@@ -66,10 +66,8 @@ def process_extension(
 
   find_args=[
     "find",
-    "/workspace/%s" % projectPath,
+    "/workspace/%s/build/clientExtension" % projectPath,
     "-name '*.client-extension-config.json'",
-    "-not -path '*/node_modules/*'",
-    "-not -path '*/node_modules_cache/*'",
     "2>/dev/null"]
 
   config_json_files=str(local(" ".join(find_args))).splitlines()
