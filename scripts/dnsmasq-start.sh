@@ -9,6 +9,10 @@ if [ "$CONTAINER" != "" ]; then
     exit 0
 fi
 
+docker build \
+  -t localdev-dnsmasq \
+  ${REPO}/docker/images/localdev-dnsmasq
+
 # start dnsmasq and detach it to the background
 # this will to route all '*.localdev.me' hosts to local network gateway (traefik)
 docker run \
