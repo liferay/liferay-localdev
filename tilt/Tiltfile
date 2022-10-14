@@ -18,7 +18,10 @@ def process_extension(
     "/workspace",
     ":%s:clean" % gradlePath,
     ":%s:buildClientExtensionDockerImage" % gradlePath,
+    ":%s:applyClientExtensionConfigMap" % gradlePath,
     "--stacktrace",
+    "-PserviceId=%s" % name,
+    "-PvirtualInstanceId=%s" % virtual_instance_id,
     "-PimageId=$EXPECTED_REF"])
 
   custom_build(
@@ -32,17 +35,6 @@ def process_extension(
       "/workspace/%s/src" % projectPath,
     ] + more_deps,
     ignore=[])
-
-  assemble_args=" ".join([
-    "/workspace/gradlew",
-    "--project-dir",
-    "/workspace",
-    ":%s:clean" % gradlePath,
-    ":%s:assembleClientExtension" % gradlePath,
-    "--stacktrace",
-  ])
-
-  local(assemble_args)
 
   init_metadata = False
 
@@ -64,17 +56,6 @@ def process_extension(
   if memory != '':
     ytt_args.append("--data-value-yaml memory=%s" % memory)
 
-  find_args=[
-    "find",
-    "/workspace/%s/build/clientExtension" % projectPath,
-    "-name '*.client-extension-config.json'",
-    "2>/dev/null"]
-
-  config_json_files=str(local(" ".join(find_args))).splitlines()
-
-  for config_json_file in config_json_files:
-    ytt_args.append("-f %s" % config_json_file)
-
   k8s_yaml(local(" ".join(ytt_args)))
 
   if workload != 'job':
@@ -83,9 +64,10 @@ def process_extension(
       "%s:ingressroute" % name]
 
   k8s_resource(
-    labels=['dxp-client-extensions'],
+    labels=['Extensions'],
     port_forwards=port_forwards,
-    objects=['%s-%s-lxc-ext-provision-metadata:configmap' % (name, virtual_instance_id)] + objects,
+    objects=objects,
+    #objects=['%s-%s-lxc-ext-provision-metadata:configmap' % (name, virtual_instance_id)] + objects,
     resource_deps=['dxp.localdev.me'] + resource_deps,
     workload=name,
     links=links)
@@ -99,6 +81,7 @@ watch_file("%s/k8s/workloads/" % repo)
 
 if config.tilt_subcommand == 'down':
   local('kubectl delete cm -l lxc.liferay.com/metadataType=ext-init')
+  local('kubectl delete cm -l lxc.liferay.com/metadataType=ext-provision')
   local("%s/scripts/dxp-stop.sh" % repo)
 
 # build and launch dxp
@@ -119,7 +102,7 @@ local_resource(
     link('https://dxp.localdev.me'),
     link('https://dxp.localdev.me/o/api', 'Liferay API Explorer'),
   ],
-  labels=['dxp'])
+  labels=['DXP'])
 
 client_extension_yaml_files=str(
   local(
