@@ -45,7 +45,7 @@ echo -e "SERVICEACOUNT_STATUS: Available."
 kubectl create -f ${REPO}/k8s/k3d/token.yaml
 kubectl create -f ${REPO}/k8s/k3d/rbac.yaml
 
-kubectl create secret generic localdev-tls-secret \
+kubectl create secret generic lfrdev-tls-secret \
   --from-file=tls.crt=${REPO}/k8s/tls/lfr.dev.crt \
   --from-file=tls.key=${REPO}/k8s/tls/lfr.dev.key  \
   --namespace default

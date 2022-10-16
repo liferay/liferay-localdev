@@ -25,7 +25,7 @@ gradle.projectsEvaluated {
         }
 
         assembleClientExtension {
-          from "/repo/k8s/tls/ca.crt"
+          from "/tls/ca.crt"
         }
       }
 
@@ -33,12 +33,14 @@ gradle.projectsEvaluated {
         doLast {
           def serviceId = project.property("serviceId")
           def virtualInstanceId = project.property("virtualInstanceId")
+          def custCode = project.property("custCode")
 
           def kubeApplyArgs = [
             "ytt",
             "-f /repo/k8s/workloads/extension-configmap.yaml",
             "--data-value serviceId=${serviceId}",
             "--data-value virtualInstanceId=${virtualInstanceId}",
+            "--data-value custCode=${custCode}",
           ]
 
           fileTree("${buildDir}/clientExtension").matching {

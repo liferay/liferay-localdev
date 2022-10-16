@@ -10,6 +10,7 @@ RUN apt-get update && \
         gnupg \
         iputils-ping \
         jq \
+        libnss3-tools \
         lsb-release \
         openssl \
         sudo \
