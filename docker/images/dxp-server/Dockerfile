@@ -31,13 +31,13 @@ RUN \
 
 USER root
 
-COPY ca.crt /usr/lib/jvm/zulu11/lib/security
+RUN apt-get update && apt-get libnss3-tools 
 
-RUN \
-	keytool -noprompt -trustcacerts -importcert \
-		-alias project-cert \
-		-storepass changeit \
-		-cacerts \
-		-file /usr/lib/jvm/zulu11/lib/security/ca.crt
+ENV TRUST_STORES=system,java
+ENV CAROOT=/home/liferay/caroot
+
+COPY rootCA.pem /home/liferay/caroot
+
+RUN mkcert -install
 
 USER liferay:liferay

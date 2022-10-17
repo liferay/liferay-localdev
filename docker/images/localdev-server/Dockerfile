@@ -17,6 +17,13 @@ RUN apt-get update && \
         vim \
         wget
 
+ENV TRUST_STORES=system
+ENV CAROOT=/caroot
+
+COPY rootCA.pem /caroot
+
+RUN mkcert -install
+
 # Add all the repos
 RUN mkdir -p /etc/apt/keyrings && \
     \
@@ -95,9 +102,5 @@ COPY workspace/temp_repo /workspace/temp_repo
 COPY workspace/build.gradle /workspace/build.gradle
 
 COPY entrypoint.sh /entrypoint.sh
-
-COPY ca.crt /usr/local/share/ca-certificates/lfr.dev.crt
-
-RUN update-ca-certificates
 
 ENTRYPOINT [ "/entrypoint.sh" ]
