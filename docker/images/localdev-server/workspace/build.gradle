@@ -33,14 +33,14 @@ gradle.projectsEvaluated {
         doLast {
           def serviceId = project.property("serviceId")
           def virtualInstanceId = project.property("virtualInstanceId")
-          def custCode = project.property("custCode")
+          def lfrdevDomain = project.property("lfrdevDomain")
 
           def kubeApplyArgs = [
             "ytt",
             "-f /repo/k8s/workloads/extension-configmap.yaml",
             "--data-value serviceId=${serviceId}",
             "--data-value virtualInstanceId=${virtualInstanceId}",
-            "--data-value custCode=${custCode}",
+            "--data-value lfrdevDomain=${lfrdevDomain}",
           ]
 
           fileTree("${buildDir}/clientExtension").matching {

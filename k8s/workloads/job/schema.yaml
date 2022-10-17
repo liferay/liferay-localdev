@@ -7,4 +7,3 @@ memory: "100Mi"
 serviceId: ""
 targetPort: 80
 virtualInstanceId: ""
-custCode: ""

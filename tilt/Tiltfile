@@ -1,10 +1,10 @@
 # global vars
 repo=os.environ.get('LOCALDEV_REPO', '/repo')
-cust_code=os.environ.get('CUST_CODE')
+lfrdev_domain=os.environ.get('LFRDEV_DOMAIN')
 
 # Function process_extension
 def process_extension(
-    name, projectPath, workload, targetPort, virtual_instance_id="dxp.%s.lfr.dev" % cust_code,
+    name, projectPath, workload, targetPort, virtual_instance_id="dxp.%s" % lfrdev_domain,
     source_deps=[], objects=[], port_forwards=[], resource_deps=[], links=[], cpu='', memory=''):
 
   more_deps = []
@@ -23,7 +23,7 @@ def process_extension(
     "--stacktrace",
     "-PserviceId=%s" % name,
     "-PvirtualInstanceId=%s" % virtual_instance_id,
-    "-PcustCode=%s" % cust_code,
+    "-PlfrdevDomain=%s" % LFRDEV_DOMAIN,
     "-PimageId=$EXPECTED_REF"])
 
   custom_build(
@@ -51,7 +51,7 @@ def process_extension(
     "--data-value serviceId=%s" % name,
     "--data-value-yaml targetPort=%s" % targetPort,
     "--data-value virtualInstanceId=%s" % virtual_instance_id,
-    "--data-value custCode=%s" % cust_code]
+    "--data-value lfrdevDomain=%s" % LFRDEV_DOMAIN]
 
   if cpu != '':
     ytt_args.append("--data-value-yaml cpu=%s" % cpu)
@@ -71,7 +71,7 @@ def process_extension(
     port_forwards=port_forwards,
     objects=objects,
     #objects=['%s-%s-lxc-ext-provision-metadata:configmap' % (name, virtual_instance_id)] + objects,
-    resource_deps=["dxp.%s.lfr.dev" % cust_code] + resource_deps,
+    resource_deps=["dxp.%s" % lfrdev_domain] + resource_deps,
     workload=name,
     links=links)
 
@@ -91,7 +91,7 @@ if config.tilt_subcommand == 'down':
 # build and launch dxp
 
 local_resource(
-  "dxp.%s.lfr.dev" % cust_code,
+  "dxp.%s" % lfrdev_domain,
   cmd="%s/scripts/dxp-build.sh" % repo,
   serve_cmd="%s/scripts/dxp-restart.sh" % repo,
   deps=["%s/docker/images/dxp-server" % repo],
@@ -103,8 +103,8 @@ local_resource(
       exec=exec_action(["%s/scripts/dxp-status.sh" % repo])),
   trigger_mode = TRIGGER_MODE_MANUAL,
   links=[
-    link("https://dxp.%s.lfr.dev" % cust_code),
-    link("https://dxp.%s.lfr.dev/o/api" % cust_code, 'Liferay API Explorer'),
+    link("https://dxp.%s" % lfrdev_domain),
+    link("https://dxp.%s/o/api" % lfrdev_domain, 'Liferay API Explorer'),
   ],
   labels=['DXP'])
 
@@ -151,6 +151,9 @@ for client_extension_yaml_file in client_extension_yaml_files:
 
     if client_extension_object['runtime'].get('memory') != None:
       memory=client_extension_object['runtime']['memory']
+  
+  if workload != 'job':
+    links=[link("https://%s.%s" % (client_extension_name, lfrdev_domain))]
 
   # TODO call a script that can expand globs that may be passed into watch property
   # paths=local(/repo/scripts/unroll-globs.sh watch)
@@ -164,4 +167,5 @@ for client_extension_yaml_file in client_extension_yaml_files:
     workload=workload,
     cpu=cpu,
     memory=memory,
-    resource_deps=resource_deps)
+    resource_deps=resource_deps,
+    links=links)

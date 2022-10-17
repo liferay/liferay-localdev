@@ -10,7 +10,7 @@ spec:
     - websecure
   routes:
   - kind: Rule
-    match: #@ "{}.{}.lfr.dev".format(data.values.custCode, data.values.id)
+    match: #@ "{}.{}".format(data.values.id, data.values.lfrdevDomain)
     services:
     - name: #@ data.values.id
       port: 80

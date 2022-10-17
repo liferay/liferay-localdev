@@ -12,9 +12,9 @@ function copy_configs {
 		echo ""
 		echo "Processing configs..."
 
-		find "${CONFIGS_DIR}" -type f -print0 | xargs sed -i "s/__CUST_CODE__/${CUST_CODE}/g"
-		for i in $(find "${CONFIGS_DIR}" -type f -print | grep __CUST_CODE__); do
-			mv $i $(echo $i | sed "s/__CUST_CODE__/${CUST_CODE}/g")
+		find "${CONFIGS_DIR}" -type f -print0 | xargs sed -i "s/__LFRDEV_DOMAIN__/${LFRDEV_DOMAIN}/g"
+		for i in $(find "${CONFIGS_DIR}" -type f -print | grep __LFRDEV_DOMAIN__); do
+			mv $i $(echo $i | sed "s/__LFRDEV_DOMAIN__/${LFRDEV_DOMAIN}/g")
 		done
 
 		echo ""

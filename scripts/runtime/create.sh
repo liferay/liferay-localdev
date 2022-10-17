@@ -24,7 +24,7 @@ HOST_ALIASES="['dxp', 'vi']"
 ytt \
   -f ${REPO}/k8s/k3d \
   --data-value-yaml "hostAliases=$HOST_ALIASES" \
-  --data-value-yaml "custCode=$CUST_CODE" \
+  --data-value-yaml "lfrdevDomain=$LFRDEV_DOMAIN" \
     > .cluster_config.yaml
 
 k3d cluster create \
@@ -50,8 +50,8 @@ kubectl create -f ${REPO}/k8s/k3d/token.yaml
 kubectl create -f ${REPO}/k8s/k3d/rbac.yaml
 
 kubectl create secret generic lfrdev-tls-secret \
-  --from-file=tls.crt=${REPO}/k8s/tls/_wildcard.l3e7.lfr.dev.pem \
-  --from-file=tls.key=${REPO}/k8s/tls/_wildcard.l3e7.lfr.dev-key.pem  \
+  --from-file=tls.crt=${REPO}/k8s/tls/_wildcard.${LFRDEV_DOMAIN}.crt \
+  --from-file=tls.key=${REPO}/k8s/tls/_wildcard.${LFRDEV_DOMAIN}.key  \
   --namespace default
 
 # poll until coredns is updated with docker host address
@@ -83,8 +83,8 @@ do
     -f ${REPO}/k8s/endpoint \
     --data-value "id=${hostAlias}" \
     --data-value-yaml "dockerHostAddress=${ADDRESS}" \
-    --data-value "custCode=${CUST_CODE}" \
-    --data-value "virtualInstanceId=dxp.${CUST_CODE}.lfr.dev" | kubectl apply -f-
+    --data-value "lfrdevDomain=${LFRDEV_DOMAIN}" \
+    --data-value "virtualInstanceId=dxp.${LFRDEV_DOMAIN}" | kubectl apply -f-
 done
 
 echo "'localdev' runtime environment created."

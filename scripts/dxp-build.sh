@@ -7,6 +7,6 @@ IMAGE=dxp-server
 REPO="${LOCALDEV_REPO:-/repo}"
 
 docker build \
-  --build-arg CUST_CODE=${CUST_CODE} \
+  --build-arg LFRDEV_DOMAIN=${LFRDEV_DOMAIN} \
   -t dxp-server \
   ${REPO}/docker/images/dxp-server

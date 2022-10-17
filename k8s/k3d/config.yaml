@@ -17,4 +17,4 @@ hostAliases:
   - ip: 172.150.0.1
     hostnames:
     #@ for/end hostAlias in data.values.hostAliases:
-      - #@ "{}.{}.lfr.dev".format(hostAlias, data.values.custCode)
+      - #@ "{}.{}".format(hostAlias, data.values.lfrdevDomain)

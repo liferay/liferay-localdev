@@ -1,11 +1,11 @@
 FROM alpine:latest
 
-ARG CUST_CODE
+ARG LFRDEV_DOMAIN
 
 RUN apk --no-cache add dnsmasq
 
 COPY dnsmasq.conf /etc/dnsmasq.conf
 
-RUN sed -i "s/__CUST_CODE__/${CUST_CODE}/g" /etc/dnsmasq.conf
+RUN sed -i "s/__LFRDEV_DOMAIN__/${LFRDEV_DOMAIN}/g" /etc/dnsmasq.conf
 
 ENTRYPOINT [ "dnsmasq", "-d" ]

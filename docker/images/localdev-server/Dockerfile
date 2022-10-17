@@ -17,8 +17,6 @@ RUN apt-get update && \
         vim \
         wget
 
-
-
 RUN \
   export ARCH=$(dpkg --print-architecture) && \
     curl -JLO "https://dl.filippo.io/mkcert/latest?for=linux/${ARCH}" && \

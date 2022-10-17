@@ -12,12 +12,12 @@ fi
 REPO="${LOCALDEV_REPO:-/repo}"
 
 docker build \
-  --build-arg CUST_CODE=${CUST_CODE} \
+  --build-arg LFRDEV_DOMAIN=${LFRDEV_DOMAIN} \
   -t localdev-dnsmasq \
   ${REPO}/docker/images/localdev-dnsmasq
 
 # start dnsmasq and detach it to the background
-# this will to route all '*.<custCode>.lfr.dev' hosts to local network gateway (traefik)
+# this will to route all '*.*.lfr.dev' hosts to local network gateway (traefik)
 docker run \
   -d \
   --name localdev-dnsmasq \
