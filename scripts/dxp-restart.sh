@@ -18,11 +18,6 @@ if [ ! -z "$EXISTING_DXP_SERVER" ]; then
   fi
 fi
 
-docker build \
-  --build-arg CUST_CODE=${CUST_CODE} \
-  -t dxp-server \
-  ${REPO}/docker/images/dxp-server
-
 KUBERNETES_CERTIFICATE=$(${REPO}/scripts/k8s-certificate.sh)
 KUBERNETES_TOKEN=$(${REPO}/scripts/k8s-token.sh)
 

@@ -21,7 +21,11 @@ fi
 declare -a host_aliases=("dxp" "vi")
 HOST_ALIASES="['dxp', 'vi']"
 
-ytt -f ${REPO}/k8s/k3d --data-value-yaml "hostAliases=$HOST_ALIASES" > .cluster_config.yaml
+ytt \
+  -f ${REPO}/k8s/k3d \
+  --data-value-yaml "hostAliases=$HOST_ALIASES" \
+  --data-value-yaml "custCode=$CUST_CODE" \
+    > .cluster_config.yaml
 
 k3d cluster create \
   --config .cluster_config.yaml \
@@ -79,6 +83,7 @@ do
     -f ${REPO}/k8s/endpoint \
     --data-value "id=${hostAlias}" \
     --data-value-yaml "dockerHostAddress=${ADDRESS}" \
+    --data-value "custCode=${CUST_CODE}" \
     --data-value "virtualInstanceId=dxp.${CUST_CODE}.lfr.dev" | kubectl apply -f-
 done
 
