@@ -37,7 +37,7 @@ RUN \
   export ARCH=$(dpkg --print-architecture) && \
     curl -JLO "https://dl.filippo.io/mkcert/latest?for=linux/${ARCH}" && \
     chmod +x mkcert-v*-linux-${ARCH} && \
-    sudo cp mkcert-v*-linux-${ARCH} /usr/local/bin/mkcert && \
+    cp mkcert-v*-linux-${ARCH} /usr/local/bin/mkcert && \
     mkdir /var/lib/caroot
 
 ENV TRUST_STORES=system,java

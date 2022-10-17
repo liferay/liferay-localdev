@@ -10,9 +10,12 @@ function copy_configs {
 		tree --noreport "${CONFIGS_DIR}"
 
 		echo ""
-		echo "Processing config..."
+		echo "Processing configs..."
 
 		find "${CONFIGS_DIR}" -type f -print0 | xargs sed -i "s/__CUST_CODE__/${CUST_CODE}/g"
+		for i in $(find "${CONFIGS_DIR}" -type f -print | grep __CUST_CODE__); do
+			mv $i $(echo $i | sed "s/__CUST_CODE__/${CUST_CODE}/g")
+		done
 
 		echo ""
 		echo "[LIFERAY] ... into ${LIFERAY_HOME}."
