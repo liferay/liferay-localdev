@@ -80,6 +80,7 @@ watch_file("%s/k8s/endpoint/" % repo)
 watch_file("%s/k8s/workloads/" % repo)
 
 if config.tilt_subcommand == 'down':
+  local('kubectl delete cm -l lxc.liferay.com/metadataType=dxp')
   local('kubectl delete cm -l lxc.liferay.com/metadataType=ext-init')
   local('kubectl delete cm -l lxc.liferay.com/metadataType=ext-provision')
   local("%s/scripts/dxp-stop.sh" % repo)
