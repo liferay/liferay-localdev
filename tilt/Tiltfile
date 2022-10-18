@@ -132,6 +132,7 @@ for client_extension_yaml_file in client_extension_yaml_files:
   watch=[]
   cpu=''
   memory=''
+  links=[]
 
   if client_extension_object.get('runtime'):
     if client_extension_object['runtime'].get('workload') != None:

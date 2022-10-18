@@ -40,7 +40,7 @@ git clone \
 
 FOUND_EXT_PROVISION_CONFIG_MAPS=0
 
-until [ "$FOUND_EXT_PROVISION_CONFIG_MAPS" == "7" ]; do
+until [ "$FOUND_EXT_PROVISION_CONFIG_MAPS" == "5" ]; do
   sleep 1
   FOUND_EXT_PROVISION_CONFIG_MAPS=$(docker exec -i localdev-server-test-start /entrypoint.sh kubectl get cm | grep ext-provision-metadata | wc -l | xargs)
   echo "FOUND_EXT_PROVISION_CONFIG_MAPS=${FOUND_EXT_PROVISION_CONFIG_MAPS}"

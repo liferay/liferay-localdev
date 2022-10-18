@@ -26,7 +26,7 @@ gradle.projectsEvaluated {
       }
 
       assembleClientExtension {
-        from "${System.env.LOCALDEV_REPO}/k8s/tls/rootCA.pem"
+        from "/repo/k8s/tls/rootCA.pem"
       }
 
       task applyClientExtensionConfigMap {

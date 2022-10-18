@@ -25,4 +25,4 @@ jobs:
           DOCKER_NETWORK: "host"
         run: |
           export LOCALDEV_REPO=${GITHUB_WORKSPACE}
-          ./tests/scripts/test-demo-workspace.sh
+          ./tests/functional/test-demo-workspace.sh
