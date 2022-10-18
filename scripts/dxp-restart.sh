@@ -9,7 +9,7 @@ REPO="${LOCALDEV_REPO:-/repo}"
 EXISTING_DXP_SERVER=$(docker ps -f name=dxp-server | grep dxp-server | awk '{print $1}')
 
 if [ ! -z "$EXISTING_DXP_SERVER" ]; then
-  docker kill $EXISTING_DXP_SERVER
+  docker container rm -f $EXISTING_DXP_SERVER
 
   EXISTING_DXP_SERVER=$(docker ps -f name=dxp-server | grep dxp-server | awk '{print $1}')
   if [ ! -z "$EXISTING_DXP_SERVER" ]; then
@@ -44,4 +44,5 @@ docker run \
   -e KUBERNETES_NAMESPACE=default \
   -e KUBERNETES_CERTIFICATE="$KUBERNETES_CERTIFICATE" \
   -e KUBERNETES_TOKEN="$KUBERNETES_TOKEN" \
+  -e LFRDEV_DOMAIN="$LFRDEV_DOMAIN" \
   $IMAGE
