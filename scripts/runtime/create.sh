@@ -50,8 +50,8 @@ kubectl create -f ${REPO}/k8s/k3d/token.yaml
 kubectl create -f ${REPO}/k8s/k3d/rbac.yaml
 
 kubectl create secret generic lfrdev-tls-secret \
-  --from-file=tls.crt=${REPO}/k8s/tls/_wildcard.${LFRDEV_DOMAIN}.crt \
-  --from-file=tls.key=${REPO}/k8s/tls/_wildcard.${LFRDEV_DOMAIN}.key  \
+  --from-file=tls.crt=${REPO}/k8s/tls/${LFRDEV_DOMAIN}.crt \
+  --from-file=tls.key=${REPO}/k8s/tls/${LFRDEV_DOMAIN}.key  \
   --namespace default
 
 # poll until coredns is updated with docker host address

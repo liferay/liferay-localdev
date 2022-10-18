@@ -1,1 +1,4 @@
-*.pem
+# lcectl cli will generate these files into this dir
+lfrdev.crt
+lfrdev.key
+rootCA.pem
