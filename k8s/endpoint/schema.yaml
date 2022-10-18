@@ -5,4 +5,4 @@ dockerHostAddress: ""
 dockerHostPort: 18081
 tlsSecretName: "lfrdev-tls-secret"
 virtualInstanceId: ""
-lfrdevDomain: ""
+lfrdevDomain: "lfr.dev"

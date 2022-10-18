@@ -23,7 +23,7 @@ def process_extension(
     "--stacktrace",
     "-PserviceId=%s" % name,
     "-PvirtualInstanceId=%s" % virtual_instance_id,
-    "-PlfrdevDomain=%s" % LFRDEV_DOMAIN,
+    "-PlfrdevDomain=%s" % lfrdev_domain,
     "-PimageId=$EXPECTED_REF"])
 
   custom_build(
@@ -51,7 +51,7 @@ def process_extension(
     "--data-value serviceId=%s" % name,
     "--data-value-yaml targetPort=%s" % targetPort,
     "--data-value virtualInstanceId=%s" % virtual_instance_id,
-    "--data-value lfrdevDomain=%s" % LFRDEV_DOMAIN]
+    "--data-value lfrdevDomain=%s" % lfrdev_domain]
 
   if cpu != '':
     ytt_args.append("--data-value-yaml cpu=%s" % cpu)
