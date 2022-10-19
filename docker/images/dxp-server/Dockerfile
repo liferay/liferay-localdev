@@ -31,20 +31,13 @@ RUN \
 
 USER root
 
-RUN apt-get update && apt-get install libnss3-tools
+COPY rootCA.pem /usr/lib/jvm/zulu11/lib/security
 
 RUN \
-  export ARCH=$(dpkg --print-architecture) && \
-    curl -JLO "https://dl.filippo.io/mkcert/latest?for=linux/${ARCH}" && \
-    chmod +x mkcert-v*-linux-${ARCH} && \
-    cp mkcert-v*-linux-${ARCH} /usr/local/bin/mkcert && \
-    mkdir /var/lib/caroot
-
-ENV TRUST_STORES=system,java
-ENV CAROOT=/var/lib/caroot
-
-COPY rootCA.pem /var/lib/caroot
-
-RUN mkcert -install
+	keytool -noprompt -trustcacerts -importcert \
+		-alias project-cert \
+		-storepass changeit \
+		-cacerts \
+		-file /usr/lib/jvm/zulu11/lib/security/rootCA.pem
 
 USER liferay:liferay
