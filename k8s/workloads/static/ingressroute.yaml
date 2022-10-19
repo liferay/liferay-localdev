@@ -10,7 +10,7 @@ spec:
     - websecure
   routes:
   - kind: Rule
-    match: #@ "Host(`{}.localdev.me`)".format(data.values.serviceId)
+    match: #@ "Host(`{}.{}`)".format(data.values.serviceId, data.values.lfrdevDomain)
     services:
     - name: #@ data.values.serviceId
       port: 80

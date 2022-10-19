@@ -10,6 +10,7 @@ RUN apt-get update && \
         gnupg \
         iputils-ping \
         jq \
+        libnss3-tools \
         lsb-release \
         openssl \
         sudo \
@@ -95,8 +96,17 @@ COPY workspace/build.gradle /workspace/build.gradle
 
 COPY entrypoint.sh /entrypoint.sh
 
-COPY ca.crt /usr/local/share/ca-certificates/localdev.me.crt
+RUN \
+  export ARCH=$(dpkg --print-architecture) && \
+    curl -JLO "https://dl.filippo.io/mkcert/latest?for=linux/${ARCH}" && \
+    chmod +x mkcert-v*-linux-${ARCH} && \
+    sudo cp mkcert-v*-linux-${ARCH} /usr/local/bin/mkcert && \
+    mkdir /var/lib/caroot
 
-RUN update-ca-certificates
+ENV TRUST_STORES=system,java
+ENV CAROOT=/var/lib/caroot
+COPY rootCA.pem ${CAROOT}
+
+RUN mkcert -install
 
 ENTRYPOINT [ "/entrypoint.sh" ]

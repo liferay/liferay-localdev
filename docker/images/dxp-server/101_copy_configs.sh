@@ -10,6 +10,16 @@ function copy_configs {
 		tree --noreport "${CONFIGS_DIR}"
 
 		echo ""
+		echo "Processing configs..."
+
+		for file in $(find "${CONFIGS_DIR}" -type f -print); do
+			sed -i "s/__LFRDEV_DOMAIN__/${LFRDEV_DOMAIN}/g" $file
+		done
+		for file in $(find "${CONFIGS_DIR}" -type f -print | grep __LFRDEV_DOMAIN__); do
+			mv $file $(echo $file | sed "s/__LFRDEV_DOMAIN__/${LFRDEV_DOMAIN}/g")
+		done
+
+		echo ""
 		echo "[LIFERAY] ... into ${LIFERAY_HOME}."
 
 		cp -R "${CONFIGS_DIR}"/* ${LIFERAY_HOME}

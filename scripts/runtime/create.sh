@@ -21,11 +21,15 @@ fi
 declare -a host_aliases=("dxp" "vi")
 HOST_ALIASES="['dxp', 'vi']"
 
-ytt -f ${REPO}/k8s/k3d --data-value-yaml "hostAliases=$HOST_ALIASES" > .cluster_config.yaml
+ytt \
+  -f ${REPO}/k8s/k3d \
+  --data-value-yaml "hostAliases=$HOST_ALIASES" \
+  --data-value-yaml "lfrdevDomain=$LFRDEV_DOMAIN" \
+    > .cluster_config.yaml
 
 k3d cluster create \
   --config .cluster_config.yaml \
-  --registry-create registry.localdev.me:50505 \
+  --registry-create registry.lfr.dev:50505 \
   --wait
 
 kubectl config use-context k3d-localdev
@@ -45,9 +49,9 @@ echo -e "SERVICEACOUNT_STATUS: Available."
 kubectl create -f ${REPO}/k8s/k3d/token.yaml
 kubectl create -f ${REPO}/k8s/k3d/rbac.yaml
 
-kubectl create secret generic localdev-tls-secret \
-  --from-file=tls.crt=${REPO}/k8s/tls/localdev.me.crt \
-  --from-file=tls.key=${REPO}/k8s/tls/localdev.me.key  \
+kubectl create secret generic lfrdev-tls-secret \
+  --from-file=tls.crt=${REPO}/k8s/tls/${LFRDEV_DOMAIN}.crt \
+  --from-file=tls.key=${REPO}/k8s/tls/${LFRDEV_DOMAIN}.key  \
   --namespace default
 
 # poll until coredns is updated with docker host address
@@ -79,7 +83,8 @@ do
     -f ${REPO}/k8s/endpoint \
     --data-value "id=${hostAlias}" \
     --data-value-yaml "dockerHostAddress=${ADDRESS}" \
-    --data-value "virtualInstanceId=dxp.localdev.me" | kubectl apply -f-
+    --data-value "lfrdevDomain=${LFRDEV_DOMAIN}" \
+    --data-value "virtualInstanceId=dxp.${LFRDEV_DOMAIN}" | kubectl apply -f-
 done
 
 echo "'localdev' runtime environment created."
