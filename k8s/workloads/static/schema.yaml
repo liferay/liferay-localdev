@@ -1,6 +1,8 @@
 #@data/values-schema
 ---
 cpu: "50m"
+#@schema/type any=True
+env: []
 image: ""
 dxpMetadata: #@ True
 initMetadata: #@ False

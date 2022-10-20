@@ -5,7 +5,8 @@ lfrdev_domain=os.environ.get('LFRDEV_DOMAIN')
 # Function process_extension
 def process_extension(
     name, projectPath, workload, targetPort, virtual_instance_id="dxp.%s" % lfrdev_domain,
-    source_deps=[], objects=[], port_forwards=[], resource_deps=[], links=[], cpu='', memory=''):
+    source_deps=[], objects=[], port_forwards=[], resource_deps=[], links=[], cpu='', memory='',
+    env=[]):
 
   more_deps = []
   for source_dep in source_deps:
@@ -55,9 +56,12 @@ def process_extension(
 
   if cpu != '':
     ytt_args.append("--data-value-yaml cpu=%s" % cpu)
-  
+
   if memory != '':
     ytt_args.append("--data-value-yaml memory=%s" % memory)
+
+  if env != '':
+    ytt_args.append("--data-value-yaml env='%s'" % env)
 
   find_args=[
     "find /workspace/client-extensions/%s" % name,
@@ -76,7 +80,7 @@ def process_extension(
 
   if workload != 'job':
     objects=[
-      "%s:ingress" % name, 
+      "%s:ingress" % name,
       "%s:ingressroute" % name]
 
   k8s_resource(
@@ -149,6 +153,7 @@ for client_extension_yaml_file in client_extension_yaml_files:
   watch=[]
   cpu=''
   memory=''
+  env=[]
   links=[]
 
   if client_extension_object.get('runtime'):
@@ -169,7 +174,10 @@ for client_extension_yaml_file in client_extension_yaml_files:
 
     if client_extension_object['runtime'].get('memory') != None:
       memory=client_extension_object['runtime']['memory']
-  
+
+    if client_extension_object['runtime'].get('env') != None:
+      env=client_extension_object['runtime']['env']
+
   if workload != 'job':
     links=[link("https://%s.%s" % (client_extension_name, lfrdev_domain))]
 
@@ -185,5 +193,6 @@ for client_extension_yaml_file in client_extension_yaml_files:
     workload=workload,
     cpu=cpu,
     memory=memory,
+    env=env,
     resource_deps=resource_deps,
     links=links)
