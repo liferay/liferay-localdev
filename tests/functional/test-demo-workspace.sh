@@ -10,7 +10,7 @@ git clone \
 
 cd ${LOCALDEV_REPO}/tests/work/lcectl
 
-./gow run main.go config set localdev.resources.dir ${LOCALDEV_REPO} 
+./gow run main.go config set localdev.resources.dir ${LOCALDEV_REPO}
 
 ./gow run main.go config set localdev.resources.sync false
 
@@ -19,14 +19,14 @@ cd ${LOCALDEV_REPO}/tests/work/lcectl
 ./gow run main.go runtime mkcert
 
 git clone \
-  --branch lfrdevDomains \
+  --branch jwt \
   --depth 1 \
-  https://github.com/gamerson/gartner-client-extensions-demo \
+  https://github.com/rotty3000/gartner-client-extensions-demo \
   ${LOCALDEV_REPO}/tests/work/gartner-client-extensions-demo
 
 ./gow run main.go runtime create -v
 
-./gow run main.go ext start -d ${LOCALDEV_REPO}/tests/work/gartner-client-extensions-demo 
+./gow run main.go ext start -d ${LOCALDEV_REPO}/tests/work/gartner-client-extensions-demo
 
 FOUND_LOCALDEV_SERVER=0
 
