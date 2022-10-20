@@ -13,6 +13,6 @@ fi
 
 export DO_NOT_TRACK=1
 
-tilt up -f ${REPO}/tilt/Tiltfile
+tilt up -f ${REPO}/tilt/Tiltfile $@
 
 echo "'localdev' extension environment started."

@@ -1,0 +1,24 @@
+#@ load("@ytt:data", "data")
+#@ load("@ytt:template", "template")
+
+#@ def parse(jsonfile):
+#@ key = jsonfile
+#@ return {key: data.read(jsonfile)}
+#@ end
+
+#@ files = data.list()
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: #@ "{}-{}-lxc-ext-provision-metadata".format(data.values.serviceId, data.values.virtualInstanceId)
+  labels:
+    app: #@ data.values.serviceId
+    lxc.liferay.com/metadataType: "ext-provision"
+    dxp.lxc.liferay.com/virtualInstanceId: #@ data.values.virtualInstanceId
+    ext.lxc.liferay.com/serviceId: #@ data.values.serviceId
+  annotations:
+    ext.lxc.liferay.com/mainDomain: #@ "{}.{}".format(data.values.serviceId, data.values.lfrdevDomain)
+    ext.lxc.liferay.com/domains: #@ "{}.{}".format(data.values.serviceId, data.values.lfrdevDomain)
+data:
+#@ for/end jsonfile in [ f for f in files if f.endswith(".json") ]:
+  _: #@ template.replace(parse(jsonfile))
