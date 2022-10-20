@@ -122,7 +122,8 @@ local_resource(
   labels=['DXP'])
 
 # create all client-extension-config.json files
-local("/workspace/gradlew --project-dir /workspace clean createClientExtensionConfig")
+if config.tilt_subcommand != 'down':
+  local("/workspace/gradlew --project-dir /workspace clean createClientExtensionConfig")
 
 client_extension_yaml_files=str(
   local(
