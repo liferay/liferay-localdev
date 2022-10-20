@@ -19,9 +19,9 @@ cd ${LOCALDEV_REPO}/tests/work/lcectl
 ./gow run main.go runtime mkcert
 
 git clone \
-  --branch jwt \
+  --branch master \
   --depth 1 \
-  https://github.com/rotty3000/gartner-client-extensions-demo \
+  https://github.com/gamerson/gartner-client-extensions-demo \
   ${LOCALDEV_REPO}/tests/work/gartner-client-extensions-demo
 
 ./gow run main.go runtime create -v
