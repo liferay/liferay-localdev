@@ -19,7 +19,7 @@ def process_extension(
     "/workspace",
     ":%s:clean" % gradlePath,
     ":%s:buildClientExtensionDockerImage" % gradlePath,
-    ":%s:applyClientExtensionConfigMap" % gradlePath,
+    #":%s:applyClientExtensionConfigMap" % gradlePath,
     "--stacktrace",
     "-PserviceId=%s" % name,
     "-PvirtualInstanceId=%s" % virtual_instance_id,
@@ -59,6 +59,19 @@ def process_extension(
   if memory != '':
     ytt_args.append("--data-value-yaml memory=%s" % memory)
 
+  find_args=[
+    "find /workspace/client-extensions/%s" % name,
+    "-name *.client-extension-config.json",
+    "-not -path '*/node_modules/*' -not -path '*/node_modules_cache/*'",
+    "2>/dev/null"
+  ]
+
+  client_extension_config_json_files=str(local(" ".join(find_args))).splitlines()
+
+  for json_file in client_extension_config_json_files:
+    print("json_file=%s" % json_file)
+    ytt_args.append("-f %s" % json_file)
+
   k8s_yaml(local(" ".join(ytt_args)))
 
   if workload != 'job':
@@ -69,8 +82,8 @@ def process_extension(
   k8s_resource(
     labels=['Extensions'],
     port_forwards=port_forwards,
-    objects=objects,
-    #objects=['%s-%s-lxc-ext-provision-metadata:configmap' % (name, virtual_instance_id)] + objects,
+    #objects=objects,
+    objects=['%s-%s-lxc-ext-provision-metadata:configmap' % (name, virtual_instance_id)] + objects,
     resource_deps=["dxp.%s" % lfrdev_domain] + resource_deps,
     workload=name,
     links=links)
@@ -107,6 +120,9 @@ local_resource(
     link("https://dxp.%s/o/api" % lfrdev_domain, 'Liferay API Explorer'),
   ],
   labels=['DXP'])
+
+# create all client-extension-config.json files
+local("/workspace/gradlew --project-dir /workspace clean createClientExtensionConfig")
 
 client_extension_yaml_files=str(
   local(
