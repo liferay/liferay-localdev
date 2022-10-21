@@ -3,7 +3,7 @@
 set -e
 
 git clone \
-  --branch yamlConfigFileFix \
+  --branch main \
   --depth 1 \
   https://github.com/liferay/liferay-cli \
   ${LOCALDEV_REPO}/tests/work/liferay
@@ -19,7 +19,7 @@ cd ${LOCALDEV_REPO}/tests/work/liferay
 ./gow run main.go runtime mkcert
 
 git clone \
-  --branch workspaceUpdate1 \
+  --branch master \
   --depth 1 \
   https://github.com/gamerson/gartner-client-extensions-demo \
   ${LOCALDEV_REPO}/tests/work/gartner-client-extensions-demo
