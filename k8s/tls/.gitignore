@@ -1,4 +1,4 @@
-# lcectl cli will generate these files
+# liferay cli will generate these files
 *.crt
 *.key
 rootCA.pem

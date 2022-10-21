@@ -3,12 +3,12 @@
 set -e
 
 git clone \
-  --branch mkcertIntegration \
+  --branch main \
   --depth 1 \
-  https://github.com/gamerson/lcectl \
-  ${LOCALDEV_REPO}/tests/work/lcectl
+  https://github.com/liferay/liferay-cli \
+  ${LOCALDEV_REPO}/tests/work/liferay
 
-cd ${LOCALDEV_REPO}/tests/work/lcectl
+cd ${LOCALDEV_REPO}/tests/work/liferay
 
 ./gow run main.go config set localdev.resources.dir ${LOCALDEV_REPO}
 
