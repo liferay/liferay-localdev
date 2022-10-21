@@ -3,7 +3,7 @@
 set -e
 
 git clone \
-  --branch main \
+  --branch yamlConfigFileFix \
   --depth 1 \
   https://github.com/liferay/liferay-cli \
   ${LOCALDEV_REPO}/tests/work/liferay
