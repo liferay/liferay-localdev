@@ -19,7 +19,7 @@ cd ${LOCALDEV_REPO}/tests/work/liferay
 ./gow run main.go runtime mkcert
 
 git clone \
-  --branch master \
+  --branch workspaceUpdate1 \
   --depth 1 \
   https://github.com/gamerson/gartner-client-extensions-demo \
   ${LOCALDEV_REPO}/tests/work/gartner-client-extensions-demo
