@@ -141,9 +141,15 @@ client_extension_yaml_files=str(
   )
 ).splitlines()
 
+tiltignores=str(read_file("/workspace/client-extensions/.tiltignore", "")).splitlines()
+
 for client_extension_yaml_file in client_extension_yaml_files:
   project_path=os.path.dirname(client_extension_yaml_file)
   client_extension_name=os.path.basename(project_path)
+
+  if client_extension_name in tiltignores:
+    continue
+
   client_extension_object=read_yaml(client_extension_yaml_file)
 
   # defaults
