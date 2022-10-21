@@ -1,5 +1,8 @@
 import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
 
+// workaround since tilt assumes that there is at least one of these tasks available
+task createClientExtensionConfig
+
 gradle.projectsEvaluated {
   buildDockerImage.dependsOn = buildDockerImage.dependsOn.findAll { !it.path.startsWith(":client-extensions") }
 
