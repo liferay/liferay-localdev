@@ -127,7 +127,7 @@ local_resource(
 
 # create all client-extension-config.json files
 if config.tilt_subcommand != 'down':
-  local("/workspace/gradlew --project-dir /workspace clean createClientExtensionConfig")
+  local("/workspace/gradlew --project-dir /workspace --stacktrace clean createClientExtensionConfig")
 
 client_extension_yaml_files=str(
   local(
@@ -163,26 +163,34 @@ for client_extension_yaml_file in client_extension_yaml_files:
   links=[]
 
   if client_extension_object.get('runtime'):
-    if client_extension_object['runtime'].get('workload') != None:
-      workload=client_extension_object['runtime']['workload']
+    runtime=client_extension_object['runtime']
 
-    if client_extension_object['runtime'].get('deps') != None:
-      resource_deps=[client_extension_object['runtime']['deps'][0]]
+    if runtime.get('type'):
+      type=runtime['type']
 
-    if client_extension_object['runtime'].get('port') != None:
-      targetPort=client_extension_object['runtime']['port']
+      if type == 'configuration':
+        workload='job'
+      else:
+        if type == 'service':
+          workload='deployment'
 
-    if client_extension_object['runtime'].get('watch') != None:
-      watch=client_extension_object['runtime']['watch']
+    if runtime.get('deps'):
+      resource_deps=[runtime['deps'][0]]
 
-    if client_extension_object['runtime'].get('cpu') != None:
-      cpu=client_extension_object['runtime']['cpu']
+    if runtime.get('port'):
+      targetPort=runtime['port']
 
-    if client_extension_object['runtime'].get('memory') != None:
-      memory=client_extension_object['runtime']['memory']
+    if runtime.get('watch'):
+      watch=runtime['watch']
 
-    if client_extension_object['runtime'].get('env') != None:
-      env=client_extension_object['runtime']['env']
+    if runtime.get('cpu'):
+      cpu=runtime['cpu']
+
+    if runtime.get('memory'):
+      memory=runtime['memory']
+
+    if runtime.get('env') != None:
+      env=runtime['env']
 
   if workload != 'job':
     links=[link("https://%s.%s" % (client_extension_name, lfrdev_domain))]
