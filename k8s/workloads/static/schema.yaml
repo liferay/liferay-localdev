@@ -2,7 +2,7 @@
 ---
 cpu: "50m"
 #@schema/type any=True
-env: []
+envs: []
 image: ""
 dxpMetadata: #@ True
 initMetadata: #@ False

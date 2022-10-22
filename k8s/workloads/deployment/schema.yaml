@@ -2,7 +2,7 @@
 ---
 cpu: "500m"
 #@schema/type any=True
-env: []
+envs: []
 debugPort: 8001
 image: ""
 dxpMetadata: #@ True
