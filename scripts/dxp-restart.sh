@@ -18,8 +18,8 @@ if [ ! -z "$EXISTING_DXP_SERVER" ]; then
   fi
 fi
 
-KUBERNETES_CERTIFICATE=$(${REPO}/scripts/k8s-certificate.sh)
-KUBERNETES_TOKEN=$(${REPO}/scripts/k8s-token.sh)
+KUBERNETES_CERTIFICATE=$(${REPO}/scripts/k8s/certificate.sh)
+KUBERNETES_TOKEN=$(${REPO}/scripts/k8s/token.sh)
 
 # ensure the dnsmasq server has been started
 ${REPO}/scripts/dnsmasq-start.sh
