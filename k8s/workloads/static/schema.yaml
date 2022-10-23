@@ -11,3 +11,4 @@ serviceId: ""
 targetPort: 80
 virtualInstanceId: ""
 lfrdevDomain: "lfr.dev"
+tlsSecretName: "lfrdev-tls-secret"

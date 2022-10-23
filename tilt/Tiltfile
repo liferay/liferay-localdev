@@ -20,7 +20,6 @@ def process_extension(
     "/workspace",
     ":%s:clean" % gradlePath,
     ":%s:buildClientExtensionDockerImage" % gradlePath,
-    #":%s:applyClientExtensionConfigMap" % gradlePath,
     "--stacktrace",
     "-PserviceId=%s" % name,
     "-PvirtualInstanceId=%s" % virtual_instance_id,
@@ -53,17 +52,12 @@ def process_extension(
 
   k8s_custom_deploy(
     name,
-    "%s/scripts/k8s/delete.py && %s/scripts/k8s/apply.py" % (repo, repo),
+    "%s/scripts/k8s/delete.py 2>/dev/null && %s/scripts/k8s/apply.py" % (repo, repo),
     "%s/scripts/k8s/delete.py" % repo,
     deps=["/workspace/client-extensions/%s/build/clientExtension/" % projectPath],
     apply_env=deploy_env,
     delete_env=deploy_env,
     image_deps=[name])
-
-  if workload != 'job':
-    objects=[
-      "%s:ingress" % name,
-      "%s:ingressroute" % name]
 
   k8s_resource(
     labels=['Extensions'],
@@ -82,8 +76,7 @@ watch_file("%s/scripts/k8s/" % repo)
 
 if config.tilt_subcommand == 'down':
   local('kubectl delete cm -l lxc.liferay.com/metadataType=dxp')
-  #local('kubectl delete cm -l lxc.liferay.com/metadataType=ext-init')
-  #local('kubectl delete cm -l lxc.liferay.com/metadataType=ext-provision')
+  local('kubectl delete cm -l lxc.liferay.com/metadataType=ext-init')
   local("%s/scripts/dxp-stop.sh" % repo)
 
 # build and launch dxp
