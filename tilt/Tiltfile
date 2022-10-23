@@ -127,7 +127,17 @@ local_resource(
 
 # create all client-extension-config.json files
 if config.tilt_subcommand != 'down':
-  local("/workspace/gradlew --project-dir /workspace --stacktrace clean createClientExtensionConfig")
+  local(" ".join([
+    "/workspace/gradlew",
+    "--project-dir",
+    "/workspace",
+    "--stacktrace",
+    "clean",
+    "createClientExtensionConfig",
+    "-x", ":cleanDockerImage",
+    "-x", ":removeDockerContainer",
+    "-x", ":stopDockerContainer",
+    ]))
 
 client_extension_yaml_files=str(
   local(
