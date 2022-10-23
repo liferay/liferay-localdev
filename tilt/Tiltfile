@@ -53,7 +53,7 @@ def process_extension(
 
   k8s_custom_deploy(
     name,
-    "%s/scripts/k8s/apply.py" % repo,
+    "%s/scripts/k8s/delete.py && %s/scripts/k8s/apply.py" % (repo, repo),
     "%s/scripts/k8s/delete.py" % repo,
     deps=["/workspace/client-extensions/%s/build/clientExtension/" % projectPath],
     apply_env=deploy_env,

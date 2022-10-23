@@ -1,20 +1,20 @@
 #!/usr/bin/python3
-import os
 import ast
+import os
 
-def yaml():
-  cpu=os.environ.get('CPU', None)
-  envs = ast.literal_eval(os.environ.get('ENVS', None))
-  lfrdev_domain=os.environ.get('LFRDEV_DOMAIN', 'lfr.dev')
-  memory=os.environ.get('MEMORY', None)
-  name=os.environ.get('NAME')
-  repo=os.environ.get('LOCALDEV_REPO', '/repo')
-  target_port=os.environ.get('TARGET_PORT', 8080)
-  tilt_image_0=os.environ['TILT_IMAGE_0']
-  virtual_instance_id=os.environ.get('VIRTUAL_INSTANCE_ID', 'dxp.lfr.dev')
-  workload=os.environ.get('WORKLOAD')
-  workspace=os.environ.get('WORKSPACE', '/workspace')
+cpu=os.environ.get('CPU', None)
+envs = ast.literal_eval(os.environ.get('ENVS', None))
+lfrdev_domain=os.environ.get('LFRDEV_DOMAIN', 'lfr.dev')
+memory=os.environ.get('MEMORY', None)
+name=os.environ.get('NAME')
+repo=os.environ.get('LOCALDEV_REPO', '/repo')
+target_port=os.environ.get('TARGET_PORT', 8080)
+tilt_image_0=os.environ['TILT_IMAGE_0']
+virtual_instance_id=os.environ.get('VIRTUAL_INSTANCE_ID', 'dxp.lfr.dev')
+workload=os.environ.get('WORKLOAD')
+workspace=os.environ.get('WORKSPACE', '/workspace')
 
+def generate_yaml():
   init_metadata = False
 
   if workload != "static":
@@ -51,5 +51,3 @@ def yaml():
     ytt_args.append("-f %s" % json_file)
 
   return os.popen(' '.join(ytt_args)).read()
-
-print(yaml())

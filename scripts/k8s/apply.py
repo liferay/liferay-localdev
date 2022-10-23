@@ -1,12 +1,18 @@
 #!/usr/bin/python3
 import generate
 import os
+import uuid
 
-yaml=generate.yaml()
+tmp_filename="/tmp/apply-%s.yaml" % uuid.uuid1()
 
-with open('/tmp/apply.yaml', 'w') as f:
+def apply_yaml(yaml):
+  with open(tmp_filename, 'w') as f:
     f.write(yaml)
+  applied_yaml=os.popen("kubectl create -oyaml -f %s" % tmp_filename).read()
+  os.remove(tmp_filename)
+  return applied_yaml
 
-os.popen("kubectl apply -f /tmp/apply.yaml").read()
+print(apply_yaml(generate.generate_yaml()))
+#apply_yaml(generate.configmap_yaml())
 
-print(yaml)
+#print(workload_yaml)
