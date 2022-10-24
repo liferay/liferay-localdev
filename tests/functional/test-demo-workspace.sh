@@ -2,21 +2,33 @@
 
 set -e
 
-git clone \
-  --branch main \
-  --depth 1 \
-  https://github.com/liferay/liferay-cli \
-  ${LOCALDEV_REPO}/tests/work/liferay
+LIFERAY_CLI_BRANCH=""
 
-cd ${LOCALDEV_REPO}/tests/work/liferay
+mkdir -p ${LOCALDEV_REPO}/tests/work/
 
-./gow run main.go config set localdev.resources.dir ${LOCALDEV_REPO}
+if [ "$LIFERAY_CLI_BRANCH" != "" ]; then
+  git clone \
+    --branch main \
+    --depth 1 \
+    https://github.com/liferay/liferay-cli \
+    ${LOCALDEV_REPO}/tests/work/liferay
 
-./gow run main.go config set localdev.resources.sync false
+  cd ${LOCALDEV_REPO}/tests/work/liferay
 
-./gow run main.go runtime mkcert --install
+  CLI="./gow run main.go"
+else
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/liferay/liferay-cli/HEAD/install.sh)"
 
-./gow run main.go runtime mkcert
+  CLI="liferay"
+fi
+
+$CLI config set localdev.resources.dir ${LOCALDEV_REPO}
+
+$CLI config set localdev.resources.sync false
+
+$CLI runtime mkcert
+
+$CLI runtime mkcert --install
 
 git clone \
   --branch master \
@@ -24,9 +36,9 @@ git clone \
   https://github.com/gamerson/gartner-client-extensions-demo \
   ${LOCALDEV_REPO}/tests/work/gartner-client-extensions-demo
 
-./gow run main.go runtime create -v
+$CLI runtime create -v
 
-./gow run main.go ext start -d ${LOCALDEV_REPO}/tests/work/gartner-client-extensions-demo
+$CLI ext start -d ${LOCALDEV_REPO}/tests/work/gartner-client-extensions-demo
 
 FOUND_LOCALDEV_SERVER=0
 
@@ -54,4 +66,4 @@ until [ "$FOUND_EXT_INIT_CONFIG_MAPS" == "4" ]; do
   docker logs -n 100 localdev-extension-runtime
 done
 
-./gow run main.go runtime delete
+$CLI runtime delete
