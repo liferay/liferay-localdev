@@ -1,182 +1,207 @@
 # global vars
-repo=os.environ.get('LOCALDEV_REPO', '/repo')
-lfrdev_domain=os.environ.get('LFRDEV_DOMAIN')
+repo = os.environ.get("LOCALDEV_REPO", "/repo")
+lfrdev_domain = os.environ.get("LFRDEV_DOMAIN")
 
 # Function process_extension
 def process_extension(
-    name, projectPath, workload, targetPort, virtual_instance_id="dxp.%s" % lfrdev_domain,
-    source_deps=[], objects=[], port_forwards=[], resource_deps=[], links=[], cpu='', memory='',
-    envs=[]):
-
-  more_deps = []
-  for source_dep in source_deps:
-    more_deps.append("/workspace/%s/%s" % (projectPath, source_dep))
-
-  gradlePath=projectPath.replace('/', ':')
-
-  build_args=" ".join([
-    "/workspace/gradlew",
-    "--project-dir",
-    "/workspace",
-    ":%s:clean" % gradlePath,
-    ":%s:buildClientExtensionDockerImage" % gradlePath,
-    "--stacktrace",
-    "-PserviceId=%s" % name,
-    "-PvirtualInstanceId=%s" % virtual_instance_id,
-    "-PlfrdevDomain=%s" % lfrdev_domain,
-    "-PimageId=$EXPECTED_REF"])
-
-  custom_build(
     name,
-    build_args,
-    deps=[
-      "/workspace/%s/Dockerfile" % projectPath,
-      "/workspace/%s/assets" % projectPath,
-      "/workspace/%s/build.gradle" % projectPath,
-      "/workspace/%s/client-extension.yaml" % projectPath,
-      "/workspace/%s/src" % projectPath,
-    ] + more_deps,
-    ignore=[])
+    projectPath,
+    workload,
+    targetPort,
+    virtual_instance_id="dxp.%s" % lfrdev_domain,
+    source_deps=[],
+    objects=[],
+    port_forwards=[],
+    resource_deps=[],
+    links=[],
+    cpu="",
+    memory="",
+    envs=[],
+):
 
-  deploy_env={
-    'CPU': cpu,
-    'ENVS': str(envs),
-    'LFRDEV_DOMAIN': lfrdev_domain,
-    'LOCALDEV_REPO': repo,
-    'MEMORY': memory,
-    'NAME': name,
-    'TARGET_PORT': str(targetPort),
-    'VIRTUAL_INSTANCE_ID': virtual_instance_id,
-    'WORKLOAD': workload,
-  }
+    more_deps = []
+    for source_dep in source_deps:
+        more_deps.append("/workspace/%s/%s" % (projectPath, source_dep))
 
-  k8s_custom_deploy(
-    name,
-    "%s/scripts/k8s/delete.py 2>/dev/null && %s/scripts/k8s/create.py" % (repo, repo),
-    "%s/scripts/k8s/delete.py" % repo,
-    deps=["/workspace/client-extensions/%s/build/clientExtension/" % projectPath],
-    apply_env=deploy_env,
-    delete_env=deploy_env,
-    image_deps=[name])
+    gradlePath = projectPath.replace("/", ":")
 
-  k8s_resource(
-    labels=['Extensions'],
-    port_forwards=port_forwards,
-    objects=objects,
-    resource_deps=["dxp.%s" % lfrdev_domain] + resource_deps,
-    workload=name,
-    links=links)
+    build_args = " ".join(
+        [
+            "/workspace/gradlew",
+            "--project-dir",
+            "/workspace",
+            ":%s:clean" % gradlePath,
+            ":%s:buildClientExtensionDockerImage" % gradlePath,
+            "--stacktrace",
+            "-PserviceId=%s" % name,
+            "-PvirtualInstanceId=%s" % virtual_instance_id,
+            "-PlfrdevDomain=%s" % lfrdev_domain,
+            "-PimageId=$EXPECTED_REF",
+        ]
+    )
 
-#main code
+    custom_build(
+        name,
+        build_args,
+        deps=[
+            "/workspace/%s/Dockerfile" % projectPath,
+            "/workspace/%s/assets" % projectPath,
+            "/workspace/%s/build.gradle" % projectPath,
+            "/workspace/%s/client-extension.yaml" % projectPath,
+            "/workspace/%s/src" % projectPath,
+        ]
+        + more_deps,
+        ignore=[],
+    )
+
+    deploy_env = {
+        "CPU": cpu,
+        "ENVS": str(envs),
+        "LFRDEV_DOMAIN": lfrdev_domain,
+        "LOCALDEV_REPO": repo,
+        "MEMORY": memory,
+        "NAME": name,
+        "TARGET_PORT": str(targetPort),
+        "VIRTUAL_INSTANCE_ID": virtual_instance_id,
+        "WORKLOAD": workload,
+    }
+
+    k8s_custom_deploy(
+        name,
+        "%s/scripts/k8s/delete.py 2>/dev/null && %s/scripts/k8s/create.py"
+        % (repo, repo),
+        "%s/scripts/k8s/delete.py" % repo,
+        deps=["/workspace/client-extensions/%s/build/clientExtension/" % projectPath],
+        apply_env=deploy_env,
+        delete_env=deploy_env,
+        image_deps=[name],
+    )
+
+    k8s_resource(
+        labels=["Extensions"],
+        port_forwards=port_forwards,
+        objects=objects,
+        resource_deps=["dxp.%s" % lfrdev_domain] + resource_deps,
+        workload=name,
+        links=links,
+    )
+
+
+# main code
 update_settings(max_parallel_updates=1)
 
 watch_file("%s/k8s/endpoint/" % repo)
 watch_file("%s/k8s/workloads/" % repo)
 watch_file("%s/scripts/k8s/" % repo)
 
-if config.tilt_subcommand == 'down':
-  local('kubectl delete cm -l lxc.liferay.com/metadataType=dxp')
-  local('kubectl delete cm -l lxc.liferay.com/metadataType=ext-init')
-  local("%s/scripts/dxp-stop.sh" % repo)
+if config.tilt_subcommand == "down":
+    local("kubectl delete cm -l lxc.liferay.com/metadataType=dxp")
+    local("kubectl delete cm -l lxc.liferay.com/metadataType=ext-init")
+    local("%s/scripts/dxp-stop.sh" % repo)
 
 # build and launch dxp
 
 local_resource(
-  "dxp.%s" % lfrdev_domain,
-  cmd="%s/scripts/dxp-build.sh" % repo,
-  serve_cmd="%s/scripts/dxp-restart.sh" % repo,
-  deps=["%s/docker/images/dxp-server" % repo],
-  readiness_probe=probe(
-      initial_delay_secs=120,
-      timeout_secs=5,
-      period_secs=5,
-      failure_threshold=99,
-      exec=exec_action(["%s/scripts/dxp-status.sh" % repo])),
-  trigger_mode = TRIGGER_MODE_MANUAL,
-  links=[
-    link("https://dxp.%s" % lfrdev_domain),
-    link("https://dxp.%s/o/api" % lfrdev_domain, 'Liferay API Explorer'),
-  ],
-  labels=['DXP'])
+    "dxp.%s" % lfrdev_domain,
+    cmd="%s/scripts/dxp-build.sh" % repo,
+    serve_cmd="%s/scripts/dxp-restart.sh" % repo,
+    deps=["%s/docker/images/dxp-server" % repo],
+    readiness_probe=probe(
+        initial_delay_secs=120,
+        timeout_secs=5,
+        period_secs=5,
+        failure_threshold=99,
+        exec=exec_action(["%s/scripts/dxp-status.sh" % repo]),
+    ),
+    trigger_mode=TRIGGER_MODE_MANUAL,
+    links=[
+        link("https://dxp.%s" % lfrdev_domain),
+        link("https://dxp.%s/o/api" % lfrdev_domain, "Liferay API Explorer"),
+    ],
+    labels=["DXP"],
+)
 
-client_extension_yaml_files=str(
-  local(
-    """find \
+client_extension_yaml_files = str(
+    local(
+        """find \
       /workspace/client-extensions \
       -name client-extension.yaml \
       -not -path '*/build/*' \
       -not -path '*/node_modules/*' \
       -not -path '*/node_modules_cache/*' \
       2>/dev/null"""
-  )
+    )
 ).splitlines()
 
-tiltignores=str(read_file("/workspace/client-extensions/.tiltignore", "")).splitlines()
+tiltignores = str(
+    read_file("/workspace/client-extensions/.tiltignore", "")
+).splitlines()
 
 for client_extension_yaml_file in client_extension_yaml_files:
-  project_path=os.path.dirname(client_extension_yaml_file)
-  client_extension_name=os.path.basename(project_path)
+    project_path = os.path.dirname(client_extension_yaml_file)
+    client_extension_name = os.path.basename(project_path)
 
-  if client_extension_name in tiltignores:
-    continue
+    if client_extension_name in tiltignores:
+        continue
 
-  client_extension_object=read_yaml(client_extension_yaml_file)
+    client_extension_object = read_yaml(client_extension_yaml_file)
 
-  # defaults
-  workload='static'
-  resource_deps=[]
-  targetPort=80
-  watch=[]
-  cpu=''
-  memory=''
-  envs=[]
-  links=[]
+    # defaults
+    workload = "static"
+    resource_deps = []
+    targetPort = 80
+    watch = []
+    cpu = ""
+    memory = ""
+    envs = []
+    links = []
 
-  if client_extension_object.get('runtime'):
-    runtime=client_extension_object['runtime']
+    if client_extension_object.get("runtime"):
+        runtime = client_extension_object["runtime"]
 
-    if runtime.get('type'):
-      type=runtime['type']
+        if runtime.get("type"):
+            type = runtime["type"]
 
-      if type == 'configuration':
-        workload='job'
-      else:
-        if type == 'service':
-          workload='deployment'
+            if type == "configuration":
+                workload = "job"
+            else:
+                if type == "service":
+                    workload = "deployment"
 
-    if runtime.get('deps'):
-      resource_deps=[runtime['deps'][0]]
+        if runtime.get("deps"):
+            resource_deps = [runtime["deps"][0]]
 
-    if runtime.get('port'):
-      targetPort=runtime['port']
+        if runtime.get("port"):
+            targetPort = runtime["port"]
 
-    if runtime.get('watch'):
-      watch=runtime['watch']
+        if runtime.get("watch"):
+            watch = runtime["watch"]
 
-    if runtime.get('cpu'):
-      cpu=runtime['cpu']
+        if runtime.get("cpu"):
+            cpu = runtime["cpu"]
 
-    if runtime.get('memory'):
-      memory=runtime['memory']
+        if runtime.get("memory"):
+            memory = runtime["memory"]
 
-    if runtime.get('env'):
-      envs=runtime['env']
+        if runtime.get("env"):
+            envs = runtime["env"]
 
-  if workload != 'job':
-    links=[link("https://%s.%s" % (client_extension_name, lfrdev_domain))]
+    if workload != "job":
+        links = [link("https://%s.%s" % (client_extension_name, lfrdev_domain))]
 
-  # TODO call a script that can expand globs that may be passed into watch property
-  # paths=local(/repo/scripts/unroll-globs.sh watch)
-  # source_deps=paths
+    # TODO call a script that can expand globs that may be passed into watch property
+    # paths=local(/repo/scripts/unroll-globs.sh watch)
+    # source_deps=paths
 
-  process_extension(
-    client_extension_name,
-    "client-extensions/%s" % client_extension_name,
-    source_deps=watch,
-    targetPort=targetPort,
-    workload=workload,
-    cpu=cpu,
-    memory=memory,
-    envs=envs,
-    resource_deps=resource_deps,
-    links=links)
+    process_extension(
+        client_extension_name,
+        "client-extensions/%s" % client_extension_name,
+        source_deps=watch,
+        targetPort=targetPort,
+        workload=workload,
+        cpu=cpu,
+        memory=memory,
+        envs=envs,
+        resource_deps=resource_deps,
+        links=links,
+    )
