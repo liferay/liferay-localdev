@@ -15,4 +15,4 @@ spec:
     - name: #@ data.values.serviceId
       port: 80
   tls:
-    secretName: localdev-tls-secret
+    secretName: #@ data.values.tlsSecretName

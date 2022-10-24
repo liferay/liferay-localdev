@@ -2,7 +2,7 @@
 ---
 cpu: "50m"
 #@schema/type any=True
-env: []
+envs: []
 image: ""
 dxpMetadata: #@ True
 initMetadata: #@ False
@@ -11,3 +11,4 @@ serviceId: ""
 targetPort: 80
 virtualInstanceId: ""
 lfrdevDomain: "lfr.dev"
+tlsSecretName: "lfrdev-tls-secret"

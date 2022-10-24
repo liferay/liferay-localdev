@@ -2,7 +2,7 @@
 ---
 cpu: "100m"
 #@schema/type any=True
-env: []
+envs: []
 image: ""
 initMetadata: #@ True
 memory: "100Mi"

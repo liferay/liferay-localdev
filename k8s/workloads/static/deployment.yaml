@@ -18,11 +18,11 @@ spec:
       containers:
       - name: #@ data.values.serviceId
         image: #@ data.values.image
-        #@ if data.values.env:
+        #@ if data.values.envs:
         env:
-        #@ for/end entry in data.values.env:
-        - name: #@ entry.name
-          value: #@ entry.value
+        #@ for/end env in data.values.envs:
+        - name: #@ env.name
+          value: #@ env.value
         #@ end
         resources:
           limits:

@@ -6,7 +6,7 @@ lfrdev_domain=os.environ.get('LFRDEV_DOMAIN')
 def process_extension(
     name, projectPath, workload, targetPort, virtual_instance_id="dxp.%s" % lfrdev_domain,
     source_deps=[], objects=[], port_forwards=[], resource_deps=[], links=[], cpu='', memory='',
-    env=[]):
+    envs=[]):
 
   more_deps = []
   for source_dep in source_deps:
@@ -20,7 +20,6 @@ def process_extension(
     "/workspace",
     ":%s:clean" % gradlePath,
     ":%s:buildClientExtensionDockerImage" % gradlePath,
-    #":%s:applyClientExtensionConfigMap" % gradlePath,
     "--stacktrace",
     "-PserviceId=%s" % name,
     "-PvirtualInstanceId=%s" % virtual_instance_id,
@@ -39,70 +38,45 @@ def process_extension(
     ] + more_deps,
     ignore=[])
 
-  init_metadata = False
+  deploy_env={
+    'CPU': cpu,
+    'ENVS': str(envs),
+    'LFRDEV_DOMAIN': lfrdev_domain,
+    'LOCALDEV_REPO': repo,
+    'MEMORY': memory,
+    'NAME': name,
+    'TARGET_PORT': str(targetPort),
+    'VIRTUAL_INSTANCE_ID': virtual_instance_id,
+    'WORKLOAD': workload,
+  }
 
-  if workload != "static":
-    init_metadata = True
-
-  ytt_args=[
-    'ytt',
-    "-f %s/k8s/workloads/%s" % (repo, workload),
-    "--data-value-yaml initMetadata=%s" % init_metadata,
-    "--data-value image=%s" % name,
-    "--data-value serviceId=%s" % name,
-    "--data-value-yaml targetPort=%s" % targetPort,
-    "--data-value virtualInstanceId=%s" % virtual_instance_id,
-    "--data-value lfrdevDomain=%s" % lfrdev_domain]
-
-  if cpu != '':
-    ytt_args.append("--data-value-yaml cpu=%s" % cpu)
-
-  if memory != '':
-    ytt_args.append("--data-value-yaml memory=%s" % memory)
-
-  if env != '':
-    ytt_args.append("--data-value-yaml env='%s'" % env)
-
-  find_args=[
-    "find /workspace/client-extensions/%s" % name,
-    "-name *.client-extension-config.json",
-    "-not -path '*/node_modules/*' -not -path '*/node_modules_cache/*'",
-    "2>/dev/null"
-  ]
-
-  client_extension_config_json_files=str(local(" ".join(find_args))).splitlines()
-
-  for json_file in client_extension_config_json_files:
-    print("json_file=%s" % json_file)
-    ytt_args.append("-f %s" % json_file)
-
-  k8s_yaml(local(" ".join(ytt_args)))
-
-  if workload != 'job':
-    objects=[
-      "%s:ingress" % name,
-      "%s:ingressroute" % name]
+  k8s_custom_deploy(
+    name,
+    "%s/scripts/k8s/delete.py 2>/dev/null && %s/scripts/k8s/create.py" % (repo, repo),
+    "%s/scripts/k8s/delete.py" % repo,
+    deps=["/workspace/client-extensions/%s/build/clientExtension/" % projectPath],
+    apply_env=deploy_env,
+    delete_env=deploy_env,
+    image_deps=[name])
 
   k8s_resource(
     labels=['Extensions'],
     port_forwards=port_forwards,
-    #objects=objects,
-    objects=['%s-%s-lxc-ext-provision-metadata:configmap' % (name, virtual_instance_id)] + objects,
+    objects=objects,
     resource_deps=["dxp.%s" % lfrdev_domain] + resource_deps,
     workload=name,
     links=links)
 
 #main code
-
 update_settings(max_parallel_updates=1)
 
 watch_file("%s/k8s/endpoint/" % repo)
 watch_file("%s/k8s/workloads/" % repo)
+watch_file("%s/scripts/k8s/" % repo)
 
 if config.tilt_subcommand == 'down':
   local('kubectl delete cm -l lxc.liferay.com/metadataType=dxp')
   local('kubectl delete cm -l lxc.liferay.com/metadataType=ext-init')
-  local('kubectl delete cm -l lxc.liferay.com/metadataType=ext-provision')
   local("%s/scripts/dxp-stop.sh" % repo)
 
 # build and launch dxp
@@ -124,20 +98,6 @@ local_resource(
     link("https://dxp.%s/o/api" % lfrdev_domain, 'Liferay API Explorer'),
   ],
   labels=['DXP'])
-
-# create all client-extension-config.json files
-if config.tilt_subcommand != 'down':
-  local(" ".join([
-    "/workspace/gradlew",
-    "--project-dir",
-    "/workspace",
-    "--stacktrace",
-    "clean",
-    "createClientExtensionConfig",
-    "-x", ":cleanDockerImage",
-    "-x", ":removeDockerContainer",
-    "-x", ":stopDockerContainer",
-    ]))
 
 client_extension_yaml_files=str(
   local(
@@ -169,7 +129,7 @@ for client_extension_yaml_file in client_extension_yaml_files:
   watch=[]
   cpu=''
   memory=''
-  env=[]
+  envs=[]
   links=[]
 
   if client_extension_object.get('runtime'):
@@ -199,8 +159,8 @@ for client_extension_yaml_file in client_extension_yaml_files:
     if runtime.get('memory'):
       memory=runtime['memory']
 
-    if runtime.get('env') != None:
-      env=runtime['env']
+    if runtime.get('env'):
+      envs=runtime['env']
 
   if workload != 'job':
     links=[link("https://%s.%s" % (client_extension_name, lfrdev_domain))]
@@ -217,6 +177,6 @@ for client_extension_yaml_file in client_extension_yaml_files:
     workload=workload,
     cpu=cpu,
     memory=memory,
-    env=env,
+    envs=envs,
     resource_deps=resource_deps,
     links=links)

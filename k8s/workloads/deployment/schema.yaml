@@ -2,7 +2,7 @@
 ---
 cpu: "500m"
 #@schema/type any=True
-env: []
+envs: []
 debugPort: 8001
 image: ""
 dxpMetadata: #@ True
@@ -12,3 +12,4 @@ serviceId: ""
 targetPort: 80
 virtualInstanceId: ""
 lfrdevDomain: "lfr.dev"
+tlsSecretName: "lfrdev-tls-secret"
