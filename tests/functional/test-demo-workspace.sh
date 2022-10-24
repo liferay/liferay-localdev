@@ -22,13 +22,13 @@ else
   CLI="liferay"
 fi
 
-$CLI set localdev.resources.dir ${LOCALDEV_REPO}
+$CLI config set localdev.resources.dir ${LOCALDEV_REPO}
 
 $CLI config set localdev.resources.sync false
 
-$CLI runtime mkcert --install
-
 $CLI runtime mkcert
+
+$CLI runtime mkcert --install
 
 git clone \
   --branch master \
@@ -38,7 +38,7 @@ git clone \
 
 $CLI runtime create -v
 
-$CLI go ext start -d ${LOCALDEV_REPO}/tests/work/gartner-client-extensions-demo
+$CLI ext start -d ${LOCALDEV_REPO}/tests/work/gartner-client-extensions-demo
 
 FOUND_LOCALDEV_SERVER=0
 
