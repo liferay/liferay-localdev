@@ -94,6 +94,9 @@ COPY workspace/temp_repo /workspace/temp_repo
 
 COPY workspace/build.gradle /workspace/build.gradle
 
+# warm up gradle & yarn install
+RUN /workspace/gradlew --no-daemon :yarnInstall
+
 COPY entrypoint.sh /entrypoint.sh
 
 RUN \
