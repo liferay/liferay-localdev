@@ -89,16 +89,10 @@ def process_extension(
 
 
 # main code
-include('ext://cancel')
-
 workspace_tiltfile = dict()
 
 if os.path.exists(workspace_tiltfile_path):
   workspace_tiltfile = load_dynamic(workspace_tiltfile_path)
-
-include_before = workspace_tiltfile.get('include_before')
-if include_before != None:
-  include_before()
 
 docker_prune_settings()
 update_settings(max_parallel_updates=1)
@@ -219,6 +213,6 @@ for client_extension_yaml_file in client_extension_yaml_files:
         links=links,
     )
 
-include_after = workspace_tiltfile.get('include_after')
-if include_after != None:
-    include_after()
+after_all = workspace_tiltfile.get('after_all')
+if after_all != None:
+    after_all()
