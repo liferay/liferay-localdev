@@ -1,12 +1,7 @@
 # global vars
 repo = os.environ.get("LOCALDEV_REPO", "/repo")
 lfrdev_domain = os.environ.get("LFRDEV_DOMAIN")
-user_tiltfile_path = os.environ.get("USER_TILTFILE_PATH", "/workspace/Tiltfile.ext")
-
-user_tiltfile = dict()
-
-if os.path.exists(user_tiltfile_path)
-  user_tiltfile = load_dynamic(user_tiltfile_path)
+workspace_tiltfile_path = os.environ.get("USER_TILTFILE_PATH", "/workspace/client-extensions/Tiltfile")
 
 # Function process_extension
 def process_extension(
@@ -94,6 +89,17 @@ def process_extension(
 
 
 # main code
+include('ext://cancel')
+
+workspace_tiltfile = dict()
+
+if os.path.exists(workspace_tiltfile_path):
+  workspace_tiltfile = load_dynamic(workspace_tiltfile_path)
+
+include_before = workspace_tiltfile.get('include_before')
+if include_before != None:
+  include_before()
+
 docker_prune_settings()
 update_settings(max_parallel_updates=1)
 
@@ -108,15 +114,9 @@ if config.tilt_subcommand == "down":
 
 # build and launch dxp
 
-dxp_build_env = {}
-
-if user_tiltfile.get('dxp_build_env'):
-  append(dxp_build_env, user_tiltfile['dxp_build_env']
-
 local_resource(
     "dxp.%s" % lfrdev_domain,
     cmd="%s/scripts/dxp-build.sh" % repo,
-    env=dxp_build_env,
     serve_cmd="%s/scripts/dxp-restart.sh" % repo,
     deps=["%s/docker/images/dxp-server" % repo],
     readiness_probe=probe(
@@ -218,3 +218,7 @@ for client_extension_yaml_file in client_extension_yaml_files:
         resource_deps=resource_deps,
         links=links,
     )
+
+include_after = workspace_tiltfile.get('include_after')
+if include_after != None:
+    include_after()
