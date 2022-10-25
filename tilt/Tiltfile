@@ -117,7 +117,7 @@ if config.tilt_subcommand == "down":
 local_resource(
     "dxp.%s" % lfrdev_domain,
     cmd="%s/scripts/dxp-build.sh" % repo,
-    serve_cmd="%s/scripts/dxp-restart.sh" % repo,
+    serve_cmd="%s/scripts/dxp-serve.sh" % repo,
     deps=["%s/docker/images/dxp-server" % repo],
     readiness_probe=probe(
         initial_delay_secs=120,
