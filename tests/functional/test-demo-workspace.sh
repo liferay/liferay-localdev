@@ -31,7 +31,7 @@ $CLI runtime mkcert
 $CLI runtime mkcert --install
 
 git clone \
-  --branch master \
+  --branch tiltImprovements1 \
   --depth 1 \
   https://github.com/gamerson/gartner-client-extensions-demo \
   ${LOCALDEV_REPO}/tests/work/gartner-client-extensions-demo

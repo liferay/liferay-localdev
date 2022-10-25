@@ -1,6 +1,9 @@
 # global vars
 repo = os.environ.get("LOCALDEV_REPO", "/repo")
 lfrdev_domain = os.environ.get("LFRDEV_DOMAIN")
+workspace_tiltfile_path = os.environ.get(
+    "USER_TILTFILE_PATH", "/workspace/client-extensions/Tiltfile"
+)
 
 # Function process_extension
 def process_extension(
@@ -88,6 +91,12 @@ def process_extension(
 
 
 # main code
+workspace_tiltfile = dict()
+
+if os.path.exists(workspace_tiltfile_path):
+    workspace_tiltfile = load_dynamic(workspace_tiltfile_path)
+
+docker_prune_settings()
 update_settings(max_parallel_updates=1)
 
 watch_file("%s/k8s/endpoint/" % repo)
@@ -104,7 +113,7 @@ if config.tilt_subcommand == "down":
 local_resource(
     "dxp.%s" % lfrdev_domain,
     cmd="%s/scripts/dxp-build.sh" % repo,
-    serve_cmd="%s/scripts/dxp-restart.sh" % repo,
+    serve_cmd="%s/scripts/dxp-serve.sh" % repo,
     deps=["%s/docker/images/dxp-server" % repo],
     readiness_probe=probe(
         initial_delay_secs=120,
@@ -205,3 +214,7 @@ for client_extension_yaml_file in client_extension_yaml_files:
         resource_deps=resource_deps,
         links=links,
     )
+
+after_all = workspace_tiltfile.get("after_all")
+if after_all != None:
+    after_all()
