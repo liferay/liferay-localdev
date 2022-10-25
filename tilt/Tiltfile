@@ -110,9 +110,17 @@ if config.tilt_subcommand == "down":
 
 # build and launch dxp
 
+more_dxp_envs = workspace_tiltfile.get('more_dxp_envs', {})
+more_dxp_envs_val = ""
+for key,value in more_dxp_envs.items():
+  more_dxp_envs_val += " -e %s=%s " % (key, value)
+
 local_resource(
     "dxp.%s" % lfrdev_domain,
     cmd="%s/scripts/dxp-build.sh" % repo,
+    serve_env={
+      "MORE_DXP_ENVS": more_dxp_envs_val
+    },
     serve_cmd="%s/scripts/dxp-serve.sh" % repo,
     deps=["%s/docker/images/dxp-server" % repo],
     readiness_probe=probe(
