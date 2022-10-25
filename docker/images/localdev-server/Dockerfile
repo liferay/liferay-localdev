@@ -49,10 +49,12 @@ RUN apt-get dist-upgrade -y && \
 SHELL ["/bin/bash", "-c"]
 
 # Install k3d
-RUN curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
+RUN export TAG=$(curl -fsSL https://api.github.com/repos/k3d-io/k3d/releases/latest | jq -r '.name') && \
+    curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
 
 # Install tilt
-RUN curl -fsSL https://raw.githubusercontent.com/tilt-dev/tilt/master/scripts/install.sh | sudo bash
+RUN export VERSION=$(curl -fsSL https://api.github.com/repos/tilt-dev/tilt/releases/latest | jq -r '.name') && \
+    curl -fsSL https://raw.githubusercontent.com/tilt-dev/tilt/master/scripts/install.sh | sudo bash
 
 # Install ytt
 RUN export ARCH=$(dpkg --print-architecture) && \
