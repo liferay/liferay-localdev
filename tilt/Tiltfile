@@ -1,7 +1,9 @@
 # global vars
 repo = os.environ.get("LOCALDEV_REPO", "/repo")
 lfrdev_domain = os.environ.get("LFRDEV_DOMAIN")
-workspace_tiltfile_path = os.environ.get("USER_TILTFILE_PATH", "/workspace/client-extensions/Tiltfile")
+workspace_tiltfile_path = os.environ.get(
+    "USER_TILTFILE_PATH", "/workspace/client-extensions/Tiltfile"
+)
 
 # Function process_extension
 def process_extension(
@@ -92,7 +94,7 @@ def process_extension(
 workspace_tiltfile = dict()
 
 if os.path.exists(workspace_tiltfile_path):
-  workspace_tiltfile = load_dynamic(workspace_tiltfile_path)
+    workspace_tiltfile = load_dynamic(workspace_tiltfile_path)
 
 docker_prune_settings()
 update_settings(max_parallel_updates=1)
@@ -213,6 +215,6 @@ for client_extension_yaml_file in client_extension_yaml_files:
         links=links,
     )
 
-after_all = workspace_tiltfile.get('after_all')
+after_all = workspace_tiltfile.get("after_all")
 if after_all != None:
     after_all()
