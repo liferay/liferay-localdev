@@ -1,0 +1,340 @@
+{
+  "actions": {
+    "updateBatch": {
+      "method": "PUT",
+      "href": "https://dxp.lfr.dev/o/object-admin/v1.0/object-definitions/batch"
+    },
+    "create": {
+      "method": "POST",
+      "href": "https://dxp.lfr.dev/o/object-admin/v1.0/object-definitions"
+    },
+    "createBatch": {
+      "method": "POST",
+      "href": "https://dxp.lfr.dev/o/object-admin/v1.0/object-definitions/batch"
+    },
+    "deleteBatch": {
+      "method": "DELETE",
+      "href": "https://dxp.lfr.dev/o/object-admin/v1.0/object-definitions/batch"
+    }
+  },
+  "facets": [],
+  "items": [
+    {
+      "accountEntryRestricted": false,
+      "accountEntryRestrictedObjectFieldId": 0,
+      "actions": {
+        "permissions": {
+          "method": "PATCH",
+          "href": "https://dxp.lfr.dev/o/object-admin/v1.0/object-definitions/47942"
+        },
+        "get": {
+          "method": "GET",
+          "href": "https://dxp.lfr.dev/o/object-admin/v1.0/object-definitions/47942"
+        },
+        "update": {
+          "method": "PUT",
+          "href": "https://dxp.lfr.dev/o/object-admin/v1.0/object-definitions/47942"
+        },
+        "delete": {
+          "method": "DELETE",
+          "href": "https://dxp.lfr.dev/o/object-admin/v1.0/object-definitions/47942"
+        }
+      },
+      "active": true,
+      "dateCreated": "2022-10-21T13:58:22Z",
+      "dateModified": "2022-10-21T13:58:22Z",
+      "enableObjectEntryHistory": false,
+      "externalReferenceCode": "32a81178-8c8b-8435-1b17-e1981c11424d",
+      "id": 47942,
+      "label": {
+        "en_US": "Coupon"
+      },
+      "name": "Coupon",
+      "objectActions": [
+        {
+          "active": true,
+          "conditionExpression": "issued",
+          "dateCreated": "2022-10-21T13:58:22Z",
+          "dateModified": "2022-10-23T12:54:45Z",
+          "description": "Fire this Java/SpringBoot function when a coupon is issued.",
+          "id": 47971,
+          "name": "Coupon Issued (Java/SpringBoot)",
+          "objectActionExecutorKey": "function#coupon-function-springboot",
+          "objectActionTriggerKey": "onAfterUpdate",
+          "parameters": {
+            "script": "println \"Coupon ${objectEntryId} has been issued.\""
+          },
+          "status": {
+            "code": 1,
+            "label": "success",
+            "label_i18n": "Success"
+          }
+        },
+        {
+          "active": true,
+          "conditionExpression": "issued",
+          "dateCreated": "2022-10-21T13:58:22Z",
+          "dateModified": "2022-10-23T12:54:45Z",
+          "description": "Fire this NodeJS/Express function when a coupon is issued.",
+          "id": 47973,
+          "name": "Coupon Issued (NodeJS/Express)",
+          "objectActionExecutorKey": "function#coupon-function-nodejs",
+          "objectActionTriggerKey": "onAfterUpdate",
+          "parameters": {
+            "script": "println \"Coupon ${objectEntryId} has been issued.\""
+          },
+          "status": {
+            "code": 1,
+            "label": "success",
+            "label_i18n": "Success"
+          }
+        },
+        {
+          "active": true,
+          "conditionExpression": "issued",
+          "dateCreated": "2022-10-21T13:58:22Z",
+          "dateModified": "2022-10-23T12:54:45Z",
+          "description": "Fire this Go/Gin function when a coupon is issued.",
+          "id": 47975,
+          "name": "Coupon Issued (Go/Gin)",
+          "objectActionExecutorKey": "function#coupon-function-gogin",
+          "objectActionTriggerKey": "onAfterUpdate",
+          "parameters": {
+            "script": "println \"Coupon ${objectEntryId} has been issued.\""
+          },
+          "status": {
+            "code": 1,
+            "label": "success",
+            "label_i18n": "Success"
+          }
+        },
+        {
+          "active": true,
+          "conditionExpression": "issued",
+          "dateCreated": "2022-10-21T13:58:22Z",
+          "dateModified": "2022-10-23T12:54:46Z",
+          "description": "Generatic Webhook pointing to GCP function",
+          "id": 47977,
+          "name": "webhook.gcp",
+          "objectActionExecutorKey": "webhook",
+          "objectActionTriggerKey": "onAfterUpdate",
+          "parameters": {
+            "url": "https://print-coupon-issuer-cfddjkeglq-lm.a.run.app"
+          },
+          "status": {
+            "code": 1,
+            "label": "success",
+            "label_i18n": "Success"
+          }
+        }
+      ],
+      "objectFields": [
+        {
+          "DBType": "String",
+          "businessType": "Text",
+          "defaultValue": "",
+          "externalReferenceCode": "e9c84ffd-55ee-5e7d-a1af-5d3f50129eef",
+          "id": 47956,
+          "indexed": true,
+          "indexedAsKeyword": false,
+          "indexedLanguageId": "en_US",
+          "label": {
+            "en_US": "Code"
+          },
+          "listTypeDefinitionId": 0,
+          "name": "code",
+          "objectFieldSettings": [
+            {
+              "name": "showCounter",
+              "value": "false"
+            }
+          ],
+          "required": true,
+          "state": false,
+          "system": false,
+          "type": "String"
+        },
+        {
+          "DBType": "Date",
+          "businessType": "Date",
+          "defaultValue": "",
+          "externalReferenceCode": "e50847f9-0095-5c8d-b13d-ddf4188ce00a",
+          "id": 47946,
+          "indexed": false,
+          "indexedAsKeyword": false,
+          "indexedLanguageId": "",
+          "label": {
+            "en_US": "Create Date"
+          },
+          "listTypeDefinitionId": 0,
+          "name": "createDate",
+          "objectFieldSettings": [],
+          "required": false,
+          "state": false,
+          "system": true,
+          "type": "Date"
+        },
+        {
+          "DBType": "String",
+          "businessType": "Text",
+          "defaultValue": "",
+          "externalReferenceCode": "0e71ed36-56f6-e819-c7ba-adf741cd7683",
+          "id": 47944,
+          "indexed": false,
+          "indexedAsKeyword": false,
+          "indexedLanguageId": "",
+          "label": {
+            "en_US": "Author"
+          },
+          "listTypeDefinitionId": 0,
+          "name": "creator",
+          "objectFieldSettings": [],
+          "required": false,
+          "state": false,
+          "system": true,
+          "type": "String"
+        },
+        {
+          "DBType": "String",
+          "businessType": "Text",
+          "defaultValue": "",
+          "externalReferenceCode": "e16887ce-7106-ef67-c774-d56a7a978f79",
+          "id": 47948,
+          "indexed": false,
+          "indexedAsKeyword": false,
+          "indexedLanguageId": "",
+          "label": {
+            "en_US": "External Reference Code"
+          },
+          "listTypeDefinitionId": 0,
+          "name": "externalReferenceCode",
+          "objectFieldSettings": [],
+          "required": false,
+          "state": false,
+          "system": true,
+          "type": "String"
+        },
+        {
+          "DBType": "Long",
+          "businessType": "LongInteger",
+          "defaultValue": "",
+          "externalReferenceCode": "16432383-9851-1741-9824-95f4a99e5264",
+          "id": 47950,
+          "indexed": true,
+          "indexedAsKeyword": true,
+          "indexedLanguageId": "",
+          "label": {
+            "en_US": "ID"
+          },
+          "listTypeDefinitionId": 0,
+          "name": "id",
+          "objectFieldSettings": [],
+          "required": false,
+          "state": false,
+          "system": true,
+          "type": "Long"
+        },
+        {
+          "DBType": "Date",
+          "businessType": "Date",
+          "defaultValue": "",
+          "externalReferenceCode": "e3b2f527-857f-04ef-0e9a-360fb10788d8",
+          "id": 47964,
+          "indexed": true,
+          "indexedAsKeyword": false,
+          "indexedLanguageId": "",
+          "label": {
+            "en_US": "Issue Date"
+          },
+          "listTypeDefinitionId": 0,
+          "name": "issueDate",
+          "objectFieldSettings": [],
+          "required": false,
+          "state": false,
+          "system": false,
+          "type": "Date"
+        },
+        {
+          "DBType": "Boolean",
+          "businessType": "Boolean",
+          "defaultValue": "",
+          "externalReferenceCode": "13afdfd8-0537-3272-0e74-50488ad54662",
+          "id": 47966,
+          "indexed": true,
+          "indexedAsKeyword": false,
+          "indexedLanguageId": "",
+          "label": {
+            "en_US": "Issued"
+          },
+          "listTypeDefinitionId": 0,
+          "name": "issued",
+          "objectFieldSettings": [],
+          "required": false,
+          "state": false,
+          "system": false,
+          "type": "Boolean"
+        },
+        {
+          "DBType": "Date",
+          "businessType": "Date",
+          "defaultValue": "",
+          "externalReferenceCode": "5a73258d-bc95-d6e1-aa82-58a07073cc49",
+          "id": 47952,
+          "indexed": false,
+          "indexedAsKeyword": false,
+          "indexedLanguageId": "",
+          "label": {
+            "en_US": "Modified Date"
+          },
+          "listTypeDefinitionId": 0,
+          "name": "modifiedDate",
+          "objectFieldSettings": [],
+          "required": false,
+          "state": false,
+          "system": true,
+          "type": "Date"
+        },
+        {
+          "DBType": "String",
+          "businessType": "Text",
+          "defaultValue": "",
+          "externalReferenceCode": "7218fa22-f7e1-e215-cd3f-a328c544c4d5",
+          "id": 47954,
+          "indexed": false,
+          "indexedAsKeyword": false,
+          "indexedLanguageId": "",
+          "label": {
+            "en_US": "Status"
+          },
+          "listTypeDefinitionId": 0,
+          "name": "status",
+          "objectFieldSettings": [],
+          "required": false,
+          "state": false,
+          "system": true,
+          "type": "String"
+        }
+      ],
+      "objectLayouts": [],
+      "objectRelationships": [],
+      "objectViews": [],
+      "panelCategoryKey": "applications_menu.applications.content",
+      "parameterRequired": false,
+      "pluralLabel": {
+        "en_US": "Coupons"
+      },
+      "portlet": false,
+      "scope": "company",
+      "status": {
+        "code": 0,
+        "label": "approved",
+        "label_i18n": "Approved"
+      },
+      "system": false
+    }
+  ],
+  "lastPage": 1,
+  "page": 1,
+  "pageSize": 20,
+  "totalCount": 1
+}

@@ -1,0 +1,9 @@
+${id}-user-agent:
+  type: oauthApplicationUserAgent
+  scopes:
+    - C_${Object}.everything
+
+${id}:
+  type: objectAction
+  resourcePath: ${resourcePath}
+  oAuth2ApplicationExternalReferenceCode: ${id}-user-agent

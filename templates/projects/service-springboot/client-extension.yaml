@@ -1,0 +1,4 @@
+runtime:
+  type: service
+  cpu: 500m
+  memory: 256Mi
