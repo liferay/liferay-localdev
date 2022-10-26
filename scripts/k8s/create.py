@@ -1,13 +1,13 @@
 #!/usr/bin/python3
-import generate
+import ytt
 import os
 import uuid
 
-tmp_filename = "/tmp/create-%s.yaml" % uuid.uuid1()
+tmpfile = "/tmp/create-%s.yaml" % uuid.uuid1()
 
-with open(tmp_filename, "w") as f:
-    f.write(generate.generate_yaml())
-applied_yaml = os.popen("kubectl create -oyaml -f %s" % tmp_filename).read()
-os.remove(tmp_filename)
+with open(tmpfile, "w") as f:
+    f.write(ytt.generate_workload_yaml())
+applied_yaml = os.popen("kubectl create -oyaml -f %s" % tmpfile).read()
+os.remove(tmpfile)
 
 print(applied_yaml)
