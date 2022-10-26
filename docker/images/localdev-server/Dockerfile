@@ -28,12 +28,7 @@ RUN mkdir -p /etc/apt/keyrings && \
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg && \
     echo \
         "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" \
-        | tee /etc/apt/sources.list.d/docker.list > /dev/null && \
-    \
-    curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg -o /etc/apt/keyrings/kubernetes.gpg && \
-    echo \
-        "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/kubernetes.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" \
-        | tee /etc/apt/sources.list.d/kubernetes.list > /dev/null
+        | tee /etc/apt/sources.list.d/docker.list > /dev/null
 
 RUN apt-get update
 
@@ -42,11 +37,17 @@ RUN apt-get dist-upgrade -y && \
     containerd.io \
     docker-ce \
     docker-ce-cli \
-    kubectl \
     zulu11-jdk \
     && apt-get clean
 
 SHELL ["/bin/bash", "-c"]
+
+# Install kubectl
+RUN export ARCH=$(dpkg --print-architecture) && \
+    curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/${ARCH}/kubectl" && \
+    curl -LO "https://dl.k8s.io/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/${ARCH}/kubectl.sha256" && \
+    echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check && \
+    sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 
 # Install k3d
 RUN export TAG=$(curl -fsSL https://api.github.com/repos/k3d-io/k3d/releases/latest | jq -r '.name') && \
