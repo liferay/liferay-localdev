@@ -18,6 +18,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v1
+      - name: Check Source Formatting
+        shell: bash
+        run: |
+          pip3 install black
+          find . -name '*.py' -print | xargs black --check
       - name: Build
         shell: bash
         env:
