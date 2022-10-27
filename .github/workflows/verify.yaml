@@ -24,7 +24,7 @@ jobs:
           DOCKER_NETWORK: "host"
         run: |
           export LOCALDEV_REPO=${GITHUB_WORKSPACE}
-          ./tests/unit/test-create-projects.sh
+          ./tests/integration/test-create-projects.sh
   TestDemoWorkspace:
     name: Test Demo Workspace
     runs-on: ubuntu-latest
