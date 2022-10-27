@@ -11,8 +11,12 @@ workspace_base_path = os.environ.get(
 resources_base_path = os.environ.get("RESOURCES_BASE_PATH", "/repo/resources/")
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--workspace-path", help="The workspace relative path", required=True)
-parser.add_argument("--resource-path", help="The resource path inside /repo/resources/", required=True)
+parser.add_argument(
+    "--workspace-path", help="The workspace relative path", required=True
+)
+parser.add_argument(
+    "--resource-path", help="The resource path inside /repo/resources/", required=True
+)
 
 known_args, unknown = parser.parse_known_args()
 create_args = vars(known_args)
