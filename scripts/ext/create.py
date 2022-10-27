@@ -9,6 +9,7 @@ workspace_base_path = os.environ.get(
     "WORKSPACE_BASE_PATH", "/workspace/client-extensions/"
 )
 resources_base_path = os.environ.get("RESOURCES_BASE_PATH", "/repo/resources/")
+create_argsline = os.environ.get("CREATE_ARGS", "")
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
@@ -19,7 +20,7 @@ parser.add_argument(
 )
 parser.add_argument('--template-args', action='append', nargs='+')
 
-known_args, unknown = parser.parse_known_args()
+known_args, unknown = parser.parse_known_args(args=create_argsline)
 create_args = vars(known_args)
 template_args = dict()
 
