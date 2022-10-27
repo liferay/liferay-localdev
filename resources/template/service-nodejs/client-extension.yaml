@@ -7,6 +7,7 @@ assemble:
 
 runtime:
   type: service
+  template: service-nodejs
   port: 3000
   watch:
     - "src/"

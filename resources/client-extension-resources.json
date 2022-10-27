@@ -1,0 +1,47 @@
+[
+  {
+    "description": "TODO service-springboot description",
+    "name": "service-springboot",
+    "type": "template",
+    "args": [
+      {
+        "name": "package",
+        "description": "This is a java package 'com.company.service'",
+        "default": "com.company.service"
+      },
+      {
+        "name": "packagePath",
+        "description": "This is a java package path 'com/liferay/foo/bar'",
+        "default": "com/company/service"
+      }
+    ]
+  },
+  {
+    "description": "TODO object-action-springboot description",
+    "name": "object-action-springboot",
+    "type": "partial",
+    "template": "service-springboot",
+    "args": [
+      {
+        "name": "id",
+        "description": "This is a id of client extension configuration",
+        "default": "my-object-action"
+      },
+      {
+        "name": "Object",
+        "description": "This is a name of the Object resourcel",
+        "default": "MyObject"
+      },
+      {
+        "name": "resourcePath",
+        "description": "This is a HTTP POST resource path for the service",
+        "default": "/myobject/action"
+      }
+    ]
+  },
+  {
+    "description": "This is a sample application showing the use of multiple client extension projects",
+    "name": "coupon-solution",
+    "type": "sample"
+  }
+]
