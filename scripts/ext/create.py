@@ -18,14 +18,14 @@ parser.add_argument(
 parser.add_argument(
     "--resource-path", help="The resource path inside /repo/resources/", required=True
 )
-parser.add_argument('--args', action='append', nargs='+')
+parser.add_argument("--args", action="append", nargs="+")
 
-create_args = vars(parser.parse_args(args=create_argsline.split('|')))
+create_args = vars(parser.parse_args(args=create_argsline.split("|")))
 template_args = dict()
 
-for i in create_args['args']:
-  arr = i[0].split('=')
-  template_args[arr[0]] = arr[1]
+for i in create_args["args"]:
+    arr = i[0].split("=")
+    template_args[arr[0]] = arr[1]
 
 project_path = os.path.join(workspace_base_path, create_args["workspace_path"])
 template_path = os.path.join(resources_base_path, create_args["resource_path"])
