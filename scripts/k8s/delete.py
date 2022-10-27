@@ -1,11 +1,11 @@
-#!/usr/bin/python3
-import generate
+#!/usr/bin/env python3
+import ytt
 import os
 import uuid
 
-tmp_filename = "/tmp/delete-%s.yaml" % uuid.uuid1()
+tmpfile = "/tmp/delete-%s.yaml" % uuid.uuid1()
 
-with open(tmp_filename, "w") as f:
-    f.write(generate.generate_yaml())
-os.popen("kubectl delete --ignore-not-found --wait -f %s" % tmp_filename).read()
-os.remove(tmp_filename)
+with open(tmpfile, "w") as f:
+    f.write(ytt.generate_workload_yaml())
+os.popen("kubectl delete --ignore-not-found --wait -f %s" % tmpfile).read()
+os.remove(tmpfile)

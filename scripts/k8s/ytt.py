@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 import ast
 import os
 
@@ -15,7 +15,7 @@ workload = os.environ.get("WORKLOAD")
 workspace = os.environ.get("WORKSPACE", "/workspace")
 
 
-def generate_yaml():
+def generate_workload_yaml():
     init_metadata = False
 
     if workload != "static":

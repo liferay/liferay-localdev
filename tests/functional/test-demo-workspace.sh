@@ -2,7 +2,7 @@
 
 set -e
 
-LIFERAY_CLI_BRANCH="buildNetworkMode"
+LIFERAY_CLI_BRANCH=""
 
 mkdir -p ${LOCALDEV_REPO}/tests/work/
 
