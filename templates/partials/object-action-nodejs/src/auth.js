@@ -38,7 +38,7 @@ async function authenticate(req, res, next) {
 }
 
 async function fetchJWTSecret() {
-  const jwtSecretURIFileName = path.join('/etc/liferay/lxc/ext-init-metadata', 'coupon-function-nodejs-user-agent.oauth2.jwks.uri');
+  const jwtSecretURIFileName = path.join('/etc/liferay/lxc/ext-init-metadata', '${id}-user-agent.oauth2.jwks.uri');
 
   const jwtSecretURI = fs.readFileSync(jwtSecretURIFileName);
 

@@ -1,12 +1,12 @@
-coupon-function-nodejs-user-agent:
+${id}-nodejs-user-agent:
   type: oauthApplicationUserAgent
   scopes:
-    - C_Coupon.everything
+    - C_${Object}.everything
 
-coupon-function-nodejs:
+${id}:
   type: objectAction
-  resourcePath: /coupons/issued
-  oAuth2ApplicationExternalReferenceCode: coupon-function-nodejs-user-agent
+  resourcePath: ${resourcePath}
+  oAuth2ApplicationExternalReferenceCode: ${id}-user-agent
 
 assemble:
   - include:

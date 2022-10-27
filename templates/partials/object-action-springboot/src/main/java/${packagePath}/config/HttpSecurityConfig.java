@@ -71,7 +71,7 @@ public class HttpSecurityConfig {
 	}
 	
 	@Bean
-	public JwtDecoder jwtDecoder(@Value("${coupon-function-springboot-user-agent.oauth2.jwks.uri}") String jwkSetUrl) throws Exception {
+	public JwtDecoder jwtDecoder(@Value("${${id}-user-agent.oauth2.jwks.uri}") String jwkSetUrl) throws Exception {
 		JWSKeySelector<SecurityContext> jwsKeySelector =
 			JWSAlgorithmFamilyJWSKeySelector.fromJWKSetURL(new URL(jwkSetUrl));
 
@@ -83,7 +83,7 @@ public class HttpSecurityConfig {
 
 		return new NimbusJwtDecoder(jwtProcessor);
 	}
-	
+
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http,
 			Collection<Consumer<HttpSecurity>> adapters) throws Exception {
