@@ -5,14 +5,14 @@ import os
 import pathlib
 import shutil
 
-projects_base_path = os.environ.get(
-    "PROJECTS_BASE_PATH", "/workspace/client-extensions/"
+workspace_base_path = os.environ.get(
+    "WORKSPACE_BASE_PATH", "/workspace/client-extensions/"
 )
-templates_base_path = os.environ.get("TEMPLATES_BASE_PATH", "/repo/templates/")
+resources_base_path = os.environ.get("RESOURCES_BASE_PATH", "/repo/resources/")
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--project-path", help="The project path", required=True)
-parser.add_argument("--template-path", help="The template path", required=True)
+parser.add_argument("--workspace-path", help="The workspace relative path", required=True)
+parser.add_argument("--resource-path", help="The resource path inside /repo/resources/", required=True)
 
 known_args, unknown = parser.parse_known_args()
 create_args = vars(known_args)
@@ -21,8 +21,8 @@ for i in unknown:
     arr = i.split("=")
     template_args[arr[0]] = arr[1]
 
-project_path = os.path.join(projects_base_path, create_args["project_path"])
-template_path = os.path.join(templates_base_path, create_args["template_path"])
+project_path = os.path.join(workspace_base_path, create_args["workspace_path"])
+template_path = os.path.join(resources_base_path, create_args["resource_path"])
 
 shutil.copytree(template_path, project_path)
 

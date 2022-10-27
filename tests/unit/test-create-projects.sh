@@ -2,39 +2,39 @@
 
 set -e
 
-export PROJECTS_BASE_PATH="${LOCALDEV_REPO}/tests/work/"
 export RESOURCES_BASE_PATH="${LOCALDEV_REPO}/resources/"
+export WORKSPACE_BASE_PATH="${LOCALDEV_REPO}/tests/work/"
+BUILD_CMD=${LOCALDEV_REPO}/scripts/ext/build.sh
 CREATE_CMD=${LOCALDEV_REPO}/scripts/ext/create.py
 
-rm -rf $PROJECTS_BASE_PATH && mkdir -p $PROJECTS_BASE_PATH
+rm -rf $WORKSPACE_BASE_PATH && mkdir -p $WORKSPACE_BASE_PATH
 
 $CREATE_CMD \
-  --workspace-path=solution-a/able-global-css \
+  --workspace-path=static/able-global-css \
   --resource-path=template/global-css \
-  name=foo 
+  id=able \
+  name="Able Global CSS"
 
 $CREATE_CMD \
-  --project-path=foo-theme-css \
-  --template-path=theme-css \
-  id=foo \
-  name="Foo Theme CSS"
+  --workspace-path=static/baker-global-css \
+  --resource-path=template/global-css \
+  id=baker \
+  name="Baker Global CSS"
 
 $CREATE_CMD \
-  --project-path=foo-configuration \
-  --template-path=configuration \
+  --workspace-path=foo-configuration \
+  --resource-path=template/configuration \
   id=foo \
   name="Foo Configuration"
 
 $CREATE_CMD \
-  --project-path=foo-springboot-service \
-  --template-path=service-springboot \
-  id=foo \
-  name="Foo Service" \
+  --workspace-path=service/test-springboot-service \
+  --resource-path=template/service-springboot \
   package=com.liferay.test \
   packagePath="com/liferay/test"
 
 $CREATE_CMD \
-  --project-path=foo-nodejs-service \
-  --template-path=service-nodejs \
+  --workspace-path=foo-nodejs-service \
+  --resource-path=template/service-nodejs \
   id=foo \
   name="Foo Service"

@@ -11,6 +11,20 @@ env:
   LC_ALL: en_US.UTF-8
 
 jobs:
+  TestCreateProjects:
+    name: Test Create Projects
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Build
+        shell: bash
+        env:
+          GITHUB_CI: "true"
+          DOCKER_NETWORK: "host"
+        run: |
+          export LOCALDEV_REPO=${GITHUB_WORKSPACE}
+          ./tests/unit/test-create-projects.sh
   TestDemoWorkspace:
     name: Test Demo Workspace
     runs-on: ubuntu-latest
