@@ -110,6 +110,11 @@ if config.tilt_subcommand == "down":
 
 # build and launch dxp
 
+more_dxp_buildargs = workspace_tiltfile.get('more_dxp_buildargs', {})
+more_dxp_buildargs_val = ""
+for key,value in more_dxp_buildargs.items():
+  more_dxp_buildargs_val += " --build-arg %s=%s " % (key, value)
+
 more_dxp_envs = workspace_tiltfile.get('more_dxp_envs', {})
 more_dxp_envs_val = ""
 for key,value in more_dxp_envs.items():
@@ -117,6 +122,9 @@ for key,value in more_dxp_envs.items():
 
 local_resource(
     "dxp.%s" % lfrdev_domain,
+    env={
+      "MORE_DXP_BUILDARGS": more_dxp_buildargs_val
+    },
     cmd="%s/scripts/dxp-build.sh" % repo,
     serve_env={
       "MORE_DXP_ENVS": more_dxp_envs_val
