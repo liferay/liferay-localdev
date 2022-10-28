@@ -14,34 +14,64 @@ cp -R "${LOCALDEV_REPO}/docker/images/localdev-server/workspace" "${WORK_PATH}"
 mkdir -p "${WORK_PATH}/workspace/client-extensions"
 
 CREATE_ARGS="\
---workspace-path=static/able-global-css|\
---resource-path=template/global-css|\
---args=id=able|\
---args=name=Able Global CSS" $CREATE_CMD 
-
-CREATE_ARGS="\
---workspace-path=static/baker-global-css|\
---resource-path=template/global-css|\
---args=id=baker|\
---args=name=Baker Global CSS" $CREATE_CMD
-
-CREATE_ARGS="\
---workspace-path=foo-configuration|\
+--workspace-path=casc/my-casc|\
 --resource-path=template/configuration|\
---args=id=foo|\
---args=name=Foo Configuration" $CREATE_CMD
+--args=id=my-casc|\
+--args=name=My Configuration as Code" $CREATE_CMD 
 
 CREATE_ARGS="\
---workspace-path=service/test-springboot-service|\
---resource-path=template/service-springboot|\
---args=package=com.liferay.test|\
---args=packagePath=com/liferay/test" $CREATE_CMD
+--workspace-path=static/baker-custom-element|\
+--resource-path=template/custom-element|\
+--args=id=baker-custom-element|\
+--args=name=Baker Custom Element" $CREATE_CMD
 
 CREATE_ARGS="\
---workspace-path=foo-nodejs-service|\
+--workspace-path=static/charlie-global-css|\
+--resource-path=template/global-css|\
+--args=id=charlie-global-css|\
+--args=name=Charlie Global CSS" $CREATE_CMD 
+
+CREATE_ARGS="\
+--workspace-path=static/delta-global-js|\
+--resource-path=template/global-js|\
+--args=id=delta-global-js|\
+--args=name=Delta Global JS" $CREATE_CMD 
+
+CREATE_ARGS="\
+--workspace-path=static/echo-iframe|\
+--resource-path=template/iframe|\
+--args=id=echo-iframe|\
+--args=name=Echo iframe" $CREATE_CMD 
+
+CREATE_ARGS="\
+--workspace-path=static/fox-remote-app|\
+--resource-path=template/remote-app-react|\
+--args=id=fox-remote-app|\
+--args=name=Fox Remote App" $CREATE_CMD
+
+CREATE_ARGS="\
+--workspace-path=service/gamma-nodejs-service|\
 --resource-path=template/service-nodejs|\
---args=id=foo|\
---args=name=Foo Service" $CREATE_CMD
+--args=id=gamma-nodejs-service|\
+--args=name=Gamma Nodejs Service" $CREATE_CMD
+
+CREATE_ARGS="\
+--workspace-path=service/hotel-springboot-service|\
+--resource-path=template/service-springboot|\
+--args=package=com.company.hotel|\
+--args=packagePath=com/company/hotel" $CREATE_CMD
+
+CREATE_ARGS="\
+--workspace-path=static/india-theme-css|\
+--resource-path=template/theme-css|\
+--args=id=india-theme-css|\
+--args=name=India Theme CSS" $CREATE_CMD
+
+CREATE_ARGS="\
+--workspace-path=static/juliet-theme-favicon|\
+--resource-path=template/theme-favicon|\
+--args=id=juliet-theme-favicon|\
+--args=name=Juliet Theme Favicon" $CREATE_CMD
 
 "${WORK_PATH}/workspace/gradlew" --project-dir "${WORK_PATH}/workspace" build
 
