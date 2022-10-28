@@ -1,5 +1,56 @@
 [
   {
+    "description": "Object Action Nodejs Partial",
+    "name": "object-action-nodejs",
+    "type": "partial",
+    "template": "service-nodejs",
+    "args": [
+      {
+        "name": "id",
+        "description": "Id of objectAction client extension",
+        "default": "my-object-action"
+      },
+      {
+        "name": "Object",
+        "description": "Name of the Object resource",
+        "default": "MyObject"
+      },
+      {
+        "name": "resourcePath",
+        "description": "HTTP POST resource path for the objectAction to invoke",
+        "default": "/myobject/action"
+      }
+    ]
+  },
+  {
+    "description": "Object Action Springboot Partial",
+    "name": "object-action-springboot",
+    "type": "partial",
+    "template": "service-springboot",
+    "args": [
+      {
+        "name": "id",
+        "description": "Id of objectAction client extension",
+        "default": "my-object-action"
+      },
+      {
+        "name": "Object",
+        "description": "Name of the Object resource",
+        "default": "MyObject"
+      },
+      {
+        "name": "resourcePath",
+        "description": "HTTP POST resource path for the objectAction to invoke",
+        "default": "/myobject/action"
+      }
+    ]
+  },
+  {
+    "description": "This is a sample application showing the use of multiple client extension projects",
+    "name": "coupon-solution",
+    "type": "sample"
+  },
+  {
     "description": "Configuration as Code (CasC) Client Extension",
     "name": "configuration",
     "type": "template",
@@ -163,33 +214,5 @@
         "default": "My Theme JS"
       }
     ]
-  },
-  {
-    "description": "TODO object-action-springboot description",
-    "name": "object-action-springboot",
-    "type": "partial",
-    "template": "service-springboot",
-    "args": [
-      {
-        "name": "id",
-        "description": "This is a id of client extension configuration",
-        "default": "my-object-action"
-      },
-      {
-        "name": "Object",
-        "description": "This is a name of the Object resourcel",
-        "default": "MyObject"
-      },
-      {
-        "name": "resourcePath",
-        "description": "This is a HTTP POST resource path for the service",
-        "default": "/myobject/action"
-      }
-    ]
-  },
-  {
-    "description": "This is a sample application showing the use of multiple client extension projects",
-    "name": "coupon-solution",
-    "type": "sample"
   }
 ]
