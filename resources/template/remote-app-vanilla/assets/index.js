@@ -104,7 +104,7 @@
 		}
 	}
 
-	if (!customElements.get('vanilla-counter')) {
-		customElements.define('vanilla-counter', VanillaCounter);
+	if (!customElements.get('${id}')) {
+		customElements.define('${id}', VanillaCounter);
 	}
 })();
