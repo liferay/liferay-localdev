@@ -5,6 +5,7 @@ set -ex
 IMAGE=dxp-server
 
 REPO="${LOCALDEV_REPO:-/repo}"
+DXP_DATA_VOLUME="${DXP_DATA_VOLUME:-dxpData}"
 MORE_DXP_ENVS="${MORE_DXP_ENVS:-}"
 
 EXISTING_DXP_SERVER=$(docker ps -f name=dxp-server | grep dxp-server | awk '{print $1}')
@@ -36,7 +37,7 @@ docker run \
   --dns ${DNS_ADDRESS} \
   --network k3d-localdev \
   --rm \
-  -v liferayData:/opt/liferay/data:rw \
+  -v ${DXP_DATA_VOLUME}:/opt/liferay/data:rw \
   -p 8000:8000 \
   -p 18081:8080 \
   -p 11311:11311 \

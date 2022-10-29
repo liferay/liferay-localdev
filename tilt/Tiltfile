@@ -111,6 +111,8 @@ if config.tilt_subcommand == "down":
 
 # build and launch dxp
 
+dxp_data_volume = workspace_tiltfile.get('dxp_data_volume')
+
 more_dxp_buildargs = workspace_tiltfile.get('more_dxp_buildargs', {})
 more_dxp_buildargs_val = ""
 for key,value in more_dxp_buildargs.items():
@@ -128,6 +130,7 @@ local_resource(
     },
     cmd="%s/scripts/dxp-build.sh" % repo,
     serve_env={
+      "DXP_DATA_VOLUME": dxp_data_volume if dxp_data_volume != None else "",
       "MORE_DXP_ENVS": more_dxp_envs_val
     },
     serve_cmd="%s/scripts/dxp-serve.sh" % repo,
