@@ -64,6 +64,7 @@ def process_extension(
         "LOCALDEV_REPO": repo,
         "MEMORY": memory,
         "NAME": name,
+        "PROJECT_PATH": projectPath,
         "TARGET_PORT": str(targetPort),
         "VIRTUAL_INSTANCE_ID": virtual_instance_id,
         "WORKLOAD": workload,
@@ -110,6 +111,11 @@ if config.tilt_subcommand == "down":
 
 # build and launch dxp
 
+more_dxp_buildargs = workspace_tiltfile.get('more_dxp_buildargs', {})
+more_dxp_buildargs_val = ""
+for key,value in more_dxp_buildargs.items():
+  more_dxp_buildargs_val += " --build-arg %s=%s " % (key, value)
+
 more_dxp_envs = workspace_tiltfile.get('more_dxp_envs', {})
 more_dxp_envs_val = ""
 for key,value in more_dxp_envs.items():
@@ -117,6 +123,9 @@ for key,value in more_dxp_envs.items():
 
 local_resource(
     "dxp.%s" % lfrdev_domain,
+    env={
+      "MORE_DXP_BUILDARGS": more_dxp_buildargs_val
+    },
     cmd="%s/scripts/dxp-build.sh" % repo,
     serve_env={
       "MORE_DXP_ENVS": more_dxp_envs_val
@@ -157,6 +166,7 @@ tiltignores = str(
 for client_extension_yaml_file in client_extension_yaml_files:
     project_path = os.path.dirname(client_extension_yaml_file)
     client_extension_name = os.path.basename(project_path)
+    project_relative_path = os.path.relpath(project_path, "/workspace/")
 
     if client_extension_name in tiltignores:
         continue
@@ -212,7 +222,7 @@ for client_extension_yaml_file in client_extension_yaml_files:
 
     process_extension(
         client_extension_name,
-        "client-extensions/%s" % client_extension_name,
+        project_relative_path,
         source_deps=watch,
         targetPort=targetPort,
         workload=workload,

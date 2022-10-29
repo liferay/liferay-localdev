@@ -7,6 +7,7 @@ envs = ast.literal_eval(os.environ.get("ENVS", None))
 lfrdev_domain = os.environ.get("LFRDEV_DOMAIN", "lfr.dev")
 memory = os.environ.get("MEMORY", None)
 name = os.environ.get("NAME")
+project_path = os.environ.get("PROJECT_PATH")
 repo = os.environ.get("LOCALDEV_REPO", "/repo")
 target_port = os.environ.get("TARGET_PORT", 8080)
 tilt_image_0 = os.environ.get("TILT_IMAGE_0", "default")
@@ -42,7 +43,7 @@ def generate_workload_yaml():
         ytt_args.append("--data-value-yaml envs='%s'" % envs)
 
     find_args = [
-        "find %s/client-extensions/%s" % (workspace, name),
+        "find %s/%s" % (workspace, project_path),
         "-name *.client-extension-config.json",
         "-not -path '*/node_modules/*' -not -path '*/node_modules_cache/*'",
         "2>/dev/null",

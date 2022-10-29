@@ -1,40 +1,171 @@
 [
   {
-    "description": "TODO global-css description",
-    "name": "global-css",
-    "type": "template",
+    "description": "Object Action Nodejs Partial",
+    "name": "object-action-nodejs",
+    "type": "partial",
+    "template": "service-nodejs",
     "args": [
       {
         "name": "id",
-        "description": "This is the id of the global-css client extension",
-        "default": "able-global-css"
+        "description": "Id of objectAction client extension",
+        "default": "my-object-action"
       },
       {
-        "name": "name",
-        "description": "This is display name of global-css client extension",
-        "default": "Able Global CSS"
+        "name": "Object",
+        "description": "Name of the Object resource",
+        "default": "MyObject"
+      },
+      {
+        "name": "resourcePath",
+        "description": "HTTP POST resource path for the objectAction to invoke",
+        "default": "/myobject/action"
       }
     ]
   },
   {
-    "description": "TODO configuration description",
+    "description": "Object Action Springboot Partial",
+    "name": "object-action-springboot",
+    "type": "partial",
+    "template": "service-springboot",
+    "args": [
+      {
+        "name": "id",
+        "description": "Id of objectAction client extension",
+        "default": "my-object-action"
+      },
+      {
+        "name": "Object",
+        "description": "Name of the Object resource",
+        "default": "MyObject"
+      },
+      {
+        "name": "resourcePath",
+        "description": "HTTP POST resource path for the objectAction to invoke",
+        "default": "/myobject/action"
+      }
+    ]
+  },
+  {
+    "description": "This is a sample application showing the use of multiple client extension projects",
+    "name": "coupon-solution",
+    "type": "sample"
+  },
+  {
+    "description": "Configuration as Code (CasC) Client Extension",
     "name": "configuration",
     "type": "template",
     "args": [
       {
         "name": "id",
-        "description": "This is the id of the oauth2 profile",
-        "default": "my-configuration"
+        "description": "This is the id of the headless server OAuth2 Profile",
+        "default": "my-configuration-profile"
       },
       {
         "name": "name",
-        "description": "This is display name of oauth2 profile",
-        "default": "My Configuration"
+        "description": "This is display name of headless server OAuth2 Profile",
+        "default": "My Configuration Profile"
       }
     ]
   },
   {
-    "description": "TODO service-springboot description",
+    "description": "Global CSS Client Extension",
+    "name": "global-css",
+    "type": "template",
+    "args": [
+      {
+        "name": "id",
+        "description": "Id of the global-css client extension",
+        "default": "my-global-css"
+      },
+      {
+        "name": "name",
+        "description": "Display name of the global-css client extension",
+        "default": "My Global CSS"
+      }
+    ]
+  },
+  {
+    "description": "Global JS Client Extension",
+    "name": "global-js",
+    "type": "template",
+    "args": [
+      {
+        "name": "id",
+        "description": "Id of the global-js client extension",
+        "default": "my-global-js"
+      },
+      {
+        "name": "name",
+        "description": "Display name of the global-css client extension",
+        "default": "My Global JS"
+      }
+    ]
+  },
+  {
+    "description": "Iframe Remote App Client Extension",
+    "name": "remote-app-iframe",
+    "type": "template",
+    "args": [
+      {
+        "name": "id",
+        "description": "Id of the iframe client extension",
+        "default": "my-iframe"
+      },
+      {
+        "name": "name",
+        "description": "Display name of iframe client extension",
+        "default": "My Iframe"
+      }
+    ]
+  },
+  {
+    "description": "React Remote App Client Extension",
+    "name": "remote-app-react",
+    "type": "template",
+    "args": [
+      {
+        "name": "id",
+        "description": "Id of the customElement client extension",
+        "default": "remote-app-react"
+      },
+      {
+        "name": "name",
+        "description": "Display name of customElement client extension",
+        "default": "My Remote App React"
+      }
+    ]
+  },
+  {
+    "description": "Vanilla Remote App Client Extension",
+    "name": "remote-app-vanilla",
+    "type": "template",
+    "args": [
+      {
+        "name": "id",
+        "description": "Id of the customElement client extension",
+        "default": "remote-app-vanilla"
+      },
+      {
+        "name": "name",
+        "description": "Display name of customElement client extension",
+        "default": "My Remote App Vanilla"
+      }
+    ]
+  },
+  {
+    "description": "Nodejs Custom Service Client Extension",
+    "name": "service-nodejs",
+    "type": "template",
+    "args": [
+      {
+        "name": "id",
+        "description": "Id used to identify package in package.json",
+        "default": "my-service-nodejs"
+      }
+    ]
+  },
+  {
+    "description": "Springboot Custom Service Client Extension",
     "name": "service-springboot",
     "type": "template",
     "args": [
@@ -51,31 +182,37 @@
     ]
   },
   {
-    "description": "TODO object-action-springboot description",
-    "name": "object-action-springboot",
-    "type": "partial",
-    "template": "service-springboot",
+    "description": "Theme CSS Client Extension",
+    "name": "theme-css",
+    "type": "template",
     "args": [
       {
         "name": "id",
-        "description": "This is a id of client extension configuration",
-        "default": "my-object-action"
+        "description": "Id of the theme-css client extension",
+        "default": "my-theme-css"
       },
       {
-        "name": "Object",
-        "description": "This is a name of the Object resourcel",
-        "default": "MyObject"
-      },
-      {
-        "name": "resourcePath",
-        "description": "This is a HTTP POST resource path for the service",
-        "default": "/myobject/action"
+        "name": "name",
+        "description": "Display name of the theme-css client extension",
+        "default": "My Theme CSS"
       }
     ]
   },
   {
-    "description": "This is a sample application showing the use of multiple client extension projects",
-    "name": "coupon-solution",
-    "type": "sample"
+    "description": "Theme JS Client Extension",
+    "name": "theme-js",
+    "type": "template",
+    "args": [
+      {
+        "name": "id",
+        "description": "Id of the theme-js client extension",
+        "default": "my-theme-js"
+      },
+      {
+        "name": "name",
+        "description": "Display name of the theme-js client extension",
+        "default": "My Theme JS"
+      }
+    ]
   }
 ]
