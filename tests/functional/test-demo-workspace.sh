@@ -31,7 +31,7 @@ $CLI runtime mkcert
 $CLI runtime mkcert --install
 
 git clone \
-  --branch tiltImprovements1 \
+  --branch master \
   --depth 1 \
   https://github.com/gamerson/gartner-client-extensions-demo \
   ${LOCALDEV_REPO}/tests/work/gartner-client-extensions-demo
@@ -50,7 +50,7 @@ done
 
 FOUND_EXT_PROVISION_CONFIG_MAPS=0
 
-until [ "$FOUND_EXT_PROVISION_CONFIG_MAPS" == "4" ]; do
+until [ "$FOUND_EXT_PROVISION_CONFIG_MAPS" == "5" ]; do
   sleep 5
   FOUND_EXT_PROVISION_CONFIG_MAPS=$(docker exec -i localdev-extension-runtime /entrypoint.sh kubectl get cm | grep ext-provision-metadata | wc -l | xargs)
   echo "FOUND_EXT_PROVISION_CONFIG_MAPS=${FOUND_EXT_PROVISION_CONFIG_MAPS}"
@@ -59,7 +59,7 @@ done
 
 FOUND_EXT_INIT_CONFIG_MAPS=0
 
-until [ "$FOUND_EXT_INIT_CONFIG_MAPS" == "4" ]; do
+until [ "$FOUND_EXT_INIT_CONFIG_MAPS" == "5" ]; do
   sleep 5
   FOUND_EXT_INIT_CONFIG_MAPS=$(docker exec -i localdev-extension-runtime /entrypoint.sh kubectl get cm | grep ext-init-metadata | wc -l | xargs)
   echo "FOUND_EXT_INIT_CONFIG_MAPS=${FOUND_EXT_INIT_CONFIG_MAPS}"
