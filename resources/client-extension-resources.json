@@ -191,7 +191,7 @@
     ]
   },
   {
-    "category": "General",
+    "category": "Front End",
     "description": "Theme CSS Client Extension",
     "name": "theme-css",
     "type": "template",
@@ -209,7 +209,7 @@
     ]
   },
   {
-    "category": "General",
+    "category": "Front End",
     "description": "Theme JS Client Extension",
     "name": "theme-js",
     "type": "template",
