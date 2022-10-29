@@ -4,9 +4,10 @@ set -e
 
 export RESOURCES_BASE_PATH="${LOCALDEV_REPO}/resources/"
 export WORK_PATH="${LOCALDEV_REPO}/tests/work"
-export WORKSPACE_BASE_PATH="${WORK_PATH}/workspace/client-extensions"
+export WORKSPACE_BASE_PATH="${WORKSPACE_BASE_PATH:-${WORK_PATH}/workspace/client-extensions}"
 BUILD_CMD=${LOCALDEV_REPO}/scripts/ext/build.sh
 CREATE_CMD=${LOCALDEV_REPO}/scripts/ext/create.py
+BUILD_PROJECTS=${BUILD_PROJECTS:-true}
 
 rm -rf $WORK_PATH && mkdir -p $WORK_PATH
 
@@ -74,11 +75,13 @@ CREATE_ARGS="\
 --args=id=juliet-theme-favicon|\
 --args=name=Juliet Theme Favicon" $CREATE_CMD
 
-"${WORK_PATH}/workspace/gradlew" --project-dir "${WORK_PATH}/workspace" build
+if [ "$BUILD_PROJECTS" == "true" ]; then
+  "${WORK_PATH}/workspace/gradlew" --project-dir "${WORK_PATH}/workspace" build
 
-ZIP_FILE_COUNT=$(find "${WORKSPACE_BASE_PATH}" -name '*.zip' | wc -l | awk '{print $1}' )
+  ZIP_FILE_COUNT=$(find "${WORKSPACE_BASE_PATH}" -name '*.zip' | wc -l | awk '{print $1}' )
 
-if [ "$ZIP_FILE_COUNT" != "10" ]; then
-  echo "ZIP_FILE_COUNT=$ZIP_FILE_COUNT expected 5"
-  exit 1
+  if [ "$ZIP_FILE_COUNT" != "10" ]; then
+    echo "ZIP_FILE_COUNT=$ZIP_FILE_COUNT expected 5"
+    exit 1
+  fi
 fi
