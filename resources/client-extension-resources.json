@@ -46,11 +46,13 @@
     ]
   },
   {
+    "category": "General",
     "description": "This is a sample application showing the use of multiple client extension projects",
     "name": "coupon-solution",
     "type": "sample"
   },
   {
+    "category": "General",
     "description": "Configuration as Code (CasC) Client Extension",
     "name": "configuration",
     "type": "template",
@@ -68,6 +70,7 @@
     ]
   },
   {
+    "category": "Front End",
     "description": "Global CSS Client Extension",
     "name": "global-css",
     "type": "template",
@@ -85,6 +88,7 @@
     ]
   },
   {
+    "category": "Front End",
     "description": "Global JS Client Extension",
     "name": "global-js",
     "type": "template",
@@ -102,6 +106,7 @@
     ]
   },
   {
+    "category": "Front End",
     "description": "Iframe Remote App Client Extension",
     "name": "remote-app-iframe",
     "type": "template",
@@ -119,6 +124,7 @@
     ]
   },
   {
+    "category": "Front End",
     "description": "React Remote App Client Extension",
     "name": "remote-app-react",
     "type": "template",
@@ -136,6 +142,7 @@
     ]
   },
   {
+    "category": "Front End",
     "description": "Vanilla Remote App Client Extension",
     "name": "remote-app-vanilla",
     "type": "template",
@@ -153,6 +160,7 @@
     ]
   },
   {
+    "category": "General",
     "description": "Nodejs Custom Service Client Extension",
     "name": "service-nodejs",
     "type": "template",
@@ -165,6 +173,7 @@
     ]
   },
   {
+    "category": "General",
     "description": "Springboot Custom Service Client Extension",
     "name": "service-springboot",
     "type": "template",
@@ -182,6 +191,7 @@
     ]
   },
   {
+    "category": "Front End",
     "description": "Theme CSS Client Extension",
     "name": "theme-css",
     "type": "template",
@@ -199,6 +209,7 @@
     ]
   },
   {
+    "category": "Front End",
     "description": "Theme JS Client Extension",
     "name": "theme-js",
     "type": "template",
