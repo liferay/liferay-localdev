@@ -47,8 +47,14 @@
   },
   {
     "category": "General",
-    "description": "This is a sample application showing the use of multiple client extension projects",
-    "name": "coupon-solution",
+    "description": "Sample application showing the use Object Actions calling Functions with Client Extensions",
+    "name": "coupon-with-object-actions",
+    "type": "sample"
+  },
+  {
+    "category": "General",
+    "description": "Sample application showing Single Approve Machine Workflow with Client Extnsions",
+    "name": "single-approver-machine-workflow",
     "type": "sample"
   },
   {
