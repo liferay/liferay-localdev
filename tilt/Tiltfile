@@ -64,6 +64,7 @@ def process_extension(
         "LOCALDEV_REPO": repo,
         "MEMORY": memory,
         "NAME": name,
+        "PROJECT_PATH": projectPath,
         "TARGET_PORT": str(targetPort),
         "VIRTUAL_INSTANCE_ID": virtual_instance_id,
         "WORKLOAD": workload,
@@ -165,6 +166,7 @@ tiltignores = str(
 for client_extension_yaml_file in client_extension_yaml_files:
     project_path = os.path.dirname(client_extension_yaml_file)
     client_extension_name = os.path.basename(project_path)
+    project_relative_path = os.path.relpath(project_path, "/workspace/")
 
     if client_extension_name in tiltignores:
         continue
@@ -220,7 +222,7 @@ for client_extension_yaml_file in client_extension_yaml_files:
 
     process_extension(
         client_extension_name,
-        "client-extensions/%s" % client_extension_name,
+        project_relative_path,
         source_deps=watch,
         targetPort=targetPort,
         workload=workload,
