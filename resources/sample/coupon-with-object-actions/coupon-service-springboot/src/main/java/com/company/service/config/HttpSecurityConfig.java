@@ -71,7 +71,22 @@ public class HttpSecurityConfig {
 	}
 
 	@Bean
-	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+	public JwtDecoder jwtDecoder(@Value("${coupon-user-agent.oauth2.jwks.uri}") String jwkSetUrl) throws Exception {
+		JWSKeySelector<SecurityContext> jwsKeySelector =
+			JWSAlgorithmFamilyJWSKeySelector.fromJWKSetURL(new URL(jwkSetUrl));
+
+		DefaultJWTProcessor<SecurityContext> jwtProcessor =
+			new DefaultJWTProcessor<>();
+		jwtProcessor.setJWSKeySelector(jwsKeySelector);
+		jwtProcessor.setJWSTypeVerifier(
+			new DefaultJOSEObjectTypeVerifier<>(new JOSEObjectType("at+jwt")));
+
+		return new NimbusJwtDecoder(jwtProcessor);
+	}
+
+	@Bean
+	public SecurityFilterChain securityFilterChain(HttpSecurity http,
+			Collection<Consumer<HttpSecurity>> adapters) throws Exception {
 		return http.cors(
 		).and(
 		).csrf(
@@ -81,8 +96,9 @@ public class HttpSecurityConfig {
 			SessionCreationPolicy.STATELESS
 		).and(
 		).authorizeHttpRequests(
-				authorize -> authorize.anyRequest()
-		).build();
+				authorize -> authorize.anyRequest().authenticated()
+			).oauth2ResourceServer(
+					OAuth2ResourceServerConfigurer::jwt).build();
 	}
 
 }
