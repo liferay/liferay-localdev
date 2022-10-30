@@ -97,20 +97,7 @@ workspace_tiltfile = dict()
 if os.path.exists(workspace_tiltfile_path):
     workspace_tiltfile = load_dynamic(workspace_tiltfile_path)
 
-docker_prune_settings()
-update_settings(max_parallel_updates=1)
-
-watch_file("%s/k8s/endpoint/" % repo)
-watch_file("%s/k8s/workloads/" % repo)
-watch_file("%s/scripts/k8s/" % repo)
-
-if config.tilt_subcommand == "down":
-    local("kubectl delete cm -l lxc.liferay.com/metadataType=dxp")
-    local("kubectl delete cm -l lxc.liferay.com/metadataType=ext-init")
-    local("%s/scripts/dxp-stop.sh" % repo)
-
-# build and launch dxp
-
+# load extension symbols from user's workspace Tiltfile
 dxp_data_volume = workspace_tiltfile.get("dxp_data_volume")
 
 more_dxp_buildargs = workspace_tiltfile.get("more_dxp_buildargs", {})
@@ -122,6 +109,22 @@ more_dxp_envs = workspace_tiltfile.get("more_dxp_envs", {})
 more_dxp_envs_val = ""
 for key, value in more_dxp_envs.items():
     more_dxp_envs_val += " -e %s=%s " % (key, value)
+
+# setup tilt
+docker_prune_settings()
+update_settings(max_parallel_updates=1)
+
+# useful only when debugging
+# watch_file("%s/k8s/endpoint/" % repo)
+# watch_file("%s/k8s/workloads/" % repo)
+# watch_file("%s/scripts/k8s/" % repo)
+
+if config.tilt_subcommand == "down":
+    local("kubectl delete cm -l lxc.liferay.com/metadataType=dxp")
+    local("kubectl delete cm -l lxc.liferay.com/metadataType=ext-init")
+    local("%s/scripts/dxp-stop.sh" % repo)
+
+# build and launch dxp
 
 local_resource(
     "dxp.%s" % lfrdev_domain,
@@ -148,6 +151,8 @@ local_resource(
     labels=["DXP"],
 )
 
+# search for user client extension projects in user workspace
+
 client_extension_yaml_files = str(
     local(
         """find \
@@ -163,6 +168,8 @@ client_extension_yaml_files = str(
 tiltignores = str(
     read_file("/workspace/client-extensions/.tiltignore", "")
 ).splitlines()
+
+# for each client extension project, read yaml and process the extension
 
 for client_extension_yaml_file in client_extension_yaml_files:
     project_path = os.path.dirname(client_extension_yaml_file)
@@ -234,6 +241,7 @@ for client_extension_yaml_file in client_extension_yaml_files:
         links=links,
     )
 
+# if user Tiltfile defines an after, call it
 after_all = workspace_tiltfile.get("after_all")
 if after_all != None:
     after_all()
