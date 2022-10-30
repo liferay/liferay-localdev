@@ -1,4 +1,4 @@
-package ${package}.config;
+package com.company.service.config;
 
 import java.net.URL;
 import java.util.Arrays;
@@ -71,7 +71,7 @@ public class HttpSecurityConfig {
 	}
 
 	@Bean
-	public JwtDecoder jwtDecoder(@Value("${${id}-user-agent.oauth2.jwks.uri}") String jwkSetUrl) throws Exception {
+	public JwtDecoder jwtDecoder(@Value("${coupon-user-agent.oauth2.jwks.uri}") String jwkSetUrl) throws Exception {
 		JWSKeySelector<SecurityContext> jwsKeySelector =
 			JWSAlgorithmFamilyJWSKeySelector.fromJWKSetURL(new URL(jwkSetUrl));
 

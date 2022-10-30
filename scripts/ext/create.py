@@ -23,14 +23,39 @@ parser.add_argument("--args", action="append", nargs="+")
 create_args = vars(parser.parse_args(args=create_argsline.split("|")))
 template_args = dict()
 
-for i in create_args["args"]:
-    arr = i[0].split("=")
-    template_args[arr[0]] = arr[1]
+if create_args.get("args") != None:
+    for i in create_args["args"]:
+        arr = i[0].split("=")
+        template_args[arr[0]] = arr[1]
 
 project_path = os.path.join(workspace_base_path, create_args["workspace_path"])
 template_path = os.path.join(resources_base_path, create_args["resource_path"])
 
-shutil.copytree(template_path, project_path)
+# overwrite the default copy2 and for client-extension.yaml append instead
+def copy3(src, dst):
+    if str(src).endswith("client-extension.yaml") and str(dst).endswith(
+        "client-extension.yaml"
+    ):
+        current = ""
+        with open(dst) as dstfile:
+            current = dstfile.read()
+        with open(src) as srcfile:
+            new = srcfile.read()
+            with open(dst, "w") as dstfile:
+                dstfile.write(current + "\n\n" + new)
+        return dst
+    else:
+        return shutil.copy2(src, dst)
+
+
+is_partial = template_path.startswith(resources_base_path + "partial/")
+
+shutil.copytree(
+    template_path,
+    project_path,
+    copy_function=copy3 if is_partial else shutil.copy2,
+    dirs_exist_ok=True if is_partial else False,
+)
 
 for root, dirs, files in os.walk(project_path):
     for d in dirs:
@@ -39,7 +64,13 @@ for root, dirs, files in os.walk(project_path):
             newdirpath = dirpath.replace("${%s}" % key, template_args[key])
             newdirparentpath = pathlib.Path(newdirpath).parent
             pathlib.Path.mkdir(newdirparentpath, parents=True, exist_ok=True)
-            os.rename(dirpath, newdirpath)
+            if dirpath != newdirpath and os.path.exists(newdirpath):
+                # the rename folder may exist (applying a partial)
+                # if so, just copy the tree instead and then remove it
+                shutil.copytree(dirpath, newdirpath, dirs_exist_ok=True)
+                shutil.rmtree(dirpath)
+            else:
+                os.rename(dirpath, newdirpath)
             dirpath = newdirpath
 
 for root, dirs, files in os.walk(project_path):
