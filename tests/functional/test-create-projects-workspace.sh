@@ -39,16 +39,28 @@ $CLI ext create \
   -v \
   --noprompt \
   -- \
-  --resource-path=template/configuration \
-  --workspace-path=coupon-configuration \
-  --args=id=coupon-configuration-import \
+  --resource-path="template/configuration" \
+  --workspace-path="coupon-configuration" \
+  --args=id="coupon-configuration-import" \
   --args=name="Coupon Configuration Import"
 
 $CLI ext create \
   -v \
   --noprompt \
   -- \
-  --resource-path=template/service-springboot \
-  --workspace-path=coupon-service \
+  --resource-path="template/service-springboot" \
+  --workspace-path="coupon-service-springboot" \
   --args=package="com.company.service"\
   --args=packagePath="com/company/service"
+
+$CLI ext create \
+  -v \
+  --noprompt \
+  -- \
+  --resource-path="partial/object-action-springboot" \
+  --workspace-path="coupon-service-springboot" \
+  --args=package="com.company.service" \
+  --args=packagePath="com/company/service" \
+  --args=Object="Coupon" \
+  --args=id=coupon \
+  --args=resourcePath="/coupons/amount"
