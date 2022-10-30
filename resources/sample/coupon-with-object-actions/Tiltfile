@@ -18,6 +18,9 @@ dxp_data_volume = "sampleCouponWithObjectActions"
 # if it exists, and there is a after_all() function it will be called after main Tiltfile is processed
 def after_all():
     add_drop_db_button()
+    k8s_resource(
+        workload="coupon-service-springboot",
+        resource_deps=["coupon-configuration"])
 
 
 def add_drop_db_button():
