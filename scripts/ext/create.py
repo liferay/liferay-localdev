@@ -23,9 +23,10 @@ parser.add_argument("--args", action="append", nargs="+")
 create_args = vars(parser.parse_args(args=create_argsline.split("|")))
 template_args = dict()
 
-for i in create_args["args"]:
-    arr = i[0].split("=")
-    template_args[arr[0]] = arr[1]
+if create_args.get("args") != None:
+    for i in create_args["args"]:
+        arr = i[0].split("=")
+        template_args[arr[0]] = arr[1]
 
 project_path = os.path.join(workspace_base_path, create_args["workspace_path"])
 template_path = os.path.join(resources_base_path, create_args["resource_path"])
@@ -47,11 +48,13 @@ def copy3(src, dst):
         return shutil.copy2(src, dst)
 
 
+is_partial = template_path.startswith(resources_base_path + "partial/")
+
 shutil.copytree(
     template_path,
     project_path,
-    copy_function=copy3,
-    dirs_exist_ok=template_path.startswith(resources_base_path + "partial/"),
+    copy_function=copy3 if is_partial else shutil.copy2,
+    dirs_exist_ok=True if is_partial else False,
 )
 
 for root, dirs, files in os.walk(project_path):
