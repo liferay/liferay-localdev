@@ -48,6 +48,7 @@ jobs:
         run: |
           pip3 install black
           find . -name '*.py' -print | xargs black --check
+          find . -name 'Tiltfile' -print | xargs black --check
       - name: Build
         shell: bash
         env:
