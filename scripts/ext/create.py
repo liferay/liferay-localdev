@@ -30,7 +30,9 @@ for i in create_args["args"]:
 project_path = os.path.join(workspace_base_path, create_args["workspace_path"])
 template_path = os.path.join(resources_base_path, create_args["resource_path"])
 
-shutil.copytree(template_path, project_path)
+shutil.copytree(
+    template_path, project_path, dirs_exist_ok=template_path.startswith("partial/")
+)
 
 for root, dirs, files in os.walk(project_path):
     for d in dirs:
