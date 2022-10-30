@@ -69,7 +69,7 @@ public class HttpSecurityConfig {
 		source.registerCorsConfiguration("/**", configuration);
 		return source;
 	}
-	
+
 	@Bean
 	public JwtDecoder jwtDecoder(@Value("${${id}-user-agent.oauth2.jwks.uri}") String jwkSetUrl) throws Exception {
 		JWSKeySelector<SecurityContext> jwsKeySelector =
