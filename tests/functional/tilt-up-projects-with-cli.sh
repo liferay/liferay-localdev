@@ -2,11 +2,11 @@
 
 set -e
 
-LIFERAY_CLI_BRANCH=""
+LIFERAY_CLI_BRANCH="main"
 
 if [ "$LIFERAY_CLI_BRANCH" != "" ]; then
   git clone \
-    --branch main \
+    --branch $LIFERAY_CLI_BRANCH \
     --depth 1 \
     https://github.com/liferay/liferay-cli \
     ${LOCALDEV_REPO}/tests/work/liferay
