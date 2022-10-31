@@ -31,6 +31,12 @@ spec:
         ports:
           - containerPort: #@ data.values.debugPort
           - containerPort: #@ data.values.targetPort
+        #@ if data.values.readyPath:
+        readinessProbe:
+          httpGet:
+            path: #@ data.values.readyPath
+            port: #@ data.values.targetPort
+        #@ end
         volumeMounts:
           #@ if data.values.dxpMetadata:
           - mountPath: /etc/liferay/lxc/dxp-metadata
