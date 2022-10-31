@@ -24,8 +24,8 @@ jobs:
           find . -name '*.py' -print | xargs black --check
           find . -name 'Tiltfile' -print | xargs black --check
           find . -name '*.sh' -print | xargs beautysh -t --check
-  TestCreateAndBuildProjects:
-    name: Test Create and Build Projects
+  CreateAndBuildProjects:
+    name: Create and Build Projects
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -48,7 +48,7 @@ jobs:
           DOCKER_NETWORK: "host"
         run: |
           export LOCALDEV_REPO=${GITHUB_WORKSPACE}
-          ./tests/integration/test-create-build-projects.sh
+          ./tests/integration/create-build-projects.sh
   TiltupNewProjects:
     name: Tiltup new projects
     runs-on: ubuntu-latest
