@@ -90,18 +90,15 @@ def process_extension(
 # returns a array of paths that matched the search
 # some common paths are ignored
 def workspace_search(pattern):
-    return str(
-        local(
-            " ".join(
-                "find /workspace/client-extensions",
-                "-name %s" % pattern,
-                "-not -path '*/build/*'",
-                "-not -path '*/node_modules/*'",
-                "-not -path '*/node_modules_cache/*'",
-                "2>/dev/null",
-            )
-        )
-    ).splitlines()
+    find_args = [
+        "find /workspace/client-extensions",
+        "-name %s" % pattern,
+        "-not -path '*/build/*'",
+        "-not -path '*/node_modules/*'",
+        "-not -path '*/node_modules_cache/*'",
+        "2>/dev/null",
+    ]
+    return str(local(" ".join(find_args))).splitlines()
 
 
 # main code
@@ -146,7 +143,7 @@ if config.tilt_subcommand == "down":
 
 dxp_buildargs_val = ""
 for key, value in dxp_buildargs.items():
-    more_dxp_buildargs_val += " --build-arg %s=%s " % (key, value)
+    dxp_buildargs_val += " --build-arg %s=%s " % (key, value)
 
 dxp_envs_val = ""
 for key, value in dxp_envs.items():
@@ -260,4 +257,4 @@ for client_extension_yaml_file in client_extension_yaml_files:
 # if user Tiltfile defines an after_all, call it
 for user_tiltfile in user_tiltfiles:
     if user_tiltfile.get("after_all"):
-      user_tiltfile["after_all"]()
+        user_tiltfile["after_all"]()
