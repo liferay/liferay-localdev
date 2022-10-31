@@ -1,0 +1,8 @@
+#The after_all() function (if exists) will be called after main Tiltfile is executed in localdev
+def after_all():
+#    k8s_resource(
+#        workload="my-service", resource_deps=["my-configuration"]
+#    )
+#    k8s_resource(
+#        workload="my-frontend", resource_deps=["my-backend"]
+#    )

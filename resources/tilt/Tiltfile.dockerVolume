@@ -1,0 +1,18 @@
+load("ext://uibutton", "cmd_button", "text_input", "location")
+
+# this var will be used to customize the docker volume mapped to
+dxp_data_volume = "dxpData"
+
+# api docs for adding UIButtons found here: https://docs.tilt.dev/buttons.html
+cmd_button(
+    "Kill DXP && Drop Docker Volume!",
+    argv=[
+        "sh",
+        "-c",
+        "docker container rm -f dxp-server && docker volume rm %s" % dxp_data_volume
+    ],
+    resource="dxp.lfr.dev",
+    icon_name="delete",
+    text="Kill DXP && Drop Docker Volume!"
+    # inputs=[text_input("VOLUME", default=dxp_data_volume)],
+)
