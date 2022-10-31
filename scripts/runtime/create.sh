@@ -25,10 +25,10 @@ ytt \
 	-f ${REPO}/k8s/k3d \
 	--data-value-yaml "hostAliases=$HOST_ALIASES" \
 	--data-value-yaml "lfrdevDomain=$LFRDEV_DOMAIN" \
-	> .cluster_config.yaml
+	> /tmp/.cluster_config.yaml
 
 k3d cluster create \
-	--config .cluster_config.yaml \
+	--config /tmp/.cluster_config.yaml \
 	--registry-create registry.lfr.dev:50505 \
 	--wait
 
