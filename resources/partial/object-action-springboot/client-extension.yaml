@@ -1,4 +1,4 @@
-${id}-oauth-user-agent:
+${id}-user-agent:
   type: oauthApplicationUserAgent
   scopes:
     - C_${Object}.everything
@@ -6,4 +6,4 @@ ${id}-oauth-user-agent:
 ${id}-object-action:
   type: objectAction
   resourcePath: ${resourcePath}
-  oAuth2ApplicationExternalReferenceCode: ${id}-oauth-user-agent
+  oAuth2ApplicationExternalReferenceCode: ${id}-user-agent

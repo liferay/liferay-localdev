@@ -4,7 +4,7 @@ runtime:
   cpu: 500m
   memory: 256Mi
 
-coupon-springboot-oauth-user-agent:
+coupon-springboot-user-agent:
   type: oauthApplicationUserAgent
   scopes:
     - C_Coupon.everything
@@ -12,4 +12,4 @@ coupon-springboot-oauth-user-agent:
 coupon-updated-object-action-springboot:
   type: objectAction
   resourcePath: /coupon/updated
-  oAuth2ApplicationExternalReferenceCode: coupon-springboot-oauth-user-agent
+  oAuth2ApplicationExternalReferenceCode: coupon-springboot-user-agent
