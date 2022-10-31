@@ -20,9 +20,10 @@ jobs:
       - name: Check Source Formatting
         shell: bash
         run: |
-          pip3 install black
+          pip3 install black beautysh
           find . -name '*.py' -print | xargs black --check
           find . -name 'Tiltfile' -print | xargs black --check
+          find . -name '*.sh' -print | xargs beautysh -t --check
   TestCreateAndBuildProjects:
     name: Test Create and Build Projects
     runs-on: ubuntu-latest

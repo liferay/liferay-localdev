@@ -60,7 +60,7 @@ echo "OAUTH2_SECRET: ${OAUTH2_SECRET}"
 
 echo "########################"
 TOKEN_RESULT=$(\
-	curl \
+		curl \
 		-s \
 		$CURL_FLAGS \
 		-X POST \
@@ -68,7 +68,7 @@ TOKEN_RESULT=$(\
 		-H 'Content-type: application/x-www-form-urlencoded' \
 		-d "grant_type=client_credentials&client_id=${OAUTH2_CLIENTID}&client_secret=${OAUTH2_SECRET}" \
 		--cacert ${CA_CERT} \
-		| jq -r '.')
+	| jq -r '.')
 
 echo "TOKEN_RESULT: ${TOKEN_RESULT}"
 
@@ -109,7 +109,7 @@ process_batch() {
 	fi
 
 	local RESULT=$(\
-		curl \
+			curl \
 			-s \
 			$CURL_FLAGS \
 			-X 'POST' \
@@ -119,7 +119,7 @@ process_batch() {
 			-H "Authorization: Bearer ${ACCESS_TOKEN}" \
 			-d "${BATCH_ITEMS}" \
 			--cacert ${CA_CERT} \
-			| jq -r '.')
+		| jq -r '.')
 
 	if [ "${RESULT}x" == "x" ]; then
 		echo "An error occured"
@@ -134,7 +134,7 @@ process_batch() {
 
 	until [ "${BATCH_STATUS}" == "COMPLETED" ] || [ "${BATCH_STATUS}" == "FAILED" ] || [ "${BATCH_STATUS}" == "NOT_FOUND" ]; do
 		RESULT=$(\
-			curl \
+				curl \
 				-s \
 				$CURL_FLAGS \
 				-X 'GET' \
@@ -142,7 +142,7 @@ process_batch() {
 				-H 'accept: application/json' \
 				-H "Authorization: Bearer ${ACCESS_TOKEN}" \
 				--cacert ${CA_CERT} \
-				| jq -r '.')
+			| jq -r '.')
 
 		BATCH_STATUS=$(jq -r '.executeStatus//.status' <<< "$RESULT")
 
@@ -161,7 +161,7 @@ process_batch() {
 					-H 'accept: application/json' \
 					-H "Authorization: Bearer ${ACCESS_TOKEN}" \
 					--cacert ${CA_CERT} \
-					| jq -r .)
+				| jq -r .)
 
 			STATUS=$(jq -r '.status.code' <<< $ENTRY)
 			STATUS_LABEL_I18N=$(jq -r '.status.label_i18n' <<< $ENTRY)
@@ -180,7 +180,7 @@ process_batch() {
 						-H 'accept: application/json' \
 						-H "Authorization: Bearer ${ACCESS_TOKEN}" \
 						--cacert ../ca.crt \
-						| jq -r .)
+					| jq -r .)
 
 				echo "PUBLISHED: ${ENTRY_ID}"
 			fi
