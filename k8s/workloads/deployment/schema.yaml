@@ -8,6 +8,7 @@ image: ""
 dxpMetadata: #@ True
 initMetadata: #@ False
 memory: "512Mi"
+readyPath: ""
 serviceId: ""
 targetPort: 80
 virtualInstanceId: ""

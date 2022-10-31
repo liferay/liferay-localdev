@@ -195,26 +195,22 @@ for client_extension_yaml_file in client_extension_yaml_files:
     client_extension_object = read_yaml(client_extension_yaml_file)
 
     # defaults
-    workload = "static"
-    resource_deps = []
-    targetPort = 80
-    watch = []
     cpu = ""
-    memory = ""
     envs = []
     links = []
+    memory = ""
+    resource_deps = []
+    readyPath = ""
+    targetPort = 80
+    watch = []
+    workload = "static"
 
     if client_extension_object.get("runtime"):
         runtime = client_extension_object["runtime"]
 
-        if runtime.get("type"):
-            type = runtime["type"]
-
-            if type == "configuration":
-                workload = "job"
-            else:
-                if type == "service":
-                    workload = "deployment"
+        cpu = runtime.get("cpu", "")
+        memory = runtime.get("memory", ""):
+        readyPath = runtime.get("readyPath", "")
 
         if runtime.get("deps"):
             resource_deps = [runtime["deps"][0]]
@@ -225,14 +221,17 @@ for client_extension_yaml_file in client_extension_yaml_files:
         if runtime.get("watch"):
             watch = runtime["watch"]
 
-        if runtime.get("cpu"):
-            cpu = runtime["cpu"]
-
-        if runtime.get("memory"):
-            memory = runtime["memory"]
-
         if runtime.get("env"):
             envs = runtime["env"]
+
+        if runtime.get("type"):
+            type = runtime["type"]
+
+            if type == "configuration":
+                workload = "job"
+            else:
+                if type == "service":
+                    workload = "deployment"
 
     if workload != "job":
         links = [link("https://%s.%s" % (client_extension_name, lfrdev_domain))]
