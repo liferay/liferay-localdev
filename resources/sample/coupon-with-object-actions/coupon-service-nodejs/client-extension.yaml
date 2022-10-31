@@ -1,6 +1,7 @@
 runtime:
   type: service
   deps: ["coupon-configuration"]
+  template: service-nodejs
   port: 3000
   watch:
     - "src/"
