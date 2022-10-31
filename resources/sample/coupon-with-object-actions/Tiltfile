@@ -5,7 +5,7 @@ dxp_data_volume = "sampleCouponWithObjectActions"
 
 # this map will add additional build args to the dxp-server base image build
 more_dxp_buildargs = {
-   "DXP_BASE_IMAGE": "liferay/dxp:7.4.13.nightly-d5.0.2-20221028072756"
+    "DXP_BASE_IMAGE": "liferay/dxp:7.4.13.nightly-d5.0.2-20221028072756"
 }
 
 # This map will add additional ENV VARs to the dxp-server docker container
@@ -41,5 +41,5 @@ def add_drop_db_button():
         resource="dxp.lfr.dev",
         icon_name="delete",
         text="Kill DXP && Drop Docker Volume!"
-        #inputs=[text_input("VOLUME", default=dxp_data_volume)],
+        # inputs=[text_input("VOLUME", default=dxp_data_volume)],
     )
