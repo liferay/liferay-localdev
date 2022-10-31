@@ -3,3 +3,7 @@ ${id}:
     mainURL: css/main.css
     name: ${name}
     type: themeCSS
+
+runtime:
+  template: theme-css
+  type: static

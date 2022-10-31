@@ -15,3 +15,7 @@ assemble:
   - from: build/
     include: "static/**/*"
     into: dockerRoot/
+
+runtime:
+  template: remote-app-react
+  type: static
