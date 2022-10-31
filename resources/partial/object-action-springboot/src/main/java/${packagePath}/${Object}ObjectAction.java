@@ -33,7 +33,7 @@ public class ${Object}ObjectAction {
     ObjectMapper objectMapper = new ObjectMapper();
     JsonNode jsonNode = objectMapper.readTree(json);
 
-    msg = jsonNode.toString();
+    String msg = jsonNode.toString();
     System.out.println(msg);
     return new ResponseEntity<>(msg, HttpStatus.CREATED);
   }
