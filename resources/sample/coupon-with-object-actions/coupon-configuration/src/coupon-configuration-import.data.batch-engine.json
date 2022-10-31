@@ -54,12 +54,23 @@
         {
           "active": true,
           "conditionExpression": "",
-          "dateCreated": "2022-10-31T02:53:42Z",
-          "dateModified": "2022-10-31T03:04:06Z",
           "description": "",
-          "id": 48512,
-          "name": "Coupon Updated",
-          "objectActionExecutorKey": "function#coupon-updated",
+          "name": "Coupon Updated (Springboot function)",
+          "objectActionExecutorKey": "function#coupon-updated-object-action-springboot",
+          "objectActionTriggerKey": "onAfterUpdate",
+          "parameters": {},
+          "status": {
+            "code": 0,
+            "label": "never-ran",
+            "label_i18n": "Never Ran"
+          }
+        },
+        {
+          "active": true,
+          "conditionExpression": "",
+          "description": "",
+          "name": "Coupon Updated (Nodejs function)",
+          "objectActionExecutorKey": "function#coupon-updated-object-action-nodejs",
           "objectActionTriggerKey": "onAfterUpdate",
           "parameters": {},
           "status": {
