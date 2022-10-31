@@ -27,6 +27,9 @@ ytt \
 	--data-value-yaml "lfrdevDomain=$LFRDEV_DOMAIN" \
 	> /tmp/.cluster_config.yaml
 
+echo "uid=$UID"
+echo "user=$(whoami)"
+
 k3d cluster create \
 	--config /tmp/.cluster_config.yaml \
 	--registry-create registry.lfr.dev:50505 \
