@@ -4,9 +4,9 @@ load("ext://uibutton", "cmd_button", "text_input", "location")
 dxp_data_volume = "sampleCouponWithObjectActions"
 
 # this map will add additional build args to the dxp-server base image build
-# more_dxp_buildargs = {
-#    "DXP_BASE_IMAGE": "liferay/dxp:7.4.13.nightly-d5.0.2-20221028072756"
-# }
+more_dxp_buildargs = {
+    "DXP_BASE_IMAGE": "liferay/dxp:7.4.13.nightly-d5.0.2-20221028072756"
+}
 
 # This map will add additional ENV VARs to the dxp-server docker container
 # more_dxp_envs = {
@@ -19,6 +19,9 @@ dxp_data_volume = "sampleCouponWithObjectActions"
 def after_all():
     add_drop_db_button()
     k8s_resource(
+        workload="coupon-service-nodejs", resource_deps=["coupon-configuration"]
+    )
+    k8s_resource(
         workload="coupon-service-springboot", resource_deps=["coupon-configuration"]
     )
 
@@ -30,10 +33,13 @@ def add_drop_db_button():
         argv=[
             "sh",
             "-c",
-            "docker container rm -f dxp-server && docker volume rm $VOLUME",
+            """docker container rm -f dxp-server && \
+                docker volume rm sampleCouponWithObjectActions && \
+                kubectl delete cm dxp.lfr.dev-lxc-dxp-metadata && \
+                kubectl delete cm vi.lfr.dev-lxc-dxp-metadata""",
         ],
         resource="dxp.lfr.dev",
         icon_name="delete",
-        text="Kill DXP && Drop Docker Volume!",
-        inputs=[text_input("VOLUME", default=dxp_data_volume)],
+        text="Kill DXP && Drop Docker Volume!"
+        # inputs=[text_input("VOLUME", default=dxp_data_volume)],
     )

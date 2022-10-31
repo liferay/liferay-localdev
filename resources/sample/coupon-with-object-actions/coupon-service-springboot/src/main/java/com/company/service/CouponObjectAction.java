@@ -20,7 +20,7 @@ public class CouponObjectAction {
   @PostMapping(
       consumes = MediaType.APPLICATION_JSON_VALUE,
       produces = MediaType.APPLICATION_JSON_VALUE,
-      value = "/coupons/amount")
+      value = "/coupon/updated")
   public ResponseEntity<String> create(
       @AuthenticationPrincipal Jwt jwt,
       @RequestBody String json)
@@ -33,7 +33,7 @@ public class CouponObjectAction {
     ObjectMapper objectMapper = new ObjectMapper();
     JsonNode jsonNode = objectMapper.readTree(json);
 
-    msg = jsonNode.toString();
+    String msg = jsonNode.toString();
     System.out.println(msg);
     return new ResponseEntity<>(msg, HttpStatus.CREATED);
   }

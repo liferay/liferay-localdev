@@ -71,7 +71,7 @@ public class HttpSecurityConfig {
 	}
 
 	@Bean
-	public JwtDecoder jwtDecoder(@Value("${coupon-user-agent.oauth2.jwks.uri}") String jwkSetUrl) throws Exception {
+	public JwtDecoder jwtDecoder(@Value("${coupon-springboot-user-agent.oauth2.jwks.uri}") String jwkSetUrl) throws Exception {
 		JWSKeySelector<SecurityContext> jwsKeySelector =
 			JWSAlgorithmFamilyJWSKeySelector.fromJWKSetURL(new URL(jwkSetUrl));
 

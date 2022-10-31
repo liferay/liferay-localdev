@@ -3,7 +3,7 @@ ${id}-user-agent:
   scopes:
     - C_${Object}.everything
 
-${id}:
+${id}-object-action:
   type: objectAction
   resourcePath: ${resourcePath}
   oAuth2ApplicationExternalReferenceCode: ${id}-user-agent
