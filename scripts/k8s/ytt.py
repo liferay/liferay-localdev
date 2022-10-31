@@ -8,6 +8,7 @@ lfrdev_domain = os.environ.get("LFRDEV_DOMAIN", "lfr.dev")
 memory = os.environ.get("MEMORY", None)
 name = os.environ.get("NAME")
 project_path = os.environ.get("PROJECT_PATH")
+readyPath = os.environ.get("READY_PATH", None)
 repo = os.environ.get("LOCALDEV_REPO", "/repo")
 target_port = os.environ.get("TARGET_PORT", 8080)
 tilt_image_0 = os.environ.get("TILT_IMAGE_0", "default")
@@ -41,6 +42,9 @@ def generate_workload_yaml():
 
     if envs:
         ytt_args.append("--data-value-yaml envs='%s'" % envs)
+
+    if readyPath:
+        ytt_args.append("--data-value readyPath=%s" % readyPath)
 
     find_args = [
         "find %s/%s" % (workspace, project_path),
