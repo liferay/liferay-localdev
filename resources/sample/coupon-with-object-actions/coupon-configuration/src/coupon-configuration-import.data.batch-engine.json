@@ -25,27 +25,27 @@
       "actions": {
         "permissions": {
           "method": "PATCH",
-          "href": "https://dxp.lfr.dev/o/object-admin/v1.0/object-definitions/47960"
+          "href": "https://dxp.lfr.dev/o/object-admin/v1.0/object-definitions/48480"
         },
         "get": {
           "method": "GET",
-          "href": "https://dxp.lfr.dev/o/object-admin/v1.0/object-definitions/47960"
+          "href": "https://dxp.lfr.dev/o/object-admin/v1.0/object-definitions/48480"
         },
         "update": {
           "method": "PUT",
-          "href": "https://dxp.lfr.dev/o/object-admin/v1.0/object-definitions/47960"
+          "href": "https://dxp.lfr.dev/o/object-admin/v1.0/object-definitions/48480"
         },
         "delete": {
           "method": "DELETE",
-          "href": "https://dxp.lfr.dev/o/object-admin/v1.0/object-definitions/47960"
+          "href": "https://dxp.lfr.dev/o/object-admin/v1.0/object-definitions/48480"
         }
       },
       "active": true,
-      "dateCreated": "2022-10-29T21:34:58Z",
-      "dateModified": "2022-10-29T21:44:28Z",
+      "dateCreated": "2022-10-31T02:53:42Z",
+      "dateModified": "2022-10-31T02:53:42Z",
       "enableObjectEntryHistory": false,
       "externalReferenceCode": "cd4cc79a-4313-e37e-76fe-3939df46efd4",
-      "id": 47960,
+      "id": 48480,
       "label": {
         "en_US": "Coupon"
       },
@@ -53,17 +53,15 @@
       "objectActions": [
         {
           "active": true,
-          "conditionExpression": "redeemed",
-          "dateCreated": "2022-10-29T21:41:02Z",
-          "dateModified": "2022-10-29T21:41:02Z",
+          "conditionExpression": "",
+          "dateCreated": "2022-10-31T02:53:42Z",
+          "dateModified": "2022-10-31T03:04:06Z",
           "description": "",
-          "id": 47984,
-          "name": "Amount Changed",
-          "objectActionExecutorKey": "groovy",
-          "objectActionTriggerKey": "onAfterAdd",
-          "parameters": {
-            "script": "println \"Coupon has ${amount} remaining.\""
-          },
+          "id": 48512,
+          "name": "Coupon Updated",
+          "objectActionExecutorKey": "function#coupon-updated",
+          "objectActionTriggerKey": "onAfterUpdate",
+          "parameters": {},
           "status": {
             "code": 0,
             "label": "never-ran",
@@ -77,7 +75,7 @@
           "businessType": "LongInteger",
           "defaultValue": "",
           "externalReferenceCode": "cb4acbbe-96bf-7366-e167-185f6a40f552",
-          "id": 47978,
+          "id": 48494,
           "indexed": true,
           "indexedAsKeyword": false,
           "indexedLanguageId": "",
@@ -97,7 +95,7 @@
           "businessType": "Text",
           "defaultValue": "",
           "externalReferenceCode": "cf614ee8-7da0-67bd-9b51-eb846530e677",
-          "id": 47974,
+          "id": 48496,
           "indexed": true,
           "indexedAsKeyword": false,
           "indexedLanguageId": "en_US",
@@ -121,8 +119,8 @@
           "DBType": "Date",
           "businessType": "Date",
           "defaultValue": "",
-          "externalReferenceCode": "f28c8cae-bd4b-709c-283e-9ab22d15e620",
-          "id": 47964,
+          "externalReferenceCode": "7dd3de40-98a6-295d-9d98-7617eb893fea",
+          "id": 48484,
           "indexed": false,
           "indexedAsKeyword": false,
           "indexedLanguageId": "",
@@ -141,8 +139,8 @@
           "DBType": "String",
           "businessType": "Text",
           "defaultValue": "",
-          "externalReferenceCode": "55f40fc8-b5fb-c5aa-d9da-57937b3faaa4",
-          "id": 47962,
+          "externalReferenceCode": "9e9b903a-c0da-341a-42cc-161a42de1372",
+          "id": 48482,
           "indexed": false,
           "indexedAsKeyword": false,
           "indexedLanguageId": "",
@@ -162,7 +160,7 @@
           "businessType": "Date",
           "defaultValue": "",
           "externalReferenceCode": "59108b30-58b8-bbdd-2d8d-448e986cb2e8",
-          "id": 47982,
+          "id": 48502,
           "indexed": true,
           "indexedAsKeyword": false,
           "indexedLanguageId": "",
@@ -181,8 +179,8 @@
           "DBType": "String",
           "businessType": "Text",
           "defaultValue": "",
-          "externalReferenceCode": "da2df165-eec3-5f6c-6546-53c337ff8bc9",
-          "id": 47966,
+          "externalReferenceCode": "fe018510-403a-f603-dcd0-bc47d0a7d128",
+          "id": 48486,
           "indexed": false,
           "indexedAsKeyword": false,
           "indexedLanguageId": "",
@@ -201,8 +199,8 @@
           "DBType": "Long",
           "businessType": "LongInteger",
           "defaultValue": "",
-          "externalReferenceCode": "ad95af21-6263-ff83-5f41-e16dac0e9265",
-          "id": 47968,
+          "externalReferenceCode": "cc97b157-69bb-7e33-f3c3-aca09170ff23",
+          "id": 48488,
           "indexed": true,
           "indexedAsKeyword": true,
           "indexedLanguageId": "",
@@ -221,8 +219,8 @@
           "DBType": "Date",
           "businessType": "Date",
           "defaultValue": "",
-          "externalReferenceCode": "8e877a54-8a58-9961-fb2d-bde481bb30ca",
-          "id": 47970,
+          "externalReferenceCode": "cb997848-961d-1679-7af7-65b3ec007f84",
+          "id": 48490,
           "indexed": false,
           "indexedAsKeyword": false,
           "indexedLanguageId": "",
@@ -242,7 +240,7 @@
           "businessType": "Boolean",
           "defaultValue": "",
           "externalReferenceCode": "3fa44063-bd06-6ce7-49b0-75ed415faf13",
-          "id": 47980,
+          "id": 48507,
           "indexed": true,
           "indexedAsKeyword": false,
           "indexedLanguageId": "",
@@ -261,8 +259,8 @@
           "DBType": "String",
           "businessType": "Text",
           "defaultValue": "",
-          "externalReferenceCode": "1a8a6817-3179-9caf-ee2d-c5797d834b5a",
-          "id": 47972,
+          "externalReferenceCode": "bc038edf-9739-a8be-29c0-335a481233a9",
+          "id": 48492,
           "indexed": false,
           "indexedAsKeyword": false,
           "indexedLanguageId": "",

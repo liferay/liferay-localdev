@@ -63,4 +63,22 @@ $CLI ext create \
   --args=packagePath="com/company/service" \
   --args=Object="Coupon" \
   --args=id=coupon \
-  --args=resourcePath="/coupons/amount"
+  --args=resourcePath="/coupon/updated"
+
+$CLI ext create \
+  -v \
+  --noprompt \
+  -- \
+  --resource-path="template/service-nodejs" \
+  --workspace-path="coupon-service-nodejs" \
+  --args=id="coupon-service-nodejs"
+
+$CLI ext create \
+  -v \
+  --noprompt \
+  -- \
+  --resource-path="partial/object-action-nodejs" \
+  --workspace-path="coupon-service-nodejs" \
+  --args=Object="Coupon" \
+  --args=id=coupon \
+  --args=resourcePath="/coupon/updated"

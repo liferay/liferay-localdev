@@ -20,7 +20,7 @@ public class CouponObjectAction {
   @PostMapping(
       consumes = MediaType.APPLICATION_JSON_VALUE,
       produces = MediaType.APPLICATION_JSON_VALUE,
-      value = "/coupons/amount")
+      value = "/coupon/updated")
   public ResponseEntity<String> create(
       @AuthenticationPrincipal Jwt jwt,
       @RequestBody String json)
