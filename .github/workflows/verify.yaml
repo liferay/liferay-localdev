@@ -48,9 +48,9 @@ jobs:
           DOCKER_NETWORK: "host"
         run: |
           export LOCALDEV_REPO=${GITHUB_WORKSPACE}
-          ./tests/integration/test-create-projects.sh
-  TiltUpProjectsWithCLI:
-    name: Tilt Up Projects with CLI
+          ./tests/integration/test-create-build-projects.sh
+  TiltupNewProjects:
+    name: Tiltup new projects
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -63,9 +63,9 @@ jobs:
           DOCKER_NETWORK: "host"
         run: |
           export LOCALDEV_REPO=${GITHUB_WORKSPACE}
-          ./tests/functional/tilt-up-projects-with-cli.sh
-  TiltUpDemoWorkspace:
-    name: Tilt Up Demo Workspace
+          ./tests/functional/tiltup-new-projects.sh
+  TiltUpSampleProjects:
+    name: Tiltup sample projects
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -78,4 +78,4 @@ jobs:
           DOCKER_NETWORK: "host"
         run: |
           export LOCALDEV_REPO=${GITHUB_WORKSPACE}
-          ./tests/functional/tilt-up-demo-workspace.sh
+          ./tests/functional/tiltup-sample-projects.sh
