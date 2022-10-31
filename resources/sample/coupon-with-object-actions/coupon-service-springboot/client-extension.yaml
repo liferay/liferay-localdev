@@ -1,5 +1,6 @@
 runtime:
   type: service
+  deps: ["coupon-configuration"]
   template: service-springboot
   cpu: 500m
   memory: 256Mi
