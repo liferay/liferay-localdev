@@ -9,6 +9,7 @@ coupon-configuration-import:
 runtime:
   type: configuration
   workload: job
+  template: configuration
   env:
   - name: OAUTH2_JOB_PROFILE
     value: coupon-configuration-import
