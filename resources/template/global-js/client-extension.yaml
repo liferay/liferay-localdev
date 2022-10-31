@@ -2,3 +2,7 @@ ${id}:
     name: ${name}
     type: globalJS
     url: global.js
+
+runtime:
+  template: global-js
+  type: static

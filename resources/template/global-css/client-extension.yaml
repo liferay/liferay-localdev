@@ -2,3 +2,7 @@ ${id}:
     name: ${name}
     type: globalCSS
     url: global.css
+
+runtime:
+  template: global-css
+  type: static
