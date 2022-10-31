@@ -2,13 +2,11 @@
 
 set -e
 
-LIFERAY_CLI_BRANCH=""
-
-mkdir -p ${LOCALDEV_REPO}/tests/work/
+LIFERAY_CLI_BRANCH="next"
 
 if [ "$LIFERAY_CLI_BRANCH" != "" ]; then
 	git clone \
-		--branch main \
+		--branch $LIFERAY_CLI_BRANCH \
 		--depth 1 \
 		https://github.com/liferay/liferay-cli \
 		${LOCALDEV_REPO}/tests/work/liferay
@@ -30,13 +28,21 @@ $CLI runtime mkcert
 
 $CLI runtime mkcert --install
 
-git clone \
-	--branch master \
-	--depth 1 \
-	https://github.com/gamerson/gartner-client-extensions-demo \
-	${LOCALDEV_REPO}/tests/work/gartner-client-extensions-demo
+BASE_PATH=${LOCALDEV_REPO}/tests/work/workspace/client-extensions
 
-$CLI ext start -d ${LOCALDEV_REPO}/tests/work/gartner-client-extensions-demo
+mkdir -p $BASE_PATH
+
+export WORKSPACE_BASE_PATH="$BASE_PATH"
+export BUILD_PROJECTS="false"
+
+$CLI ext create \
+	-v \
+	--noprompt \
+	-- \
+	--resource-path="sample/coupon-with-object-actions" \
+	--workspace-path="coupon-sample"
+
+$CLI ext start -v -d ${WORKSPACE_BASE_PATH}
 
 FOUND_LOCALDEV_SERVER=0
 
@@ -48,7 +54,7 @@ done
 
 FOUND_EXT_PROVISION_CONFIG_MAPS=0
 
-until [ "$FOUND_EXT_PROVISION_CONFIG_MAPS" == "6" ]; do
+until [ "$FOUND_EXT_PROVISION_CONFIG_MAPS" == "3" ]; do
 	sleep 5
 	FOUND_EXT_PROVISION_CONFIG_MAPS=$(docker exec -i localdev-extension-runtime /entrypoint.sh kubectl get cm | grep ext-provision-metadata | wc -l | xargs)
 	echo "FOUND_EXT_PROVISION_CONFIG_MAPS=${FOUND_EXT_PROVISION_CONFIG_MAPS}"
@@ -57,11 +63,13 @@ done
 
 FOUND_EXT_INIT_CONFIG_MAPS=0
 
-until [ "$FOUND_EXT_INIT_CONFIG_MAPS" == "5" ]; do
+until [ "$FOUND_EXT_INIT_CONFIG_MAPS" == "3" ]; do
 	sleep 5
 	FOUND_EXT_INIT_CONFIG_MAPS=$(docker exec -i localdev-extension-runtime /entrypoint.sh kubectl get cm | grep ext-init-metadata | wc -l | xargs)
 	echo "FOUND_EXT_INIT_CONFIG_MAPS=${FOUND_EXT_INIT_CONFIG_MAPS}"
 	docker logs -n 50 localdev-extension-runtime
 done
 
-$CLI runtime delete
+$CLI ext stop -v
+
+$CLI runtime delete -v

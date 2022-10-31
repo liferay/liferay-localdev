@@ -2,7 +2,7 @@
 
 set -e
 
-LIFERAY_CLI_BRANCH="main"
+LIFERAY_CLI_BRANCH="next"
 
 if [ "$LIFERAY_CLI_BRANCH" != "" ]; then
 	git clone \
@@ -111,4 +111,6 @@ until [ "$FOUND_EXT_INIT_CONFIG_MAPS" == "3" ]; do
 	docker logs -n 50 localdev-extension-runtime
 done
 
-$CLI runtime delete
+$CLI ext stop -v
+
+$CLI runtime delete -v
