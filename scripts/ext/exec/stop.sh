@@ -10,8 +10,8 @@ tilt down -f ${REPO}/tilt/Tiltfile
 
 PID=$(pgrep -f "${REPO}/tilt/Tiltfile")
 if [ "${PID}x" != "x" ]; then
-    echo "forcefully terminating tilt process $PID"
-    kill -KILL $PID
+	echo "forcefully terminating tilt process $PID"
+	kill -KILL $PID
 fi
 
 echo "'localdev' extension environment is stopped."
