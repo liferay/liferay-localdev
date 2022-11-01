@@ -34,6 +34,7 @@ CREATE_ARGS="\
 --resource-path=partial/object-action-nodejs|\
 --args=id=coupon-updated-nodejs|\
 --args=name=Coupon Updated (Nodejs)|\
+--args=Object=Coupon|\
 --args=resourcePath=/coupon/updated" $CREATE_CMD
 
 CREATE_ARGS="\
