@@ -13,7 +13,7 @@ rm -rf $WORKSPACE_BASE_PATH && mkdir -p $WORKSPACE_BASE_PATH
 # Warning, these CREATE_ARGS are whitespace sensitive!
 
 CREATE_ARGS="\
---workspace-path=coupon-with-object-actions|\
+--workspace-path=coupon-configuration|\
 --resource-path=template/configuration|\
 --args=id=coupon-configuration|\
 --args=name=Coupon Configuration as Code" $CREATE_CMD
@@ -30,13 +30,18 @@ CREATE_ARGS="\
 --args=packagePath=com/company/service" $CREATE_CMD
 
 CREATE_ARGS="\
---workspace-path=coupon-servie-nodejs|\
+--workspace-path=coupon-service-nodejs|\
 --resource-path=partial/object-action-nodejs|\
---args=id=coupon-updated|\
---args=name=Coupon Updated" $CREATE_CMD
+--args=id=coupon-updated-nodejs|\
+--args=name=Coupon Updated (Nodejs)|\
+--args=resourcePath=/coupon/updated" $CREATE_CMD
 
 CREATE_ARGS="\
---workspace-path=coupon-servie-springboot|\
+--workspace-path=coupon-service-springboot|\
 --resource-path=partial/object-action-springboot|\
---args=id=coupon-updated|\
---args=name=Coupon Updated" $CREATE_CMD
+--args=id=coupon-updated-springboot|\
+--args=name=Coupon Updated (Springboot)|\
+--args=Object=Coupon|\
+--args=package=com.company.service|\
+--args=packagePath=com/company/service|\
+--args=resourcePath=/coupon/updated" $CREATE_CMD

@@ -7,19 +7,3 @@ ${id}-object-action:
   type: objectAction
   resourcePath: ${resourcePath}
   oAuth2ApplicationExternalReferenceCode: ${id}-user-agent
-
-assemble:
-  - include:
-      - "package*.json"
-      - "bin/*"
-      - "src/"
-      - "util/"
-
-runtime:
-  type: service
-  port: 3000
-  watch:
-    - "src/"
-    - "util/"
-  cpu: 100m
-  memory: 100Mi
