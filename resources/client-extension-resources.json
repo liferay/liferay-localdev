@@ -39,6 +39,16 @@
         "default": "MyObject"
       },
       {
+        "name": "package",
+        "description": "This is a java package 'com.company.service'",
+        "default": "com.company.service"
+      },
+      {
+        "name": "packagePath",
+        "description": "This is a java package path 'com/liferay/service'",
+        "default": "com/company/service"
+      },
+      {
         "name": "resourcePath",
         "description": "HTTP POST resource path for the objectAction to invoke",
         "default": "/myobject/action"
@@ -191,7 +201,7 @@
       },
       {
         "name": "packagePath",
-        "description": "This is a java package path 'com/liferay/foo/bar'",
+        "description": "This is a java package path 'com/liferay/service'",
         "default": "com/company/service"
       }
     ]
