@@ -13,6 +13,7 @@ ENV LIFERAY_SQL_DEFAULT_WEBID=liferay.com
 ENV LIFERAY_SQL_LOCALDEV_WEBID=dxp.${LFRDEV_DOMAIN}
 
 COPY --chown=liferay:liferay configs /home/liferay/configs
+COPY --chown=liferay:liferay overrides ${LIFERAY_HOME}/osgi/marketplace/override/
 COPY --chown=liferay:liferay 101_copy_configs.sh /usr/local/liferay/scripts/pre-configure/101_copy_configs.sh
 
 # Fix the webId of the default instance
