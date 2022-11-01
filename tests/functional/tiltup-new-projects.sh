@@ -41,9 +41,80 @@ $CLI ext create \
 	--noprompt \
 	-- \
 	--resource-path="template/configuration" \
-	--workspace-path="coupon-configuration" \
-	--args=id="coupon-configuration-import" \
-	--args=name="Coupon Configuration Import"
+	--workspace-path="casc/able-configuration" \
+	--args=id="able-configuration" \
+	--args=name="Able Configuration"
+
+$CLI ext create \
+	-d ${WORKSPACE_BASE_PATH} \
+	-v \
+	--noprompt \
+	-- \
+	--resource-path="template/global-css" \
+	--workspace-path="static/bravo-global-css" \
+	--args=id="bravo-global-css" \
+	--args=name="Bravo Global CSS"
+
+$CLI ext create \
+	-d ${WORKSPACE_BASE_PATH} \
+	-v \
+	--noprompt \
+	-- \
+	--resource-path="template/global-js" \
+	--workspace-path="static/charlie-global-js" \
+	--args=id="charlie-global-js" \
+	--args=name="Charlie Global JS"
+
+$CLI ext create \
+	-d ${WORKSPACE_BASE_PATH} \
+	-v \
+	--noprompt \
+	-- \
+	--resource-path="template/remote-app-iframe" \
+	--workspace-path="static/delta-iframe" \
+	--args=id="delta-iframe" \
+	--args=name="Debra iframe"
+
+$CLI ext create \
+	-d ${WORKSPACE_BASE_PATH} \
+	-v \
+	--noprompt \
+	-- \
+	--resource-path="template/remote-app-react" \
+	--workspace-path="static/echo-remote-app" \
+	--args=id="echo-remote-app" \
+	--args=name="Echo Remote App"
+
+$CLI ext create \
+	-d ${WORKSPACE_BASE_PATH} \
+	-v \
+	--noprompt \
+	-- \
+	--resource-path="template/remote-app-vanilla" \
+	--workspace-path="static/fox-remote-app" \
+	--args=id="fox-remote-app" \
+	--args=name="Fox Remote App"
+
+$CLI ext create \
+	-d ${WORKSPACE_BASE_PATH} \
+	-v \
+	--noprompt \
+	-- \
+	--resource-path="template/service-nodejs" \
+	--workspace-path="service/golf-nodejs-service" \
+	--args=id="golf-nodejs-serviceapp" \
+	--args=name="Golf Nodejs Service"
+
+$CLI ext create \
+	-d ${WORKSPACE_BASE_PATH} \
+	-v \
+	--noprompt \
+	-- \
+	--resource-path="partial/object-action-nodejs" \
+	--workspace-path="service/golf-nodejs-service" \
+	--args=Object="Coupon" \
+	--args=id="coupon-updated-nodejs" \
+	--args=resourcePath="/coupon/updated"
 
 $CLI ext create \
 	-d ${WORKSPACE_BASE_PATH} \
@@ -51,7 +122,7 @@ $CLI ext create \
 	--noprompt \
 	-- \
 	--resource-path="template/service-springboot" \
-	--workspace-path="coupon-service-springboot" \
+	--workspace-path="service/hotel-springboot-service" \
 	--args=package="com.company.service"\
 	--args=packagePath="com/company/service"
 
@@ -61,11 +132,11 @@ $CLI ext create \
 	--noprompt \
 	-- \
 	--resource-path="partial/object-action-springboot" \
-	--workspace-path="coupon-service-springboot" \
+	--workspace-path="service/hotel-springboot-service" \
 	--args=package="com.company.service" \
 	--args=packagePath="com/company/service" \
 	--args=Object="Coupon" \
-	--args=id=coupon \
+	--args=id="coupon-updated-springboot" \
 	--args=resourcePath="/coupon/updated"
 
 $CLI ext create \
@@ -73,20 +144,20 @@ $CLI ext create \
 	-v \
 	--noprompt \
 	-- \
-	--resource-path="template/service-nodejs" \
-	--workspace-path="coupon-service-nodejs" \
-	--args=id="coupon-service-nodejs"
+	--resource-path="template/theme-css" \
+	--workspace-path="static/india-theme-css" \
+	--args=id="india-theme-css" \
+	--args=name="India Theme CSS"
 
 $CLI ext create \
 	-d ${WORKSPACE_BASE_PATH} \
 	-v \
 	--noprompt \
 	-- \
-	--resource-path="partial/object-action-nodejs" \
-	--workspace-path="coupon-service-nodejs" \
-	--args=Object="Coupon" \
-	--args=id=coupon \
-	--args=resourcePath="/coupon/updated"
+	--resource-path="template/theme-favicon" \
+	--workspace-path="static/juliet-theme-favicon" \
+	--args=id="juliet-theme-favicon"\
+	--args=Name="Juliet Theme Favicon"
 
 $CLI ext start -v -d ${WORKSPACE_BASE_PATH} &
 
@@ -100,8 +171,8 @@ done
 
 FOUND_EXT_PROVISION_CONFIG_MAPS=0
 
-until [ "$FOUND_EXT_PROVISION_CONFIG_MAPS" == "3" ]; do
-	sleep 5
+until [ "$FOUND_EXT_PROVISION_CONFIG_MAPS" == "10" ]; do
+	sleep 60
 	FOUND_EXT_PROVISION_CONFIG_MAPS=$(docker exec -i localdev-extension-runtime /entrypoint.sh kubectl get cm | grep ext-provision-metadata | wc -l | xargs)
 	echo "FOUND_EXT_PROVISION_CONFIG_MAPS=${FOUND_EXT_PROVISION_CONFIG_MAPS}"
 	docker logs -n 50 localdev-extension-runtime
@@ -110,7 +181,7 @@ done
 FOUND_EXT_INIT_CONFIG_MAPS=0
 
 until [ "$FOUND_EXT_INIT_CONFIG_MAPS" == "3" ]; do
-	sleep 5
+	sleep 60
 	FOUND_EXT_INIT_CONFIG_MAPS=$(docker exec -i localdev-extension-runtime /entrypoint.sh kubectl get cm | grep ext-init-metadata | wc -l | xargs)
 	echo "FOUND_EXT_INIT_CONFIG_MAPS=${FOUND_EXT_INIT_CONFIG_MAPS}"
 	docker logs -n 50 localdev-extension-runtime
