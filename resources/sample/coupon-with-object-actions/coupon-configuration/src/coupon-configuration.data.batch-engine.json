@@ -56,7 +56,7 @@
           "conditionExpression": "",
           "description": "",
           "name": "Coupon Updated (Springboot function)",
-          "objectActionExecutorKey": "function#coupon-updated-object-action-springboot",
+          "objectActionExecutorKey": "function#coupon-updated-springboot-object-action",
           "objectActionTriggerKey": "onAfterUpdate",
           "parameters": {},
           "status": {
@@ -70,7 +70,7 @@
           "conditionExpression": "",
           "description": "",
           "name": "Coupon Updated (Nodejs function)",
-          "objectActionExecutorKey": "function#coupon-updated-object-action-nodejs",
+          "objectActionExecutorKey": "function#coupon-updated-nodejs-object-action",
           "objectActionTriggerKey": "onAfterUpdate",
           "parameters": {},
           "status": {
