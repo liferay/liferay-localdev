@@ -43,7 +43,7 @@ $CLI ext create \
 	--resource-path="sample/coupon-with-object-actions" \
 	--workspace-path="coupon-sample"
 
-$CLI ext start -v -d ${WORKSPACE_BASE_PATH}
+$CLI ext start -d ${WORKSPACE_BASE_PATH} &
 
 FOUND_LOCALDEV_SERVER=0
 
