@@ -36,6 +36,7 @@ export WORKSPACE_BASE_PATH="$BASE_PATH"
 export BUILD_PROJECTS="false"
 
 $CLI ext create \
+	-d ${WORKSPACE_BASE_PATH} \
 	-v \
 	--noprompt \
 	-- \

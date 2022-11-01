@@ -36,6 +36,7 @@ export WORKSPACE_BASE_PATH="$BASE_PATH"
 export BUILD_PROJECTS="false"
 
 $CLI ext create \
+	-d ${WORKSPACE_BASE_PATH} \
 	-v \
 	--noprompt \
 	-- \
@@ -45,6 +46,7 @@ $CLI ext create \
 	--args=name="Coupon Configuration Import"
 
 $CLI ext create \
+	-d ${WORKSPACE_BASE_PATH} \
 	-v \
 	--noprompt \
 	-- \
@@ -54,6 +56,7 @@ $CLI ext create \
 	--args=packagePath="com/company/service"
 
 $CLI ext create \
+	-d ${WORKSPACE_BASE_PATH} \
 	-v \
 	--noprompt \
 	-- \
@@ -66,6 +69,7 @@ $CLI ext create \
 	--args=resourcePath="/coupon/updated"
 
 $CLI ext create \
+	-d ${WORKSPACE_BASE_PATH} \
 	-v \
 	--noprompt \
 	-- \
@@ -74,6 +78,7 @@ $CLI ext create \
 	--args=id="coupon-service-nodejs"
 
 $CLI ext create \
+	-d ${WORKSPACE_BASE_PATH} \
 	-v \
 	--noprompt \
 	-- \
