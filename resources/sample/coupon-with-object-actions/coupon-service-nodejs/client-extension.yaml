@@ -1,6 +1,12 @@
+assemble:
+  - include:
+      - "package*.json"
+      - "bin/*"
+      - "src/"
+      - "util/"
+
 runtime:
   type: service
-  deps: ["coupon-configuration"]
   template: service-nodejs
   port: 3000
   watch:
@@ -9,19 +15,12 @@ runtime:
   cpu: 100m
   memory: 100Mi
 
-assemble:
-  - include:
-      - "package*.json"
-      - "bin/*"
-      - "src/"
-      - "util/"
-
-coupon-nodejs-user-agent:
+coupon-updated-nodejs-user-agent:
   type: oauthApplicationUserAgent
   scopes:
     - C_Coupon.everything
 
-coupon-updated-object-action-nodejs:
+coupon-updated-nodejs-object-action:
   type: objectAction
   resourcePath: /coupon/updated
-  oAuth2ApplicationExternalReferenceCode: coupon-nodejs-user-agent
+  oAuth2ApplicationExternalReferenceCode: coupon-updated-nodejs-user-agent

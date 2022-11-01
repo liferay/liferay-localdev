@@ -1,5 +1,5 @@
-coupon-configuration-import:
-  name: Coupon Configuration Import
+coupon-configuration:
+  name: Coupon Configuration as Code
   scopes:
     - Liferay.Headless.Batch.Engine.everything
     - Liferay.Object.Admin.REST.everything
@@ -7,11 +7,11 @@ coupon-configuration-import:
   userAccountEmailAddress: test@$[conf:dxp.lxc.liferay.com.virtualInstanceId]
 
 runtime:
+  template: configuration
   type: configuration
   workload: job
-  template: configuration
   env:
   - name: OAUTH2_JOB_PROFILE
-    value: coupon-configuration-import
+    value: coupon-configuration
   - name: CURL_FLAGS
     value: ""

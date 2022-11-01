@@ -2,7 +2,7 @@
 
 set -e
 
-LIFERAY_CLI_BRANCH="main"
+LIFERAY_CLI_BRANCH="next"
 
 if [ "$LIFERAY_CLI_BRANCH" != "" ]; then
 	git clone \
@@ -36,6 +36,7 @@ export WORKSPACE_BASE_PATH="$BASE_PATH"
 export BUILD_PROJECTS="false"
 
 $CLI ext create \
+	-d ${WORKSPACE_BASE_PATH} \
 	-v \
 	--noprompt \
 	-- \
@@ -45,6 +46,7 @@ $CLI ext create \
 	--args=name="Coupon Configuration Import"
 
 $CLI ext create \
+	-d ${WORKSPACE_BASE_PATH} \
 	-v \
 	--noprompt \
 	-- \
@@ -54,6 +56,7 @@ $CLI ext create \
 	--args=packagePath="com/company/service"
 
 $CLI ext create \
+	-d ${WORKSPACE_BASE_PATH} \
 	-v \
 	--noprompt \
 	-- \
@@ -66,6 +69,7 @@ $CLI ext create \
 	--args=resourcePath="/coupon/updated"
 
 $CLI ext create \
+	-d ${WORKSPACE_BASE_PATH} \
 	-v \
 	--noprompt \
 	-- \
@@ -74,6 +78,7 @@ $CLI ext create \
 	--args=id="coupon-service-nodejs"
 
 $CLI ext create \
+	-d ${WORKSPACE_BASE_PATH} \
 	-v \
 	--noprompt \
 	-- \
@@ -83,7 +88,7 @@ $CLI ext create \
 	--args=id=coupon \
 	--args=resourcePath="/coupon/updated"
 
-$CLI ext start -v -d ${WORKSPACE_BASE_PATH}
+$CLI ext start -v -d ${WORKSPACE_BASE_PATH} &
 
 FOUND_LOCALDEV_SERVER=0
 
@@ -111,4 +116,6 @@ until [ "$FOUND_EXT_INIT_CONFIG_MAPS" == "3" ]; do
 	docker logs -n 50 localdev-extension-runtime
 done
 
-$CLI runtime delete
+$CLI ext stop -v
+
+$CLI runtime delete -v
