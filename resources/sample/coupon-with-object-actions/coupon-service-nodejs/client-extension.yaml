@@ -18,7 +18,7 @@ runtime:
 coupon-updated-nodejs-user-agent:
   type: oauthApplicationUserAgent
   scopes:
-    - C_${Object}.everything
+    - C_Coupon.everything
 
 coupon-updated-nodejs-object-action:
   type: objectAction
