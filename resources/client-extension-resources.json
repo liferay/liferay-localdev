@@ -56,6 +56,39 @@
     ]
   },
   {
+    "description": "Workflow Action Springboot Partial",
+    "name": "workflow-action-springboot",
+    "type": "partial",
+    "template": "service-springboot",
+    "args": [
+      {
+        "name": "id",
+        "description": "Id of workflow action client extension",
+        "default": "my-workflow-action"
+      },
+      {
+        "name": "actionName",
+        "description": "Prefix of the workflowAction resource: ${actionName}WorkflowAction.java",
+        "default": "My"
+      },
+      {
+        "name": "package",
+        "description": "This is a java package 'com.company.service'",
+        "default": "com.company.service"
+      },
+      {
+        "name": "packagePath",
+        "description": "This is a java package path 'com/liferay/service'",
+        "default": "com/company/service"
+      },
+      {
+        "name": "resourcePath",
+        "description": "HTTP POST resource path for the workflowAction to invoke",
+        "default": "/myworkflow/action"
+      }
+    ]
+  },
+  {
     "category": "General",
     "description": "Sample application showing the use Object Actions calling Functions with Client Extensions",
     "name": "coupon-with-object-actions",
