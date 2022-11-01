@@ -1,6 +1,3 @@
-# this var will be used to customize the docker volume mapped to
-dxp_data_volume = "dxpData"
-
 # this map will add additional build args to the dxp-server base image build
 # To see all buildargs seeSee
 # https://github.com/liferay/liferay-localdev/blob/main/docker/images/dxp-server/Dockerfile
