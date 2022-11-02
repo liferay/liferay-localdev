@@ -156,8 +156,30 @@ $CLI ext create \
 	-- \
 	--resource-path="template/theme-favicon" \
 	--workspace-path="static/juliet-theme-favicon" \
-	--args=id="juliet-theme-favicon"\
+	--args=id="juliet-theme-favicon" \
 	--args=Name="Juliet Theme Favicon"
+
+$CLI ext create \
+	-d ${WORKSPACE_BASE_PATH} \
+	-v \
+	--noprompt \
+	-- \
+	--resource-path="template/service-springboot" \
+	--workspace-path="service/kilo-springboot-service" \
+	--args=package="com.company.service" \
+	--args=packagePath="com/company/service"
+
+$CLI ext create \
+	-d ${WORKSPACE_BASE_PATH} \
+	-v \
+	--noprompt \
+	-- \
+	--resource-path="partial/workflow-action-springboot" \
+	--workspace-path="service/kilo-springboot-service" \
+	--args=actionName="myAction" \
+	--args=package="com.company.service" \
+	--args=packagePath="com/company/service" \
+	--args=resourcePath="/workflow/action"
 
 $CLI ext start -v -d ${WORKSPACE_BASE_PATH} &
 
