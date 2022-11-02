@@ -2,7 +2,8 @@ FROM alpine:latest
 
 ARG LFRDEV_DOMAIN
 
-RUN apk --no-cache add dnsmasq
+RUN apk update \
+	&& apk --no-cache add dnsmasq 
 
 COPY dnsmasq.conf /etc/dnsmasq.conf
 
