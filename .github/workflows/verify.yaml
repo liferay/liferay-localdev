@@ -52,7 +52,7 @@ jobs:
   TiltupNewProjects:
     name: Tiltup new projects
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
     steps:
       - name: Checkout
         uses: actions/checkout@v1

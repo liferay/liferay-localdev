@@ -1,0 +1,34 @@
+# Setup local resources to debug various internal services
+def after_all():
+    local_resource(
+        "dnsmasq",
+        serve_cmd="docker logs -f localdev-dnsmasq",
+        allow_parallel=True,
+        labels=["doctor"],
+    )
+    local_resource(
+        "load_balancer",
+        serve_cmd="docker logs -f k3d-localdev-serverlb",
+        allow_parallel=True,
+        labels=["doctor"],
+    )
+    local_resource(
+        "local_registry",
+        serve_cmd="docker logs -f registry.lfr.dev",
+        allow_parallel=True,
+        labels=["doctor"],
+    )
+    local_resource(
+        "server_node",
+        serve_cmd="docker logs -f k3d-localdev-server-0",
+        allow_parallel=True,
+        labels=["doctor"],
+    )
+    local_resource(
+        "tilt_doctor",
+        cmd="tilt doctor",
+        trigger_mode=TRIGGER_MODE_AUTO,
+        auto_init=True,
+        allow_parallel=True,
+        labels=["doctor"],
+    )

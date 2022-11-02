@@ -102,7 +102,7 @@ $CLI ext create \
 	-- \
 	--resource-path="template/service-nodejs" \
 	--workspace-path="service/golf-nodejs-service" \
-	--args=id="golf-nodejs-serviceapp" \
+	--args=id="golf-nodejs-service" \
 	--args=name="Golf Nodejs Service"
 
 $CLI ext create \
