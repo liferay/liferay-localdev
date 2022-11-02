@@ -86,8 +86,7 @@ RUN curl -fsSl https://raw.githubusercontent.com/liferay/liferay-blade-cli/maste
 RUN \
     groupmod -g $DOCKER_GID docker && \
     groupadd -g $GID -o $UNAME && \
-    mkdir -p /home && \
-    useradd -b /home -m -u $UID --gid $GID -o -s /bin/bash -d /home/ $UNAME && \
+    useradd -d /home/$UNAME -g $GID -m -s /bin/bash -u $UID $UNAME && \
     mkdir /workspace && \
     chown $UNAME:$UNAME /workspace
 
