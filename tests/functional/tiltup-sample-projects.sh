@@ -2,7 +2,7 @@
 
 set -e
 
-LIFERAY_CLI_BRANCH="docker.permissions"
+LIFERAY_CLI_BRANCH="next"
 
 if [ "$LIFERAY_CLI_BRANCH" != "" ]; then
 	git clone \
