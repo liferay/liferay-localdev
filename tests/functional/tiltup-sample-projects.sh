@@ -73,4 +73,9 @@ done
 
 $CLI ext stop -v
 
-$CLI runtime delete -v
+DOCKER_VOLUME_NAME=$(docker volume inspect dxpData -f '{{ .Name }}')
+
+if [ "$DOCKER_VOLUME_NAME" != "dxpData" ]; then
+	echo "Docker volume name = ${DOCKER_VOLUME_NAME}, expected dxpData"
+	exit 1
+fi
