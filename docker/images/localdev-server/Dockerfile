@@ -1,5 +1,12 @@
 FROM ubuntu:latest
 
+ARG UNAME=localdev
+ARG UID=1000
+ARG GID=1000
+ARG DOCKER_GID=999
+
+USER root
+
 RUN apt-get update && \
     apt-get -y install \
         apt-transport-https \
@@ -76,6 +83,15 @@ RUN export ARCH=$(dpkg --print-architecture) && \
 # Install blade
 RUN curl -fsSl https://raw.githubusercontent.com/liferay/liferay-blade-cli/master/cli/installers/global | bash
 
+RUN \
+    groupmod -g $DOCKER_GID docker && \
+    groupadd -g $GID -o $UNAME && \
+    useradd -d /home/$UNAME -g $GID -m -s /bin/bash -u $UID $UNAME && \
+    mkdir /workspace && \
+    chown $UNAME:$UNAME /workspace
+
+USER $UNAME
+
 WORKDIR /workspace
 
 # setup a workspace to build client-extensions with
@@ -84,19 +100,19 @@ WORKDIR /workspace
 RUN blade init -v dxp-7.4-u47
 
 # these commands are sorted from least likely to most likely to change to better cache layers
-COPY workspace/gradle/ /workspace/gradle/
+COPY --chown=$UNAME:$UNAME workspace/gradle/ /workspace/gradle/
 
-COPY workspace/gradlew /workspace/gradlew
+COPY --chown=$UNAME:$UNAME workspace/gradlew /workspace/gradlew
 
-COPY workspace/settings.gradle /workspace/settings.gradle
+COPY --chown=$UNAME:$UNAME workspace/settings.gradle /workspace/settings.gradle
 
-COPY workspace/gradle.properties /workspace/gradle.properties
+COPY --chown=$UNAME:$UNAME workspace/gradle.properties /workspace/gradle.properties
 
-COPY workspace/build.gradle /workspace/build.gradle
+COPY --chown=$UNAME:$UNAME workspace/build.gradle /workspace/build.gradle
 
 # warm up gradle & yarn install
 RUN /workspace/gradlew --no-daemon :yarnInstall
 
-COPY entrypoint.sh /entrypoint.sh
+COPY --chown=$UNAME:$UNAME entrypoint.sh /entrypoint.sh
 
 ENTRYPOINT [ "/entrypoint.sh" ]
