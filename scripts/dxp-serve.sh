@@ -8,8 +8,6 @@ REPO="${LOCALDEV_REPO:-/repo}"
 DXP_DATA_VOLUME="${DXP_DATA_VOLUME:-dxpData}"
 MORE_DXP_ENVS="${MORE_DXP_ENVS:-}"
 
-echo "DXP_DATA_VOLUME=${DXP_DATA_VOLUME}"
-
 EXISTING_DXP_SERVER=$(docker ps -f name=dxp-server | grep dxp-server | awk '{print $1}')
 
 if [ ! -z "$EXISTING_DXP_SERVER" ]; then
