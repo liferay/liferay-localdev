@@ -129,7 +129,7 @@ for user_tiltfile in workspace_search("Tiltfile*"):
 
 # if user didn't define data volume, define one based on CLIENT_EXTENSION_DIR_KEY
 if dxp_data_volume == None:
-    dxp_data_volume = "data_%s" % client_extension_dir_key
+    dxp_data_volume = "dxp-data-%s" % client_extension_dir_key
 
 # setup tilt
 docker_prune_settings()
