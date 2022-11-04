@@ -176,7 +176,8 @@ $CLI ext create \
 	-- \
 	--resource-path="partial/workflow-action-springboot" \
 	--workspace-path="service/kilo-springboot-service" \
-	--args=actionName="myAction" \
+	--args=id="my-action" \
+	--args=actionName="MyAction" \
 	--args=package="com.company.service" \
 	--args=packagePath="com/company/service" \
 	--args=resourcePath="/workflow/action"
