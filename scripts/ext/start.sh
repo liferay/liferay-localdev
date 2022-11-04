@@ -11,6 +11,8 @@ if ${REPO}/scripts/ext/status.sh; then
 	exit 0
 fi
 
+${REPO}/scripts/refresh-on-new-extension.sh /workspace/client-extensions &
+
 export DO_NOT_TRACK=1
 
 tilt up -f ${REPO}/tilt/Tiltfile $@
