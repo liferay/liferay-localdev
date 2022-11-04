@@ -15,6 +15,7 @@ RUN apt-get update && \
         curl \
         git \
         gnupg \
+        inotify-tools \
         iputils-ping \
         jq \
         libnss3-tools \
