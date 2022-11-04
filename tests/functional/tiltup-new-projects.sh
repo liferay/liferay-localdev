@@ -176,7 +176,8 @@ $CLI ext create \
 	-- \
 	--resource-path="partial/workflow-action-springboot" \
 	--workspace-path="service/kilo-springboot-service" \
-	--args=actionName="myAction" \
+	--args=id="my-action" \
+	--args=actionName="MyAction" \
 	--args=package="com.company.service" \
 	--args=packagePath="com/company/service" \
 	--args=resourcePath="/workflow/action"
@@ -193,7 +194,7 @@ done
 
 FOUND_EXT_PROVISION_CONFIG_MAPS=0
 
-until [ "$FOUND_EXT_PROVISION_CONFIG_MAPS" == "10" ]; do
+until [ "$FOUND_EXT_PROVISION_CONFIG_MAPS" == "11" ]; do
 	sleep 60
 	FOUND_EXT_PROVISION_CONFIG_MAPS=$(docker exec -i localdev-extension-runtime /entrypoint.sh kubectl get cm | grep ext-provision-metadata | wc -l | xargs)
 	echo "FOUND_EXT_PROVISION_CONFIG_MAPS=${FOUND_EXT_PROVISION_CONFIG_MAPS}"
@@ -202,7 +203,7 @@ done
 
 FOUND_EXT_INIT_CONFIG_MAPS=0
 
-until [ "$FOUND_EXT_INIT_CONFIG_MAPS" == "3" ]; do
+until [ "$FOUND_EXT_INIT_CONFIG_MAPS" == "4" ]; do
 	sleep 60
 	FOUND_EXT_INIT_CONFIG_MAPS=$(docker exec -i localdev-extension-runtime /entrypoint.sh kubectl get cm | grep ext-init-metadata | wc -l | xargs)
 	echo "FOUND_EXT_INIT_CONFIG_MAPS=${FOUND_EXT_INIT_CONFIG_MAPS}"
@@ -211,4 +212,11 @@ done
 
 $CLI ext stop -v
 
-$CLI runtime delete -v
+DOCKER_VOLUME_NAME=$(docker volume ls | grep dxp-data- | awk '{print $2}')
+
+if [ "$DOCKER_VOLUME_NAME" == "" ]; then
+	echo "Could not find expected docker volumn named 'dxp-data-*'"
+	exit 1
+else
+	echo "Found docker volume named $DOCKER_VOLUME_NAME"
+fi
