@@ -3,7 +3,6 @@ FROM ubuntu:latest
 ARG UNAME=localdev
 ARG UID=1000
 ARG GID=1000
-ARG DOCKER_GID=999
 
 USER root
 
@@ -85,7 +84,6 @@ RUN export ARCH=$(dpkg --print-architecture) && \
 RUN curl -fsSl https://raw.githubusercontent.com/liferay/liferay-blade-cli/master/cli/installers/global | bash
 
 RUN \
-    groupmod -g $DOCKER_GID docker && \
     groupadd -g $GID -o $UNAME && \
     useradd -d /home/$UNAME -g $GID -m -s /bin/bash -u $UID $UNAME && \
     mkdir /workspace && \
