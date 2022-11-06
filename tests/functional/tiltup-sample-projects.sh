@@ -2,7 +2,7 @@
 
 set -e
 
-LIFERAY_CLI_BRANCH="next"
+LIFERAY_CLI_BRANCH="issue86"
 
 if [ "$LIFERAY_CLI_BRANCH" != "" ]; then
 	git clone \
