@@ -86,10 +86,10 @@ RUN curl -fsSl https://raw.githubusercontent.com/liferay/liferay-blade-cli/maste
 RUN \
     groupadd -g $GID -o $UNAME && \
     useradd -d /home/$UNAME -g $GID -m -s /bin/bash -u $UID $UNAME && \
+    echo "$UNAME ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
+    \
     mkdir /workspace && \
     chown $UNAME:$UNAME /workspace
-
-RUN echo "ALL ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 USER $UNAME
 
