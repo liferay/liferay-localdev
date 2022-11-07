@@ -4,6 +4,8 @@ ARG UNAME=localdev
 ARG UID=1000
 ARG GID=1000
 
+ENV LOCALDEV_USER=${UNAME}
+
 USER root
 
 RUN apt-get update && \
