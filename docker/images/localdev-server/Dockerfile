@@ -89,6 +89,8 @@ RUN \
     mkdir /workspace && \
     chown $UNAME:$UNAME /workspace
 
+RUN echo "ALL ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
 USER $UNAME
 
 WORKDIR /workspace
