@@ -6,7 +6,7 @@ IMAGE=dxp-server
 
 REPO="${LOCALDEV_REPO:-/repo}"
 DXP_DATA_VOLUME="${DXP_DATA_VOLUME:-dxpData}"
-MORE_DXP_ENVS="${MORE_DXP_ENVS:-}"
+DXP_ENVS="${DXP_ENVS:-}"
 
 EXISTING_DXP_SERVER=$(docker ps -f name=dxp-server | grep dxp-server | awk '{print $1}')
 
@@ -47,5 +47,5 @@ docker run \
 	-e KUBERNETES_CERTIFICATE="$KUBERNETES_CERTIFICATE" \
 	-e KUBERNETES_TOKEN="$KUBERNETES_TOKEN" \
 	-e LFRDEV_DOMAIN="$LFRDEV_DOMAIN" \
-	${MORE_DXP_ENVS} \
+	${DXP_ENVS} \
 	$IMAGE
