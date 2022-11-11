@@ -107,9 +107,10 @@ def workspace_search(pattern):
 # main code
 
 # global vars that can be overridden
-dxp_data_volume = None
 dxp_buildargs = {}
+dxp_data_volume = None
 dxp_envs = {}
+dxp_resource_deps = []
 user_tiltfiles = []
 
 for user_tiltfile in workspace_search("Tiltfile*"):
@@ -122,8 +123,10 @@ for user_tiltfile in workspace_search("Tiltfile*"):
         else:
             fail("dxp_data_volume alreadyed defined!")
 
-    dxp_buildargs.update(symbols.get("more_dxp_buildargs", {}))
-    dxp_envs.update(symbols.get("more_dxp_envs", {}))
+    dxp_buildargs.update(symbols.get("dxp_buildargs", {}))
+    dxp_envs.update(symbols.get("dxp_envs", {}))
+    user_dxp_resource_deps = symbols.get("dxp_resource_deps", [])
+    dxp_resource_deps += user_dxp_resource_deps
 
     user_tiltfiles.append(symbols)
 
@@ -157,11 +160,11 @@ for key, value in dxp_envs.items():
 
 local_resource(
     "dxp.%s" % lfrdev_domain,
-    env={"MORE_DXP_BUILDARGS": dxp_buildargs_val},
+    env={"DXP_BUILDARGS": dxp_buildargs_val},
     cmd="%s/scripts/dxp-build.sh" % repo,
     serve_env={
         "DXP_DATA_VOLUME": dxp_data_volume if dxp_data_volume != None else "",
-        "MORE_DXP_ENVS": dxp_envs_val,
+        "DXP_ENVS": dxp_envs_val,
     },
     serve_cmd="%s/scripts/dxp-serve.sh" % repo,
     deps=["%s/docker/images/dxp-server" % repo],
@@ -178,6 +181,7 @@ local_resource(
         link("https://dxp.%s/o/api" % lfrdev_domain, "Liferay API Explorer"),
     ],
     labels=["DXP"],
+    resource_deps=dxp_resource_deps,
 )
 
 # search for user client extension projects in user workspace
