@@ -81,7 +81,11 @@ public class HttpSecurityConfig {
 			SessionCreationPolicy.STATELESS
 		).and(
 		).authorizeHttpRequests(
-				authorize -> authorize.anyRequest()
+			authorize -> authorize.antMatchers(
+				"/"
+			).permitAll(
+			).anyRequest(
+			).authenticated()
 		).build();
 	}
 

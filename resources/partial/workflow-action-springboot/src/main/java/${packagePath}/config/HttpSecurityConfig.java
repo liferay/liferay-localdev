@@ -96,9 +96,13 @@ public class HttpSecurityConfig {
 			SessionCreationPolicy.STATELESS
 		).and(
 		).authorizeHttpRequests(
-				authorize -> authorize.anyRequest().authenticated()
-			).oauth2ResourceServer(
-					OAuth2ResourceServerConfigurer::jwt).build();
+			authorize -> authorize.antMatchers(
+				"/"
+			).permitAll(
+			).anyRequest(
+			).authenticated()
+		).oauth2ResourceServer(
+			OAuth2ResourceServerConfigurer::jwt).build();
 	}
 
 }
