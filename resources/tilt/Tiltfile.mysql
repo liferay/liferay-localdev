@@ -130,3 +130,6 @@ local_resource(
         ),
     ),
 )
+
+def on_down():
+  local("docker container stop %s" % db_container_name)
