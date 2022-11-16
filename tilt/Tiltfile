@@ -95,7 +95,7 @@ def process_extension(
 def workspace_search(pattern):
     find_args = [
         "find /workspace/client-extensions",
-        "-name %s" % pattern,
+        "-name '%s'" % pattern,
         "-not -path '*/build/*'",
         "-not -path '*/node_modules/*'",
         "-not -path '*/node_modules_cache/*'",
@@ -147,6 +147,11 @@ if config.tilt_subcommand == "down":
     local("kubectl delete cm -l lxc.liferay.com/metadataType=dxp")
     local("kubectl delete cm -l lxc.liferay.com/metadataType=ext-init")
     local("%s/scripts/dxp-stop.sh" % repo)
+
+    # check user tiltfiles for a "extension_stop()" hook
+    for user_tiltfile in user_tiltfiles:
+        if user_tiltfile.get("on_down"):
+            user_tiltfile["on_down"]()
 
 # build and launch dxp
 
