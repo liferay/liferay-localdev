@@ -29,13 +29,12 @@ if create_args.get("args") != None:
         template_args[arr[0]] = arr[1]
 
 project_path = os.path.join(workspace_base_path, create_args["workspace_path"])
+
 template_path = os.path.join(resources_base_path, create_args["resource_path"])
 
 # overwrite the default copy2 and for client-extension.yaml append instead
-def copy3(src, dst):
-    if str(src).endswith("client-extension.yaml") and str(dst).endswith(
-        "client-extension.yaml"
-    ):
+def copy_partial(src, dst):
+    if str(src).startswith(template_path + "/append"):
         current = ""
         with open(dst) as dstfile:
             current = dstfile.read()
@@ -44,18 +43,35 @@ def copy3(src, dst):
             with open(dst, "w") as dstfile:
                 dstfile.write(current + "\n\n" + new)
         return dst
+    elif str(src).startswith(template_path + "/overwrite"):
+        return shutil.copy2(src, dst)
     else:
         return shutil.copy2(src, dst)
 
 
 is_partial = template_path.startswith(resources_base_path + "partial/")
 
-shutil.copytree(
-    template_path,
-    project_path,
-    copy_function=copy3 if is_partial else shutil.copy2,
-    dirs_exist_ok=True if is_partial else False,
-)
+if is_partial:
+    shutil.copytree(
+        template_path + "/overwrite",
+        project_path,
+        copy_function=copy_partial if is_partial else shutil.copy2,
+        dirs_exist_ok=True if is_partial else False,
+    )
+
+    shutil.copytree(
+        template_path + "/append",
+        project_path,
+        copy_function=copy_partial if is_partial else shutil.copy2,
+        dirs_exist_ok=True if is_partial else False,
+    )
+else:
+    shutil.copytree(
+        template_path,
+        project_path,
+        copy_function=copy_partial if is_partial else shutil.copy2,
+        dirs_exist_ok=True if is_partial else False,
+    )
 
 for root, dirs, files in os.walk(project_path):
     for d in dirs:
