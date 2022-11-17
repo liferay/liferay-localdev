@@ -94,11 +94,12 @@ def process_extension(
 # some common paths are ignored
 def workspace_search(pattern):
     find_args = [
-        "find /workspace/client-extensions",
-        "-name '%s'" % pattern,
-        "-not -path '*/build/*'",
-        "-not -path '*/node_modules/*'",
-        "-not -path '*/node_modules_cache/*'",
+        "fdfind",
+        "--glob '%s'" % pattern,
+        "--exclude '*/build/'",
+        "--exclude '*/node_modules/'",
+        "--exclude '*/node_modules_cache/'",
+        "/workspace/client-extensions",
         "2>/dev/null",
     ]
     return str(local(" ".join(find_args))).splitlines()

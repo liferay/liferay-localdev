@@ -14,6 +14,7 @@ RUN apt-get update && \
         bash \
         ca-certificates \
         curl \
+        fd-find \
         git \
         gnupg \
         inotify-tools \
