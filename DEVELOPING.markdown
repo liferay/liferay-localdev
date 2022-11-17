@@ -70,6 +70,7 @@ template. Plan out the operations you need to perform.
     1. Execute the command one time to see the result. The linux `tree` command is ideal for reviewing the outputs of the wizard.
 
         e.g.
+
         ```bash
         cew]$ tree
         .
@@ -119,3 +120,11 @@ template. Plan out the operations you need to perform.
             tree
         )
         ```
+
+1. Now that you manually tested your partial and you would to see it merged into this repo, we will need to add some tests and send a PR.
+
+    * Edit the file `tests/functional/tiltup-new-projects.sh` and add an invocation of the CLI to create your new template + partial.
+
+    * If you have `gh` CLI tool, its as easy as `gh pr create --base next`
+
+    * If it passes tests and is reviewed, it will be merged into `next` and released during next release window (usually weekly).
