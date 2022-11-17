@@ -4,11 +4,11 @@ In order to develop changes in this repo it simplifies things to configure the
 `liferay` cli to point directly at your local clone.
 
 Assuming the absolute path to the directory for your local `liferay-localdev`
-clone is stored in the environment variable `LIFERAY_LOCALDEV` execute the
+clone is stored in the environment variable `LOCALDEV_REPO` execute the
 following:
 
 ```bash
-liferay config set localdev.resources.dir $LIFERAY_LOCALDEV
+liferay config set localdev.resources.dir $LOCALDEV_REPO
 liferay config set localdev.resources.sync false
 ```
 
