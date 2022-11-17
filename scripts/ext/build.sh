@@ -23,6 +23,6 @@ else
 fi
 
 # now we have built client extensions, search for the zips and then return in a string
-for distZip in $(find /workspace/client-extensions -name '*.zip' -path '*/dist/*' 2>/dev/null); do
+for distZip in $(fdfind --no-ignore --extension zip --full-path /workspace/client-extensions 2>/dev/null); do
 	echo $distZip | sed -e 's/\/workspace\/client-extensions\///'
 done

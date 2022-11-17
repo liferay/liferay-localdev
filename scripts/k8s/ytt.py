@@ -47,9 +47,12 @@ def generate_workload_yaml():
         ytt_args.append("--data-value readyPath=%s" % readyPath)
 
     find_args = [
-        "find %s/%s" % (workspace, project_path),
-        "-name *.client-extension-config.json",
-        "-not -path '*/node_modules/*' -not -path '*/node_modules_cache/*'",
+        "fdfind",
+        "--glob '*.client-extension-config.json'",
+        "--exclude '*/build/'",
+        "--exclude '*/node_modules/'",
+        "--exclude '*/node_modules_cache/'",
+        "%s/%s" % (workspace, project_path),
         "2>/dev/null",
     ]
 
