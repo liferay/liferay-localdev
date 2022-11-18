@@ -91,14 +91,14 @@ def process_extension(
 
 
 # returns a array of paths that matched the search
-# some common paths are ignored
+# .gitignores and some common paths are ignored
 def workspace_search(pattern):
     find_args = [
         "fdfind",
-        "--glob '%s'" % pattern,
         "--exclude '*/build/'",
         "--exclude '*/node_modules/'",
         "--exclude '*/node_modules_cache/'",
+        "--glob '%s'" % pattern,
         "/workspace/client-extensions",
         "2>/dev/null",
     ]
