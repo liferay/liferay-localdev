@@ -24,7 +24,7 @@ fi
 
 # now we have built client extensions, search for the zips and then return in a string
 for distZip in $(\
-	fdfind \
+		fdfind \
 		--exclude '*/build' \
 		--exclude '*/node_modules' \
 		--exclude '*/node_modules_cache' \
@@ -32,7 +32,7 @@ for distZip in $(\
 		--full-path /workspace/client-extensions \
 		--no-ignore \
 		2>/dev/null \
-	); do
+		); do
 
 	echo $distZip | sed -e 's/\/workspace\/client-extensions\///'
 done
