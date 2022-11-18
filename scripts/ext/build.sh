@@ -23,6 +23,16 @@ else
 fi
 
 # now we have built client extensions, search for the zips and then return in a string
-for distZip in $(fdfind --no-ignore --extension zip --full-path /workspace/client-extensions 2>/dev/null); do
+for distZip in $(\
+	fdfind \
+		--exclude '*/build' \
+		--exclude '*/node_modules' \
+		--exclude '*/node_modules_cache' \
+		--extension zip \
+		--full-path /workspace/client-extensions \
+		--no-ignore \
+		2>/dev/null \
+	); do
+
 	echo $distZip | sed -e 's/\/workspace\/client-extensions\///'
 done
