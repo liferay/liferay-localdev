@@ -48,11 +48,13 @@ def generate_workload_yaml():
 
     find_args = [
         "fdfind",
+        "--exclude 'build'",
+        "--exclude 'node_modules'",
+        "--exclude 'node_modules_cache'",
         "--glob '*.client-extension-config.json'",
-        "--exclude '*/build/'",
-        "--exclude '*/node_modules/'",
-        "--exclude '*/node_modules_cache/'",
+        "--no-ignore",
         "%s/%s" % (workspace, project_path),
+        "%s/%s/build/clientExtension" % (workspace, project_path),
         "2>/dev/null",
     ]
 
