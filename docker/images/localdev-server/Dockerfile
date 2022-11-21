@@ -28,16 +28,17 @@ RUN apt-get update && \
         wget
 
 # Add all the repos
-RUN mkdir -p /etc/apt/keyrings && \
+RUN export ARCH=$(dpkg --print-architecture) && \
+    mkdir -p /etc/apt/keyrings && \
     \
     curl -fsSL 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0xB1998361219BD9C9' | gpg --dearmor -o /etc/apt/keyrings/azul.gpg && \
     echo \
-        "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/azul.gpg] https://repos.azul.com/zulu/deb stable main" \
+        "deb [arch=${ARCH} signed-by=/etc/apt/keyrings/azul.gpg] https://repos.azul.com/zulu/deb stable main" \
         | tee /etc/apt/sources.list.d/zulu-openjdk.list > /dev/null && \
     \
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg && \
     echo \
-        "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" \
+        "deb [arch=${ARCH} signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" \
         | tee /etc/apt/sources.list.d/docker.list > /dev/null
 
 RUN apt-get update
