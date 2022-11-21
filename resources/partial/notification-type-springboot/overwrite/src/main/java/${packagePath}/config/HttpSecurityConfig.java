@@ -2,9 +2,7 @@ package ${package}.config;
 
 import java.net.URL;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -15,6 +13,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -25,7 +24,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import com.nimbusds.jose.JOSEObjectType;
 import com.nimbusds.jose.proc.DefaultJOSEObjectTypeVerifier;
 import com.nimbusds.jose.proc.JWSAlgorithmFamilyJWSKeySelector;
-import com.nimbusds.jose.proc.JWSKeySelector;
 import com.nimbusds.jose.proc.SecurityContext;
 import com.nimbusds.jwt.proc.DefaultJWTProcessor;
 
@@ -71,22 +69,28 @@ public class HttpSecurityConfig {
 	}
 
 	@Bean
-	public JwtDecoder jwtDecoder(@Value("${${id}-user-agent.oauth2.jwks.uri}") String jwkSetUrl) throws Exception {
-		JWSKeySelector<SecurityContext> jwsKeySelector =
-			JWSAlgorithmFamilyJWSKeySelector.fromJWKSetURL(new URL(jwkSetUrl));
+	public JwtDecoder jwtDecoder(
+			@Value("${${lxc.default.oauth.application}.oauth2.user.agent.client.id}") String clientId,
+			@Value("${${lxc.default.oauth.application}.oauth2.jwks.uri}") String jwkSetUrl)
+		throws Exception {
 
-		DefaultJWTProcessor<SecurityContext> jwtProcessor =
-			new DefaultJWTProcessor<>();
-		jwtProcessor.setJWSKeySelector(jwsKeySelector);
+		DefaultJWTProcessor<SecurityContext> jwtProcessor = new DefaultJWTProcessor<>();
+
+		jwtProcessor.setJWSKeySelector(
+			JWSAlgorithmFamilyJWSKeySelector.fromJWKSetURL(new URL(jwkSetUrl)));
 		jwtProcessor.setJWSTypeVerifier(
 			new DefaultJOSEObjectTypeVerifier<>(new JOSEObjectType("at+jwt")));
 
-		return new NimbusJwtDecoder(jwtProcessor);
+		NimbusJwtDecoder nimbusJwtDecoder =	new NimbusJwtDecoder(jwtProcessor);
+		nimbusJwtDecoder.setJwtValidator(
+			new DelegatingOAuth2TokenValidator<>(
+				new ClientIdValidator(clientId)));
+
+		return nimbusJwtDecoder;
 	}
 
 	@Bean
-	public SecurityFilterChain securityFilterChain(HttpSecurity http,
-			Collection<Consumer<HttpSecurity>> adapters) throws Exception {
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		return http.cors(
 		).and(
 		).csrf(
@@ -96,9 +100,14 @@ public class HttpSecurityConfig {
 			SessionCreationPolicy.STATELESS
 		).and(
 		).authorizeHttpRequests(
-				authorize -> authorize.anyRequest().authenticated()
-			).oauth2ResourceServer(
-					OAuth2ResourceServerConfigurer::jwt).build();
+			authorize -> authorize.antMatchers(
+				"/"
+			).permitAll(
+			).anyRequest(
+			).authenticated()
+		).oauth2ResourceServer(
+			OAuth2ResourceServerConfigurer::jwt
+		).build();
 	}
 
 }
