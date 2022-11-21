@@ -1,0 +1,55 @@
+name: Build And Publish localdev-server Docker Image
+
+on:
+  pull_request:
+    paths-ignore:
+      - '*.commits'
+      - '*.markdown'
+      - '**/*.markdown'
+
+env:
+  LC_ALL: en_US.UTF-8
+  IMAGE_NAME: localdev-server
+  DOCKER_USER: ${{ secrets.DOCKERHUB_USERNAME }}
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  BuildDockerImage:
+    if: ${{ (github.repository == 'rotty3000/lxc-localdev') }}
+    name: Build Docker Image
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+        persist-credentials: false
+
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v2
+
+    - name: Login to Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: Build the Docker Image
+      run: |
+        IMAGE_VERSION=$(/usr/bin/git describe --tags)
+        echo IMAGE_VERSION=$IMAGE_VERSION
+        docker buildx create --name "liferay-buildkit"
+        docker buildx build \
+          --build-arg LABEL_NAME="Liferay Localdev Server" \
+          --build-arg LABEL_VCS_REF=$(git rev-parse HEAD) \
+          --builder "liferay-buildkit" \
+          --platform "linux/amd64,linux/arm64" \
+          --push \
+          --tag=$DOCKER_USER/$IMAGE_NAME \
+          --tag=$DOCKER_USER/$IMAGE_NAME:${IMAGE_VERSION/main/latest} \
+          docker/images/localdev-server/
