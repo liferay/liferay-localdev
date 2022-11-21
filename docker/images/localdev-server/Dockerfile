@@ -48,7 +48,7 @@ RUN apt-get dist-upgrade -y && \
     containerd.io \
     docker-ce \
     docker-ce-cli \
-    zulu11-jdk \
+    zulu11-jdk-headless \
     && apt-get clean
 
 SHELL ["/bin/bash", "-c"]
