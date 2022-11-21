@@ -1,0 +1,8 @@
+${id}-user-agent:
+  type: oauthApplicationUserAgent
+  scopes:
+    - Liferay.Notification.REST.everything
+
+assemble:
+  - include:
+    - "*.client-extension-config.json"

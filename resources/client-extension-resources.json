@@ -1,5 +1,38 @@
 [
   {
+    "description": "Notification Type Springboot Partial",
+    "name": "notification-type-springboot",
+    "type": "partial",
+    "template": "service-springboot",
+    "args": [
+      {
+        "name": "id",
+        "description": "Id of notification type client extension",
+        "default": "my-notification-type"
+      },
+      {
+        "name": "notificationTypeName",
+        "description": "Prefix of the NotificationType resource: ${notificationTypeName}NotificationType.java",
+        "default": "My"
+      },
+      {
+        "name": "package",
+        "description": "This is a java package 'com.company.service'",
+        "default": "com.company.service"
+      },
+      {
+        "name": "packagePath",
+        "description": "This is a java package path 'com/liferay/service'",
+        "default": "com/company/service"
+      },
+      {
+        "name": "resourcePath",
+        "description": "HTTP POST resource path for the notificationType to invoke",
+        "default": "/mynotificationtype/send"
+      }
+    ]
+  },
+  {
     "description": "Object Action Nodejs Partial",
     "name": "object-action-nodejs",
     "type": "partial",
