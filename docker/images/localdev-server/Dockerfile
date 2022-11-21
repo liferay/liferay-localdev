@@ -24,8 +24,7 @@ RUN apt-get update && \
         lsb-release \
         openssl \
         sudo \
-        vim \
-        wget
+        vim
 
 # Add all the repos
 RUN export ARCH=$(dpkg --print-architecture) && \
@@ -55,14 +54,12 @@ SHELL ["/bin/bash", "-c"]
 
 # Install kubectl
 RUN export ARCH=$(dpkg --print-architecture) && \
-    curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/${ARCH}/kubectl" && \
-    curl -LO "https://dl.k8s.io/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/${ARCH}/kubectl.sha256" && \
-    echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check && \
-    sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+    curl -fsSL "https://dl.k8s.io/release/$(curl -fsSL https://dl.k8s.io/release/stable.txt)/bin/linux/${ARCH}/kubectl" -o /usr/local/bin/kubectl && \
+    chmod +x /usr/local/bin/kubectl
 
 # Install k3d
 RUN export TAG=$(curl -fsSL https://api.github.com/repos/k3d-io/k3d/releases/latest | jq -r '.name') && \
-    curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
+    curl -fsSL https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
 
 # Install tilt
 RUN export VERSION=$(curl -fsSL https://api.github.com/repos/tilt-dev/tilt/releases/latest | jq -r '.name') && \
@@ -70,22 +67,16 @@ RUN export VERSION=$(curl -fsSL https://api.github.com/repos/tilt-dev/tilt/relea
 
 # Install ytt
 RUN export ARCH=$(dpkg --print-architecture) && \
-    export YTT_VERSION=$(curl -fsSL https://api.github.com/repos/vmware-tanzu/carvel-ytt/releases/latest | jq -r '.name') && \
-    wget -q https://github.com/vmware-tanzu/carvel-ytt/releases/download/${YTT_VERSION}/checksums.txt && \
-    wget -q https://github.com/vmware-tanzu/carvel-ytt/releases/download/${YTT_VERSION}/ytt-linux-$ARCH && \
-    export YTTSUM=$(shasum -a 256 ytt-linux-$ARCH) && \
-    export CHECKSUM=$(grep ytt-linux-$ARCH checksums.txt) && \
-    [ "$YTTSUM" = "$CHECKSUM" ] && \
-    mv ytt-linux-$ARCH /usr/local/bin/ytt && \
+    curl -fsSL https://github.com/vmware-tanzu/carvel-ytt/releases/latest/download/ytt-linux-${ARCH} -o /usr/local/bin/ytt && \
     chmod +x /usr/local/bin/ytt
 
 # Install yq
 RUN export ARCH=$(dpkg --print-architecture) && \
-    wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_$ARCH && \
+    curl -fsSL https://github.com/mikefarah/yq/releases/latest/download/yq_linux_${ARCH} -o /usr/local/bin/yq && \
     chmod a+x /usr/local/bin/yq
 
 # Install blade
-RUN curl -fsSl https://raw.githubusercontent.com/liferay/liferay-blade-cli/master/cli/installers/global | bash
+RUN curl -fsSL https://raw.githubusercontent.com/liferay/liferay-blade-cli/master/cli/installers/global | bash
 
 RUN \
     groupadd -g $GID -o $UNAME && \
