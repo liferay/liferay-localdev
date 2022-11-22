@@ -24,20 +24,20 @@ RUN apt-get update && \
         lsb-release \
         openssl \
         sudo \
-        vim \
-        wget
+        vim
 
 # Add all the repos
-RUN mkdir -p /etc/apt/keyrings && \
+RUN export ARCH=$(dpkg --print-architecture) && \
+    mkdir -p /etc/apt/keyrings && \
     \
     curl -fsSL 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0xB1998361219BD9C9' | gpg --dearmor -o /etc/apt/keyrings/azul.gpg && \
     echo \
-        "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/azul.gpg] https://repos.azul.com/zulu/deb stable main" \
+        "deb [arch=${ARCH} signed-by=/etc/apt/keyrings/azul.gpg] https://repos.azul.com/zulu/deb stable main" \
         | tee /etc/apt/sources.list.d/zulu-openjdk.list > /dev/null && \
     \
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg && \
     echo \
-        "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" \
+        "deb [arch=${ARCH} signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" \
         | tee /etc/apt/sources.list.d/docker.list > /dev/null
 
 RUN apt-get update
@@ -47,21 +47,19 @@ RUN apt-get dist-upgrade -y && \
     containerd.io \
     docker-ce \
     docker-ce-cli \
-    zulu11-jdk \
+    zulu11-jdk-headless \
     && apt-get clean
 
 SHELL ["/bin/bash", "-c"]
 
 # Install kubectl
 RUN export ARCH=$(dpkg --print-architecture) && \
-    curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/${ARCH}/kubectl" && \
-    curl -LO "https://dl.k8s.io/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/${ARCH}/kubectl.sha256" && \
-    echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check && \
-    sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+    curl -fsSL "https://dl.k8s.io/release/$(curl -fsSL https://dl.k8s.io/release/stable.txt)/bin/linux/${ARCH}/kubectl" -o /usr/local/bin/kubectl && \
+    chmod +x /usr/local/bin/kubectl
 
 # Install k3d
 RUN export TAG=$(curl -fsSL https://api.github.com/repos/k3d-io/k3d/releases/latest | jq -r '.name') && \
-    curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
+    curl -fsSL https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
 
 # Install tilt
 RUN export VERSION=$(curl -fsSL https://api.github.com/repos/tilt-dev/tilt/releases/latest | jq -r '.name') && \
@@ -69,22 +67,16 @@ RUN export VERSION=$(curl -fsSL https://api.github.com/repos/tilt-dev/tilt/relea
 
 # Install ytt
 RUN export ARCH=$(dpkg --print-architecture) && \
-    export YTT_VERSION=$(curl -fsSL https://api.github.com/repos/vmware-tanzu/carvel-ytt/releases/latest | jq -r '.name') && \
-    wget -q https://github.com/vmware-tanzu/carvel-ytt/releases/download/${YTT_VERSION}/checksums.txt && \
-    wget -q https://github.com/vmware-tanzu/carvel-ytt/releases/download/${YTT_VERSION}/ytt-linux-$ARCH && \
-    export YTTSUM=$(shasum -a 256 ytt-linux-$ARCH) && \
-    export CHECKSUM=$(grep ytt-linux-$ARCH checksums.txt) && \
-    [ "$YTTSUM" = "$CHECKSUM" ] && \
-    mv ytt-linux-$ARCH /usr/local/bin/ytt && \
+    curl -fsSL https://github.com/vmware-tanzu/carvel-ytt/releases/latest/download/ytt-linux-${ARCH} -o /usr/local/bin/ytt && \
     chmod +x /usr/local/bin/ytt
 
 # Install yq
 RUN export ARCH=$(dpkg --print-architecture) && \
-    wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_$ARCH && \
+    curl -fsSL https://github.com/mikefarah/yq/releases/latest/download/yq_linux_${ARCH} -o /usr/local/bin/yq && \
     chmod a+x /usr/local/bin/yq
 
 # Install blade
-RUN curl -fsSl https://raw.githubusercontent.com/liferay/liferay-blade-cli/master/cli/installers/global | bash
+RUN curl -fsSL https://raw.githubusercontent.com/liferay/liferay-blade-cli/master/cli/installers/global | bash
 
 RUN \
     groupadd -g $GID -o $UNAME && \
