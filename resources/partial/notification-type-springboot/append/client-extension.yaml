@@ -1,0 +1,6 @@
+${id}-user-agent:
+  type: oauthApplicationUserAgent
+
+assemble:
+  - include:
+    - "*.client-extension-config.json"

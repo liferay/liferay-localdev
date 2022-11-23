@@ -182,6 +182,19 @@ $CLI ext create \
 	--args=packagePath="com/company/service" \
 	--args=resourcePath="/workflow/action"
 
+$CLI ext create \
+	-d ${WORKSPACE_BASE_PATH} \
+	-v \
+	--noprompt \
+	-- \
+	--resource-path="partial/notification-type-springboot" \
+	--workspace-path="service/kilo-springboot-service" \
+	--args=id="my-notification-type" \
+	--args=notificationTypeName="My" \
+	--args=package="com.company.service" \
+	--args=packagePath="com/company/service" \
+	--args=resourcePath="/mynotificationtype/send"
+
 $CLI ext start -v -d ${WORKSPACE_BASE_PATH} &
 
 FOUND_LOCALDEV_SERVER=0
