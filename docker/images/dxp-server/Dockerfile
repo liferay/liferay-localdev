@@ -18,13 +18,13 @@ COPY --chown=liferay:liferay 101_copy_configs.sh /usr/local/liferay/scripts/pre-
 
 # Fix the webId of the default instance
 RUN \
-	curl -fsSL https://cytranet.dl.sourceforge.net/project/hsqldb/hsqldb/hsqldb_2_7/hsqldb-2.7.0.zip -o hsqldb-2.7.0.zip && \
-	unzip -q hsqldb-2.7.0.zip && \
+	curl -fsSL https://cytranet.dl.sourceforge.net/project/hsqldb/hsqldb/hsqldb_2_7/hsqldb-2.7.1.zip -o hsqldb-2.7.1.zip && \
+	unzip -q hsqldb-2.7.1.zip && \
 	echo "urlid lportal" >> sqltool.rc && \
 	echo "username sa" >> sqltool.rc && \
 	echo "password" >> sqltool.rc && \
 	echo "url jdbc:hsqldb:file:/opt/liferay/data/hypersonic/lportal" >> sqltool.rc && \
-	java -cp hsqldb-2.7.0/hsqldb/lib/sqltool.jar:tomcat/webapps/ROOT/WEB-INF/shielded-container-lib/hsql.jar \
+	java -cp hsqldb-2.7.1/hsqldb/lib/sqltool.jar:tomcat/webapps/ROOT/WEB-INF/shielded-container-lib/hsql.jar \
 		org.hsqldb.cmdline.SqlTool --rcFile=/opt/liferay/sqltool.rc --autoCommit \
 		--sql="\
 			update virtualhost set hostname='${LIFERAY_SQL_LOCALDEV_WEBID}' where companyid= \
