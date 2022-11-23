@@ -176,8 +176,8 @@ $CLI ext create \
 	-- \
 	--resource-path="partial/workflow-action-springboot" \
 	--workspace-path="service/kilo-springboot-service" \
-	--args=id="my-action" \
-	--args=actionName="MyAction" \
+	--args=id="my-workflow-action" \
+	--args=actionName="MyWorkflowAction" \
 	--args=package="com.company.service" \
 	--args=packagePath="com/company/service" \
 	--args=resourcePath="/workflow/action"
@@ -187,10 +187,20 @@ $CLI ext create \
 	-v \
 	--noprompt \
 	-- \
+	--resource-path="template/service-springboot" \
+	--workspace-path="service/lima-springboot-service" \
+	--args=package="com.company.service" \
+	--args=packagePath="com/company/service"
+
+$CLI ext create \
+	-d ${WORKSPACE_BASE_PATH} \
+	-v \
+	--noprompt \
+	-- \
 	--resource-path="partial/notification-type-springboot" \
-	--workspace-path="service/kilo-springboot-service" \
+	--workspace-path="service/lima-springboot-service" \
 	--args=id="my-notification-type" \
-	--args=notificationTypeName="My" \
+	--args=notificationTypeName="MyNotificationType" \
 	--args=package="com.company.service" \
 	--args=packagePath="com/company/service" \
 	--args=resourcePath="/mynotificationtype/send"
@@ -207,7 +217,7 @@ done
 
 FOUND_EXT_PROVISION_CONFIG_MAPS=0
 
-until [ "$FOUND_EXT_PROVISION_CONFIG_MAPS" == "11" ]; do
+until [ "$FOUND_EXT_PROVISION_CONFIG_MAPS" == "12" ]; do
 	sleep 60
 	FOUND_EXT_PROVISION_CONFIG_MAPS=$(docker exec -i localdev-extension-runtime /entrypoint.sh kubectl get cm | grep ext-provision-metadata | wc -l | xargs)
 	echo "FOUND_EXT_PROVISION_CONFIG_MAPS=${FOUND_EXT_PROVISION_CONFIG_MAPS}"
@@ -216,7 +226,7 @@ done
 
 FOUND_EXT_INIT_CONFIG_MAPS=0
 
-until [ "$FOUND_EXT_INIT_CONFIG_MAPS" == "4" ]; do
+until [ "$FOUND_EXT_INIT_CONFIG_MAPS" == "5" ]; do
 	sleep 60
 	FOUND_EXT_INIT_CONFIG_MAPS=$(docker exec -i localdev-extension-runtime /entrypoint.sh kubectl get cm | grep ext-init-metadata | wc -l | xargs)
 	echo "FOUND_EXT_INIT_CONFIG_MAPS=${FOUND_EXT_INIT_CONFIG_MAPS}"
