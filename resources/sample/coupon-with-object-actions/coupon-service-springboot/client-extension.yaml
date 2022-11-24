@@ -5,7 +5,7 @@ runtime:
   memory: 256Mi
 
 coupon-updated-springboot-user-agent:
-  type: oauthApplicationUserAgent
+  type: oAuthApplicationUserAgent
   scopes:
     - C_Coupon.everything
 
