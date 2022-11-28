@@ -49,8 +49,8 @@ jobs:
         run: |
           export LOCALDEV_REPO=${GITHUB_WORKSPACE}
           ./tests/integration/create-build-projects.sh
-  TiltupNewProjects:
-    name: Tiltup new projects
+  TestMysqlVolume:
+    name: Test Mysql Volume
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -63,9 +63,9 @@ jobs:
           DOCKER_NETWORK: "host"
         run: |
           export LOCALDEV_REPO=${GITHUB_WORKSPACE}
-          ./tests/functional/tiltup-new-projects.sh
-  TiltUpSampleProjects:
-    name: Tiltup sample projects
+          ./tests/functional/test-mysql-volume.sh
+  TestNewCascProjects:
+    name: Test New CASC Projects
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -78,9 +78,9 @@ jobs:
           DOCKER_NETWORK: "host"
         run: |
           export LOCALDEV_REPO=${GITHUB_WORKSPACE}
-          ./tests/functional/tiltup-sample-projects.sh
-  TiltUpTestMysql:
-    name: Tiltup test mysql
+          ./tests/functional/test-new-casc-projects.sh
+  TestNewServiceProjects:
+    name: Test New Service Projects
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -93,4 +93,34 @@ jobs:
           DOCKER_NETWORK: "host"
         run: |
           export LOCALDEV_REPO=${GITHUB_WORKSPACE}
-          ./tests/functional/tiltup-test-mysql.sh
+          ./tests/functional/test-new-service-projects.sh
+  TestNewStaticProjects:
+    name: Test New Static Projects
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Build
+        shell: bash
+        env:
+          GITHUB_CI: "true"
+          DOCKER_NETWORK: "host"
+        run: |
+          export LOCALDEV_REPO=${GITHUB_WORKSPACE}
+          ./tests/functional/test-new-static-projects.sh
+  TestSampleProjects:
+    name: Test Sample Projects
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Build
+        shell: bash
+        env:
+          GITHUB_CI: "true"
+          DOCKER_NETWORK: "host"
+        run: |
+          export LOCALDEV_REPO=${GITHUB_WORKSPACE}
+          ./tests/functional/test-sample-projects.sh

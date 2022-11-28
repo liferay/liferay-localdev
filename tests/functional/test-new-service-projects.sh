@@ -40,70 +40,10 @@ $CLI ext create \
 	-v \
 	--noprompt \
 	-- \
-	--resource-path="template/configuration" \
-	--workspace-path="casc/able-configuration" \
-	--args=id="able-configuration" \
-	--args=name="Able Configuration"
-
-$CLI ext create \
-	-d ${WORKSPACE_BASE_PATH} \
-	-v \
-	--noprompt \
-	-- \
-	--resource-path="template/global-css" \
-	--workspace-path="static/bravo-global-css" \
-	--args=id="bravo-global-css" \
-	--args=name="Bravo Global CSS"
-
-$CLI ext create \
-	-d ${WORKSPACE_BASE_PATH} \
-	-v \
-	--noprompt \
-	-- \
-	--resource-path="template/global-js" \
-	--workspace-path="static/charlie-global-js" \
-	--args=id="charlie-global-js" \
-	--args=name="Charlie Global JS"
-
-$CLI ext create \
-	-d ${WORKSPACE_BASE_PATH} \
-	-v \
-	--noprompt \
-	-- \
-	--resource-path="template/remote-app-iframe" \
-	--workspace-path="static/delta-iframe" \
-	--args=id="delta-iframe" \
-	--args=name="Debra iframe"
-
-$CLI ext create \
-	-d ${WORKSPACE_BASE_PATH} \
-	-v \
-	--noprompt \
-	-- \
-	--resource-path="template/remote-app-react" \
-	--workspace-path="static/echo-remote-app" \
-	--args=id="echo-remote-app" \
-	--args=name="Echo Remote App"
-
-$CLI ext create \
-	-d ${WORKSPACE_BASE_PATH} \
-	-v \
-	--noprompt \
-	-- \
-	--resource-path="template/remote-app-vanilla" \
-	--workspace-path="static/fox-remote-app" \
-	--args=id="fox-remote-app" \
-	--args=name="Fox Remote App"
-
-$CLI ext create \
-	-d ${WORKSPACE_BASE_PATH} \
-	-v \
-	--noprompt \
-	-- \
 	--resource-path="template/service-nodejs" \
-	--workspace-path="service/golf-nodejs-service" \
-	--args=id="golf-nodejs-serviceapp" \
-	--args=name="Golf Nodejs Service"
+	--workspace-path="service/able-nodejs-service" \
+	--args=id="able-nodejs-service" \
+	--args=name="Able Nodejs Service"
 
 $CLI ext create \
 	-d ${WORKSPACE_BASE_PATH} \
@@ -111,10 +51,10 @@ $CLI ext create \
 	--noprompt \
 	-- \
 	--resource-path="partial/object-action-nodejs" \
-	--workspace-path="service/golf-nodejs-service" \
-	--args=Object="Coupon" \
-	--args=id="coupon-updated-nodejs" \
-	--args=resourcePath="/coupon/updated"
+	--workspace-path="service/able-nodejs-service" \
+	--args=Object="Able" \
+	--args=id="able-updated-nodejs" \
+	--args=resourcePath="/able/updated"
 
 $CLI ext create \
 	-d ${WORKSPACE_BASE_PATH} \
@@ -122,7 +62,7 @@ $CLI ext create \
 	--noprompt \
 	-- \
 	--resource-path="template/service-springboot" \
-	--workspace-path="service/hotel-springboot-service" \
+	--workspace-path="service/bravo-springboot-service" \
 	--args=package="com.company.service"\
 	--args=packagePath="com/company/service"
 
@@ -132,32 +72,12 @@ $CLI ext create \
 	--noprompt \
 	-- \
 	--resource-path="partial/object-action-springboot" \
-	--workspace-path="service/hotel-springboot-service" \
+	--workspace-path="service/bravo-springboot-service" \
 	--args=package="com.company.service" \
 	--args=packagePath="com/company/service" \
-	--args=Object="Coupon" \
-	--args=id="coupon-updated-springboot" \
-	--args=resourcePath="/coupon/updated"
-
-$CLI ext create \
-	-d ${WORKSPACE_BASE_PATH} \
-	-v \
-	--noprompt \
-	-- \
-	--resource-path="template/theme-css" \
-	--workspace-path="static/india-theme-css" \
-	--args=id="india-theme-css" \
-	--args=name="India Theme CSS"
-
-$CLI ext create \
-	-d ${WORKSPACE_BASE_PATH} \
-	-v \
-	--noprompt \
-	-- \
-	--resource-path="template/theme-favicon" \
-	--workspace-path="static/juliet-theme-favicon" \
-	--args=id="juliet-theme-favicon" \
-	--args=Name="Juliet Theme Favicon"
+	--args=Object="Bravo" \
+	--args=id="bravo-updated-springboot" \
+	--args=resourcePath="/bravo/updated"
 
 $CLI ext create \
 	-d ${WORKSPACE_BASE_PATH} \
@@ -165,7 +85,7 @@ $CLI ext create \
 	--noprompt \
 	-- \
 	--resource-path="template/service-springboot" \
-	--workspace-path="service/kilo-springboot-service" \
+	--workspace-path="service/charlie-springboot-service" \
 	--args=package="com.company.service" \
 	--args=packagePath="com/company/service"
 
@@ -175,7 +95,7 @@ $CLI ext create \
 	--noprompt \
 	-- \
 	--resource-path="partial/workflow-action-springboot" \
-	--workspace-path="service/kilo-springboot-service" \
+	--workspace-path="service/charlie-springboot-service" \
 	--args=id="my-workflow-action" \
 	--args=actionName="MyWorkflowAction" \
 	--args=package="com.company.service" \
@@ -188,7 +108,7 @@ $CLI ext create \
 	--noprompt \
 	-- \
 	--resource-path="template/service-springboot" \
-	--workspace-path="service/lima-springboot-service" \
+	--workspace-path="service/delta-springboot-service" \
 	--args=package="com.company.service" \
 	--args=packagePath="com/company/service"
 
@@ -198,7 +118,7 @@ $CLI ext create \
 	--noprompt \
 	-- \
 	--resource-path="partial/notification-type-springboot" \
-	--workspace-path="service/lima-springboot-service" \
+	--workspace-path="service/delta-springboot-service" \
 	--args=id="my-notification-type" \
 	--args=notificationTypeName="MyNotificationType" \
 	--args=package="com.company.service" \
@@ -217,7 +137,7 @@ done
 
 FOUND_EXT_PROVISION_CONFIG_MAPS=0
 
-until [ "$FOUND_EXT_PROVISION_CONFIG_MAPS" == "12" ]; do
+until [ "$FOUND_EXT_PROVISION_CONFIG_MAPS" == "4" ]; do
 	sleep 60
 	FOUND_EXT_PROVISION_CONFIG_MAPS=$(docker exec -i localdev-extension-runtime /entrypoint.sh kubectl get cm | grep ext-provision-metadata | wc -l | xargs)
 	echo "FOUND_EXT_PROVISION_CONFIG_MAPS=${FOUND_EXT_PROVISION_CONFIG_MAPS}"
@@ -226,7 +146,7 @@ done
 
 FOUND_EXT_INIT_CONFIG_MAPS=0
 
-until [ "$FOUND_EXT_INIT_CONFIG_MAPS" == "5" ]; do
+until [ "$FOUND_EXT_INIT_CONFIG_MAPS" == "4" ]; do
 	sleep 60
 	FOUND_EXT_INIT_CONFIG_MAPS=$(docker exec -i localdev-extension-runtime /entrypoint.sh kubectl get cm | grep ext-init-metadata | wc -l | xargs)
 	echo "FOUND_EXT_INIT_CONFIG_MAPS=${FOUND_EXT_INIT_CONFIG_MAPS}"
