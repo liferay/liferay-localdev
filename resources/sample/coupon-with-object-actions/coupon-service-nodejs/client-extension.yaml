@@ -16,7 +16,7 @@ runtime:
   memory: 100Mi
 
 coupon-updated-nodejs-user-agent:
-  type: oauthApplicationUserAgent
+  type: oAuthApplicationUserAgent
   scopes:
     - C_Coupon.everything
 

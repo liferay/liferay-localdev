@@ -1,5 +1,5 @@
 ${id}-user-agent:
-  type: oauthApplicationUserAgent
+  type: oAuthApplicationUserAgent
   scopes:
     - Liferay.Headless.Admin.Workflow.everything
 
