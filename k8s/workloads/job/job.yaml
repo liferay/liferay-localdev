@@ -18,7 +18,7 @@ spec:
         env:
         #@ for/end env in data.values.envs:
         - name: #@ env.name
-          value: #@ env.value
+          value: #@ "{}".format(env.value)
         #@ end
         resources:
           limits:
