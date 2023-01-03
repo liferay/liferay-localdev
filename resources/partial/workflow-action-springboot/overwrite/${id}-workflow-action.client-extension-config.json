@@ -1,8 +1,0 @@
-{
-  "com.liferay.portal.workflow.kaleo.runtime.internal.configuration.FunctionActionExecutorImplConfiguration~${id}" : {
-    "baseURL" : "${portalURL}/o/${id}",
-    "dxp.lxc.liferay.com.virtualInstanceId" : "default",
-    "oAuth2ApplicationExternalReferenceCode" : "${id}-user-agent",
-    "resourcePath" : "${resourcePath}"
-  }
-}

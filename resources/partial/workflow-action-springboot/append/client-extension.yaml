@@ -3,6 +3,7 @@ ${id}-user-agent:
   scopes:
     - Liferay.Headless.Admin.Workflow.everything
 
-assemble:
-  - include:
-    - "*.client-extension-config.json"
+${id}-workflow-action:
+  type: workflowAction
+  resourcePath: ${resourcePath}
+  oAuth2ApplicationExternalReferenceCode: ${id}-user-agent
