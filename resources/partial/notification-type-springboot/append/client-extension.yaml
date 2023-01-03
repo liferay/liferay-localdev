@@ -1,6 +1,7 @@
 ${id}-user-agent:
   type: oAuthApplicationUserAgent
 
-assemble:
-  - include:
-    - "*.client-extension-config.json"
+${id}-notification-type:
+  type: notificationType
+  resourcePath: ${resourcePath}
+  oAuth2ApplicationExternalReferenceCode: ${id}-user-agent
