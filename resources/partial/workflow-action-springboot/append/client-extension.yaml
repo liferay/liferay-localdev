@@ -1,9 +1,10 @@
 ${id}-user-agent:
-  type: oAuthApplicationUserAgent
+  homePageURL: https://$[conf:ext.lxc.liferay.com.mainDomain]
   scopes:
     - Liferay.Headless.Admin.Workflow.everything
+  type: oAuthApplicationUserAgent
 
 ${id}-workflow-action:
-  type: workflowAction
-  resourcePath: ${resourcePath}
   oAuth2ApplicationExternalReferenceCode: ${id}-user-agent
+  resourcePath: ${resourcePath}
+  type: workflowAction

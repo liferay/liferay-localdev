@@ -1,4 +1,5 @@
 ${id}:
+  homePageURL: https://$[conf:ext.lxc.liferay.com.mainDomain]
   name: ${name}
   scopes:
     - Liferay.Headless.Batch.Engine.everything
