@@ -1,7 +1,8 @@
 ${id}-user-agent:
+  homePageURL: https://$[conf:ext.lxc.liferay.com.mainDomain]
   type: oAuthApplicationUserAgent
 
 ${id}-notification-type:
-  type: notificationType
-  resourcePath: ${resourcePath}
   oAuth2ApplicationExternalReferenceCode: ${id}-user-agent
+  resourcePath: ${resourcePath}
+  type: notificationType

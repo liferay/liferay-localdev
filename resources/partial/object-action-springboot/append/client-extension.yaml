@@ -1,9 +1,10 @@
 ${id}-user-agent:
-  type: oAuthApplicationUserAgent
+  homePageURL: https://$[conf:ext.lxc.liferay.com.mainDomain]
   scopes:
     - C_${Object}.everything
+  type: oAuthApplicationUserAgent
 
 ${id}-object-action:
-  type: objectAction
-  resourcePath: ${resourcePath}
   oAuth2ApplicationExternalReferenceCode: ${id}-user-agent
+  resourcePath: ${resourcePath}
+  type: objectAction

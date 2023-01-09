@@ -10,3 +10,5 @@ spring:
   # https://docs.spring.io/spring-boot/docs/current/reference/html/features.html#features.external-config.files.configtree
   config:
     import: "configtree:/etc/liferay/lxc/*/"
+
+lxc.default.oauth.application: coupon-updated-springboot-user-agent

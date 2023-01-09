@@ -105,6 +105,16 @@ $CLI ext create \
 	--args=id="golf-theme-favicon" \
 	--args=Name="Golf Theme Favicon"
 
+$CLI ext create \
+	-d ${WORKSPACE_BASE_PATH} \
+	-v \
+	--noprompt \
+	-- \
+	--resource-path="template/theme-spritemap" \
+	--workspace-path="static/hotel-theme-spritemap" \
+	--args=id="hotel-theme-spritemap" \
+	--args=Name="Hotel Theme Spritemap"
+
 $CLI ext start -v -d ${WORKSPACE_BASE_PATH} &
 
 FOUND_LOCALDEV_SERVER=0
@@ -117,7 +127,7 @@ done
 
 FOUND_EXT_PROVISION_CONFIG_MAPS=0
 
-until [ "$FOUND_EXT_PROVISION_CONFIG_MAPS" == "7" ]; do
+until [ "$FOUND_EXT_PROVISION_CONFIG_MAPS" == "8" ]; do
 	sleep 60
 	FOUND_EXT_PROVISION_CONFIG_MAPS=$(docker exec -i localdev-extension-runtime /entrypoint.sh kubectl get cm | grep ext-provision-metadata | wc -l | xargs)
 	echo "FOUND_EXT_PROVISION_CONFIG_MAPS=${FOUND_EXT_PROVISION_CONFIG_MAPS}"

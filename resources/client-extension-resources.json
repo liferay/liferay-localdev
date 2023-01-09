@@ -182,7 +182,7 @@
       },
       {
         "name": "name",
-        "description": "Display name of the global-css client extension",
+        "description": "Display name of the global-js client extension",
         "default": "My Global JS"
       }
     ]
@@ -292,19 +292,19 @@
   },
   {
     "category": "Front End",
-    "description": "Theme JS Client Extension",
-    "name": "theme-js",
+    "description": "Theme Favicon Client Extension",
+    "name": "theme-favicon",
     "type": "template",
     "args": [
       {
         "name": "id",
-        "description": "Id of the theme-js client extension",
-        "default": "my-theme-js"
+        "description": "Id of the theme-favicon client extension",
+        "default": "my-theme-favicon"
       },
       {
         "name": "name",
-        "description": "Display name of the theme-js client extension",
-        "default": "My Theme JS"
+        "description": "Display name of the theme-favicon client extension",
+        "default": "My Theme Favicon"
       }
     ]
   }
