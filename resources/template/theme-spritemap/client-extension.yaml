@@ -1,0 +1,8 @@
+${id}:
+    name: ${name}
+    type: themeSpritemap
+    url: spritemap.svg
+
+runtime:
+  template: theme-spritemap
+  type: static

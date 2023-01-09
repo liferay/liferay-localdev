@@ -77,6 +77,12 @@ CREATE_ARGS="\
 --args=name=Juliet Theme Favicon" $CREATE_CMD
 
 CREATE_ARGS="\
+--workspace-path=static/juliet-theme-spritemap|\
+--resource-path=template/theme-spritemap|\
+--args=id=juliet-theme-spritemap|\
+--args=name=Juliet Theme Spritemap" $CREATE_CMD
+
+CREATE_ARGS="\
 --workspace-path=service/kilo-springboot-service|\
 --resource-path=template/service-springboot|\
 --args=package=com.company.kilo|\
