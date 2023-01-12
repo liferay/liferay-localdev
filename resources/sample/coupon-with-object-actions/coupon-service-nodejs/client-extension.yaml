@@ -16,7 +16,7 @@ runtime:
   memory: 100Mi
 
 coupon-updated-nodejs-user-agent:
-  homePageURL: https://$[conf:ext.lxc.liferay.com.mainDomain]
+  name: Coupon Updated (Nodejs)
   scopes:
     - C_Coupon.everything
   type: oAuthApplicationUserAgent

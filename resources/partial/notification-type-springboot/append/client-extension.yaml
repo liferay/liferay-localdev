@@ -1,5 +1,5 @@
 ${id}-user-agent:
-  homePageURL: https://$[conf:ext.lxc.liferay.com.mainDomain]
+  name: ${name}
   type: oAuthApplicationUserAgent
 
 ${id}-notification-type:

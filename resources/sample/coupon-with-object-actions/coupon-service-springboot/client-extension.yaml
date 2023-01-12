@@ -5,7 +5,7 @@ runtime:
   memory: 256Mi
 
 coupon-updated-springboot-user-agent:
-  homePageURL: https://$[conf:ext.lxc.liferay.com.mainDomain]
+  name: Coupon Updated (Springboot)
   scopes:
     - C_Coupon.everything
   type: oAuthApplicationUserAgent
