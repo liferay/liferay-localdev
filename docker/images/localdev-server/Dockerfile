@@ -104,6 +104,8 @@ COPY --chown=$UNAME:$UNAME workspace/settings.gradle /workspace/settings.gradle
 
 COPY --chown=$UNAME:$UNAME workspace/gradle.properties /workspace/gradle.properties
 
+COPY --chown=$UNAME:$UNAME workspace/temp_repo /workspace/temp_repo
+
 COPY --chown=$UNAME:$UNAME workspace/build.gradle /workspace/build.gradle
 
 # warm up gradle & yarn install
