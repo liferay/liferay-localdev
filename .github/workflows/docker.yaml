@@ -1,11 +1,10 @@
 name: Build And Publish localdev-server Docker Image
 
 on:
-  pull_request:
-    paths-ignore:
-      - '*.commits'
-      - '*.markdown'
-      - '**/*.markdown'
+  push:
+    branches:
+      - main
+      - next
 
 env:
   LC_ALL: en_US.UTF-8
@@ -41,6 +40,7 @@ jobs:
 
     - name: Build the Docker Image
       run: |
+        BRANCH=$(echo ${GITHUB_REF##*/})
         IMAGE_VERSION=$(/usr/bin/git describe --tags)
         echo IMAGE_VERSION=$IMAGE_VERSION
         docker buildx create --name "liferay-buildkit"
@@ -50,6 +50,6 @@ jobs:
           --builder "liferay-buildkit" \
           --platform "linux/amd64,linux/arm64" \
           --push \
-          --tag=$DOCKER_USER/$IMAGE_NAME \
-          --tag=$DOCKER_USER/$IMAGE_NAME:${IMAGE_VERSION/main/latest} \
+          --tag=$DOCKER_USER/${IMAGE_NAME}:${BRANCH} \
+          --tag=$DOCKER_USER/${IMAGE_NAME}:${BRANCH}-${IMAGE_VERSION/main/latest} \
           docker/images/localdev-server/
