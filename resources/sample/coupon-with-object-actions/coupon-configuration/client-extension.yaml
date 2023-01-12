@@ -1,5 +1,4 @@
 coupon-configuration:
-  homePageURL: https://$[conf:ext.lxc.liferay.com.mainDomain]
   name: Coupon Configuration as Code
   scopes:
     - Liferay.Headless.Batch.Engine.everything
