@@ -14,15 +14,11 @@ target_port = os.environ.get("TARGET_PORT", 8080)
 tilt_image_0 = os.environ.get("TILT_IMAGE_0", "default")
 virtual_instance_id = os.environ.get("VIRTUAL_INSTANCE_ID", "dxp.lfr.dev")
 workload = os.environ.get("WORKLOAD")
+init_metadata = os.environ.get("INIT_METADATA", False)
 workspace = os.environ.get("WORKSPACE", "/workspace")
 
 
 def generate_workload_yaml():
-    init_metadata = False
-
-    if workload != "static":
-        init_metadata = True
-
     ytt_args = [
         "ytt",
         "-f %s/k8s/workloads/%s" % (repo, workload),

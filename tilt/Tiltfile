@@ -19,6 +19,7 @@ def process_extension(
     memory="",
     envs=[],
     readyPath="",
+    init_metadata="",
 ):
     more_deps = []
     for source_dep in source_deps:
@@ -66,6 +67,7 @@ def process_extension(
         "READY_PATH": readyPath,
         "TARGET_PORT": str(targetPort),
         "VIRTUAL_INSTANCE_ID": virtual_instance_id,
+        "INIT_METADATA": init_metadata,
         "WORKLOAD": workload,
     }
 
@@ -220,6 +222,7 @@ for client_extension_yaml_file in client_extension_yaml_files:
     targetPort = 80
     watch = []
     workload = "static"
+    init_metadata = "false"
 
     if client_extension_object.get("runtime"):
         runtime = client_extension_object["runtime"]
@@ -241,16 +244,24 @@ for client_extension_yaml_file in client_extension_yaml_files:
             envs = runtime["env"]
 
         if runtime.get("type"):
-            type = runtime["type"]
+            runtimeType = runtime["type"]
 
-            if type == "configuration":
+            if runtimeType == "configuration":
                 workload = "job"
             else:
-                if type == "service":
+                if runtimeType == "service":
                     workload = "deployment"
 
     if workload != "job":
         links = [link("https://%s.%s" % (client_extension_name, lfrdev_domain))]
+
+    for key in client_extension_object:
+        client_extension = client_extension_object.get(key)
+        if type(client_extension) == "dict":
+            client_extension_type = client_extension.get("type")
+            if client_extension_type.startswith("oAuthApplication"):
+                init_metadata = "true"
+                break
 
     # TODO call a script that can expand globs that may be passed into watch property
     # paths=local(/repo/scripts/unroll-globs.sh watch)
@@ -268,6 +279,7 @@ for client_extension_yaml_file in client_extension_yaml_files:
         resource_deps=resource_deps,
         links=links,
         readyPath=readyPath,
+        init_metadata=init_metadata,
     )
 
 # if user Tiltfile defines an after_all, call it
