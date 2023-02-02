@@ -32,6 +32,7 @@ project_path = os.path.join(workspace_base_path, create_args["workspace_path"])
 
 template_path = os.path.join(resources_base_path, create_args["resource_path"])
 
+
 # overwrite the default copy2 and for client-extension.yaml append instead
 def copy_partial(src, dst):
     if str(src).startswith(template_path + "/append"):
