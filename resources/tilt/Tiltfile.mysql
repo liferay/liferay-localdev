@@ -41,7 +41,7 @@ cmd_button(
     ],
     resource=db_container_name,
     icon_name="delete",
-    text="Kill mysql!"
+    text="Kill mysql!",
 )
 
 cmd_button(
@@ -131,5 +131,6 @@ local_resource(
     ),
 )
 
+
 def on_down():
-  local("docker container stop %s" % db_container_name)
+    local("docker container stop %s" % db_container_name)

@@ -1,0 +1,14 @@
+load("ext://uibutton", "cmd_button", "text_input", "location")
+
+cmd_button(
+    "Debug DXP",
+    argv=[
+        "sh",
+        "-c",
+        "/repo/scripts/tilt/debugDxp.py $projectName",
+    ],
+    resource="dxp.lfr.dev",
+    icon_name="adb",
+    text="Debug DXP",
+    inputs=[text_input("projectName", "Debug project name", default="debugDxp")],
+)
