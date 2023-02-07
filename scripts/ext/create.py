@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
+
 import argparse
-import fileinput
 import os
 import pathlib
 import shutil
