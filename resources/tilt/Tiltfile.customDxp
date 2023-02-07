@@ -2,15 +2,15 @@
 # To see all buildargs seeSee
 # https://github.com/liferay/liferay-localdev/blob/main/docker/images/dxp-server/Dockerfile
 dxp_buildargs = {
-#    "DXP_BASE_IMAGE": "liferay/dxp:7.4.13.nightly-d5.0.2-20221028072756"
+    #    "DXP_BASE_IMAGE": "liferay/dxp:7.4.13.nightly-d5.0.2-20221028072756"
 }
 
 # This map will add additional ENV VARs to the dxp-server docker container
 # To see full list of ENV VARs supported see portal.properties for possible ENVs
 # https://github.com/liferay/liferay-portal/blob/master/portal-impl/src/portal.properties
 dxp_envs = {
-#  "LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_DRIVER_UPPERCASEC_LASS_UPPERCASEN_AME": "org.hsqldb.jdbc.JDBCDriver",
-#  "LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_URL": "${liferay.home}/data/hypersonic/lportal;hsqldb.lock_file=false,hsqldb.write_delay=false",
-#  "LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_USERNAME": "sa",
-#  "LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_PASSWORD:" "",
+    #  "LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_DRIVER_UPPERCASEC_LASS_UPPERCASEN_AME": "org.hsqldb.jdbc.JDBCDriver",
+    #  "LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_URL": "${liferay.home}/data/hypersonic/lportal;hsqldb.lock_file=false,hsqldb.write_delay=false",
+    #  "LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_USERNAME": "sa",
+    #  "LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_PASSWORD:" "",
 }

@@ -9,7 +9,7 @@ cmd_button(
     argv=[
         "sh",
         "-c",
-        "docker container rm -f dxp-server && docker volume rm %s" % dxp_data_volume
+        "docker container rm -f dxp-server && docker volume rm %s" % dxp_data_volume,
     ],
     resource="dxp.lfr.dev",
     icon_name="delete",

@@ -22,7 +22,7 @@ jobs:
         run: |
           pip3 install black beautysh
           find . -name '*.py' -print | xargs black --check
-          find . -name 'Tiltfile' -print | xargs black --check
+          find . -name 'Tiltfile*' -print | xargs black --check
           find . -name '*.sh' -print | xargs beautysh -t --check
   CreateAndBuildProjects:
     name: Create and Build Projects
