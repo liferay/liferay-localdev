@@ -14,8 +14,25 @@ tempDir = tempfile.TemporaryDirectory()
 archiveBasePath = copytree(
     "/workspace",
     os.path.join(tempDir.name, "liferay-workspace"),
-    ignore=ignore_patterns("build", "node_modules*"),
+    ignore=ignore_patterns(
+        ".*",
+        "Dockerfile.ext",
+        "GETTING_STARTED.markdown",
+        "build*",
+        "configs",
+        "modules",
+        "node_modules*",
+        "package.json",
+        "platform.bndrun",
+        "themes",
+        "yarn.lock",
+    ),
 )
 
 # zip a directory
-make_archive("/workspace/client-extensions/liferay-workspace", "zip", archiveBasePath)
+make_archive(
+    base_dir="liferay-workspace",
+    base_name="/workspace/client-extensions/liferay-workspace",
+    format="zip",
+    root_dir=tempDir.name,
+)
