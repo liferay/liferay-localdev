@@ -263,7 +263,9 @@ for client_extension_yaml_file in client_extension_yaml_files:
         client_extension = client_extension_object.get(key)
         if type(client_extension) == "dict":
             client_extension_type = client_extension.get("type", None)
-            if client_extension_type and client_extension_type.startswith("oAuthApplication"):
+            if client_extension_type and client_extension_type.startswith(
+                "oAuthApplication"
+            ):
                 init_metadata = "true"
                 break
 
