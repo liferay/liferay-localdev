@@ -225,6 +225,21 @@ for client_extension_yaml_file in client_extension_yaml_files:
     workload = "static"
     init_metadata = "false"
 
+    # check for a LCP.json to determine workload type
+    # if LCP.json doesn't exist then just default to "static" workload
+    lcp_json_file = "%s/LCP.json" % project_path
+    # check if lcp.json exists
+    if os.path.exists(lcp_json_file):
+        lcp_json = read_json(lcp_json_file)
+        kind = lcp_json.get("kind", None)
+        if kind == "Deployment":
+            workload = "deployment"
+        elif kind == "Job":
+            workload = "job"
+
+    if workload != "job":
+        links = [link("https://%s.%s" % (client_extension_name, lfrdev_domain))]
+
     if client_extension_object.get("runtime"):
         runtime = client_extension_object["runtime"]
 
@@ -244,23 +259,11 @@ for client_extension_yaml_file in client_extension_yaml_files:
         if runtime.get("env"):
             envs = runtime["env"]
 
-        if runtime.get("type"):
-            runtimeType = runtime["type"]
-
-            if runtimeType == "configuration":
-                workload = "job"
-            else:
-                if runtimeType == "service":
-                    workload = "deployment"
-
-    if workload != "job":
-        links = [link("https://%s.%s" % (client_extension_name, lfrdev_domain))]
-
     for key in client_extension_object:
         client_extension = client_extension_object.get(key)
         if type(client_extension) == "dict":
-            client_extension_type = client_extension.get("type")
-            if client_extension_type.startswith("oAuthApplication"):
+            client_extension_type = client_extension.get("type", None)
+            if client_extension_type and client_extension_type.startswith("oAuthApplication"):
                 init_metadata = "true"
                 break
 
