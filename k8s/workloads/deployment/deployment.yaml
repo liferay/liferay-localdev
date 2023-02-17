@@ -25,9 +25,10 @@ spec:
         env:
           - name: DEBUG_PORT
             value: #@ "{}".format(data.values.debugPort)
-          #@ for/end env in data.values.envs:
-          - name: #@ env.name
-            value: #@ "{}".format(env.value)
+          #@ for/end name in data.values.envs:
+          - name: #@ name
+            value: #@ "{}".format(data.values.envs[name])
+          #@ end
         ports:
           - containerPort: #@ data.values.debugPort
           - containerPort: #@ data.values.targetPort
