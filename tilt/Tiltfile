@@ -21,6 +21,7 @@ def process_extension(
     envs=[],
     readyPath="",
     init_metadata="",
+    schedule="",
 ):
     more_deps = []
     for source_dep in source_deps:
@@ -70,6 +71,7 @@ def process_extension(
         "VIRTUAL_INSTANCE_ID": virtual_instance_id,
         "INIT_METADATA": init_metadata,
         "WORKLOAD": workload,
+        "SCHEDULE": schedule,
     }
 
     k8s_custom_deploy(
@@ -224,6 +226,7 @@ for client_extension_yaml_file in client_extension_yaml_files:
     watch = []
     workload = "static"
     init_metadata = "false"
+    schedule = "* * * * *"
 
     # check for a LCP.json to determine workload type
     # if LCP.json doesn't exist then just default to "static" workload
@@ -236,6 +239,12 @@ for client_extension_yaml_file in client_extension_yaml_files:
             workload = "deployment"
         elif kind == "Job":
             workload = "job"
+        elif kind == "CronJob":
+            workload = "cronjob"
+            schedule = lcp_json.get("schedule", "* * * * *")
+        lcpMemory = lcp_json.get("memory", None)
+        if lcpMemory:
+            memory = "%sM" % lcpMemory
 
     if workload != "job":
         links = [link("https://%s.%s" % (client_extension_name, lfrdev_domain))]
@@ -244,7 +253,6 @@ for client_extension_yaml_file in client_extension_yaml_files:
         runtime = client_extension_object["runtime"]
 
         cpu = runtime.get("cpu", "")
-        memory = runtime.get("memory", "")
         readyPath = runtime.get("readyPath", "")
 
         if runtime.get("deps"):
@@ -286,6 +294,7 @@ for client_extension_yaml_file in client_extension_yaml_files:
         links=links,
         readyPath=readyPath,
         init_metadata=init_metadata,
+        schedule=schedule,
     )
 
 # if user Tiltfile defines an after_all, call it
