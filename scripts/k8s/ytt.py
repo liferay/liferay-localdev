@@ -31,7 +31,7 @@ def generate_workload_yaml():
     ]
 
     if cpu:
-        ytt_args.append("--data-value-yaml cpu=%s" % cpu)
+        ytt_args.append("--data-value cpu=%s" % cpu)
 
     if memory:
         ytt_args.append("--data-value-yaml memory=%s" % memory)
