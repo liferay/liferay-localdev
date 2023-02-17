@@ -216,10 +216,10 @@ for client_extension_yaml_file in client_extension_yaml_files:
     client_extension_object = read_yaml(client_extension_yaml_file)
 
     # defaults
-    cpu = ""
+    cpu = "100m"
     envs = []
     links = []
-    memory = ""
+    memory = "50Mi"
     resource_deps = []
     readyPath = ""
     targetPort = 80
@@ -231,6 +231,7 @@ for client_extension_yaml_file in client_extension_yaml_files:
     # check for a LCP.json to determine workload type
     # if LCP.json doesn't exist then just default to "static" workload
     lcp_json_file = "%s/LCP.json" % project_path
+
     # check if lcp.json exists
     if os.path.exists(lcp_json_file):
         lcp_json = read_json(lcp_json_file)
@@ -245,6 +246,12 @@ for client_extension_yaml_file in client_extension_yaml_files:
         lcpMemory = lcp_json.get("memory", None)
         if lcpMemory:
             memory = "%sM" % lcpMemory
+        lcpCpu = lcp_json.get("cpu", None)
+        if lcpCpu:
+            cpu = "%s" % lcpCpu
+        lcpEnv = lcp_json.get("env", None)
+        if lcpEnv:
+            envs = lcpEnv
 
     if workload != "job":
         links = [link("https://%s.%s" % (client_extension_name, lfrdev_domain))]
@@ -252,7 +259,6 @@ for client_extension_yaml_file in client_extension_yaml_files:
     if client_extension_object.get("runtime"):
         runtime = client_extension_object["runtime"]
 
-        cpu = runtime.get("cpu", "")
         readyPath = runtime.get("readyPath", "")
 
         if runtime.get("deps"):
@@ -263,9 +269,6 @@ for client_extension_yaml_file in client_extension_yaml_files:
 
         if runtime.get("watch"):
             watch = runtime["watch"]
-
-        if runtime.get("env"):
-            envs = runtime["env"]
 
     for key in client_extension_object:
         client_extension = client_extension_object.get(key)
