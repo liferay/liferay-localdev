@@ -1,0 +1,13 @@
+#@data/values-schema
+---
+cpu: "100m"
+#@schema/type any=True
+envs: []
+image: ""
+initMetadata: #@ True
+memory: "100Mi"
+serviceId: ""
+targetPort: 80
+virtualInstanceId: ""
+lfrdevDomain: "lfr.dev"
+schedule: "* * * * *"
