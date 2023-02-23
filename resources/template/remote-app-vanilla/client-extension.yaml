@@ -1,3 +1,7 @@
+assemble:
+    - from: assets
+      include: "**/*"
+      into: static
 ${id}:
     cssURLs:
         - style.css
@@ -10,7 +14,3 @@ ${id}:
     urls:
         - index.js
     useESM: false
-
-runtime:
-  template: remote-app-vanilla
-  type: static

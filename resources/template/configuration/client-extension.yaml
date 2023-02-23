@@ -1,17 +1,11 @@
+assemble:
+    - include: "batch/*"
+batch:
+    oAuth2ApplicationExternalReferenceCode: ${id}
 ${id}:
-  name: ${name}
-  scopes:
-    - Liferay.Headless.Batch.Engine.everything
-    - Liferay.Object.Admin.REST.everything
-  type: oAuthApplicationHeadlessServer
-  userAccountEmailAddress: test@$[conf:dxp.lxc.liferay.com.virtualInstanceId]
-
-runtime:
-  template: configuration
-  type: configuration
-  workload: job
-  env:
-  - name: OAUTH2_JOB_PROFILE
-    value: ${id}
-  - name: CURL_FLAGS
-    value: ""
+    name: Sample OAuth Application Headless Server
+    scopes:
+        - Liferay.Headless.Admin.Workflow.everything
+        - Liferay.Headless.Batch.Engine.everything
+        - Liferay.Object.Admin.REST.everything
+    type: oAuthApplicationHeadlessServer
