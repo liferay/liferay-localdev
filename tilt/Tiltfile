@@ -3,7 +3,6 @@ client_extension_dir_key = os.environ.get("CLIENT_EXTENSION_DIR_KEY")
 lfrdev_domain = os.environ.get("LFRDEV_DOMAIN")
 repo = os.environ.get("LOCALDEV_REPO", "/repo")
 
-
 # Function process_extension
 def process_extension(
     name,
@@ -72,6 +71,7 @@ def process_extension(
         "INIT_METADATA": init_metadata,
         "WORKLOAD": workload,
         "SCHEDULE": schedule,
+        "ROOT_CA_FILEPATH": "%s/k8s/tls/rootCA.pem" % repo,
     }
 
     k8s_custom_deploy(
@@ -230,7 +230,7 @@ for client_extension_yaml_file in client_extension_yaml_files:
 
     # check for a LCP.json to determine workload type
     # if LCP.json doesn't exist then just default to "static" workload
-    lcp_json_file = "%s/LCP.json" % project_path
+    lcp_json_file = "%s/build/LCP.json" % project_path
 
     # check if lcp.json exists
     if os.path.exists(lcp_json_file):
@@ -261,9 +261,6 @@ for client_extension_yaml_file in client_extension_yaml_files:
 
         readyPath = runtime.get("readyPath", "")
 
-        if runtime.get("deps"):
-            resource_deps = [runtime["deps"][0]]
-
         if runtime.get("port"):
             targetPort = runtime["port"]
 
@@ -279,6 +276,17 @@ for client_extension_yaml_file in client_extension_yaml_files:
             ):
                 init_metadata = "true"
                 break
+
+    # check project Tiltfile
+    project_tiltfile = "%s/Tiltfile" % project_path
+
+    # check if Tiltfile exists
+    if os.path.exists(project_tiltfile):
+        symbols = load_dynamic(project_tiltfile)
+        files = symbols.get("watch_files", None)
+        if files:
+            for file in files:
+                watch.append(file)
 
     # TODO call a script that can expand globs that may be passed into watch property
     # paths=local(/repo/scripts/unroll-globs.sh watch)

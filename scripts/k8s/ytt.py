@@ -16,6 +16,7 @@ virtual_instance_id = os.environ.get("VIRTUAL_INSTANCE_ID", "dxp.lfr.dev")
 workload = os.environ.get("WORKLOAD")
 init_metadata = os.environ.get("INIT_METADATA", False)
 workspace = os.environ.get("WORKSPACE", "/workspace")
+root_ca_filepath = os.environ.get("ROOT_CA_FILEPATH", "")
 
 
 def generate_workload_yaml():
@@ -28,6 +29,7 @@ def generate_workload_yaml():
         "--data-value-yaml targetPort=%s" % target_port,
         "--data-value virtualInstanceId=%s" % virtual_instance_id,
         "--data-value lfrdevDomain=%s" % lfrdev_domain,
+        "-f %s" % root_ca_filepath,
     ]
 
     if cpu:
