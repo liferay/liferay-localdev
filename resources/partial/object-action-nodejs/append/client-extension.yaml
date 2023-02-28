@@ -5,6 +5,6 @@ ${id}-user-agent:
   type: oAuthApplicationUserAgent
 
 ${id}-object-action:
-  type: objectAction
-  resourcePath: ${resourcePath}
   oAuth2ApplicationExternalReferenceCode: ${id}-user-agent
+  resourcePath: ${resourcePath}
+  type: objectAction

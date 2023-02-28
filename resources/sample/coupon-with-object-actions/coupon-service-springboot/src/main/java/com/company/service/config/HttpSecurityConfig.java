@@ -71,13 +71,15 @@ public class HttpSecurityConfig {
 	@Bean
 	public JwtDecoder jwtDecoder(
 			@Value("${${lxc.default.oauth.application}.oauth2.user.agent.client.id}") String clientId,
-			@Value("${${lxc.default.oauth.application}.oauth2.jwks.uri}") String jwkSetUrl)
+			@Value("${${lxc.default.oauth.application}.oauth2.jwks.uri}") String jwkSetUri,
+			@Value("${com.liferay.lxc.dxp.server.protocol}") String serverProtocol)
 		throws Exception {
 
 		DefaultJWTProcessor<SecurityContext> jwtProcessor = new DefaultJWTProcessor<>();
 
 		jwtProcessor.setJWSKeySelector(
-			JWSAlgorithmFamilyJWSKeySelector.fromJWKSetURL(new URL(jwkSetUrl)));
+			JWSAlgorithmFamilyJWSKeySelector.fromJWKSetURL(
+				new URL(serverProtocol, _mainDomain, -1, jwkSetUri, null)));
 		jwtProcessor.setJWSTypeVerifier(
 			new DefaultJOSEObjectTypeVerifier<>(new JOSEObjectType("at+jwt")));
 
