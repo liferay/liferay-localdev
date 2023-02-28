@@ -1,3 +1,7 @@
+assemble:
+  - from: build/
+    include: "static/**/*"
+    into: static/
 ${id}:
   cssURLs:
     - static/css/main.*.css
@@ -10,12 +14,3 @@ ${id}:
   urls:
     - static/js/main.*.js
   useESM: false
-
-assemble:
-  - from: build/
-    include: "static/**/*"
-    into: dockerRoot/
-
-runtime:
-  template: remote-app-react
-  type: static

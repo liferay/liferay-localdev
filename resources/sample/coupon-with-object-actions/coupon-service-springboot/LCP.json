@@ -1,0 +1,12 @@
+{
+	"cpu": 1,
+	"environments": {
+		"infra": {
+			"deploy": false
+		}
+	},
+	"id": "servicespringboot",
+	"kind": "Deployment",
+	"memory": 512,
+	"scale": 1
+}

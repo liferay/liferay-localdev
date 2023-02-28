@@ -10,4 +10,5 @@ serviceId: ""
 targetPort: 80
 virtualInstanceId: ""
 lfrdevDomain: "lfr.dev"
+rootCA: ""
 schedule: "* * * * *"

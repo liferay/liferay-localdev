@@ -28,6 +28,9 @@ spec:
                 memory: #@ data.values.memory
                 cpu: #@ data.values.cpu
             volumeMounts:
+              - mountPath: /etc/liferay/localdev
+                name: localdev
+                readOnly: true
               - mountPath: /etc/liferay/lxc/dxp-metadata
                 name: lxc-dxp-metadata
                 readOnly: true
@@ -38,6 +41,9 @@ spec:
               #@ end
           restartPolicy: OnFailure
           volumes:
+            - name: localdev
+              configMap:
+                name: localdev
             - name: lxc-dxp-metadata
               configMap:
                 name: #@ "{}-lxc-dxp-metadata".format(data.values.virtualInstanceId)
