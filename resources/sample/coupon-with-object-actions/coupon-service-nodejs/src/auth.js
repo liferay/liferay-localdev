@@ -16,8 +16,8 @@ async function authenticate(req, res, next) {
   if (req.path === '/') {
     next();
   }	else if (token) {
-    const jwtSecret = await fetchJWTSecret();
-    const publicKey = jwktopem(jwtSecret.keys[0]);
+    const jwtKeySet = await fetchJwtKeySet();
+    const publicKey = jwktopem(jwtKeySet.keys[0]);
 
     jwt.verify(token, publicKey, { algorithms: ['RS256'] }, (err) => {
       if (err) {
@@ -37,14 +37,26 @@ async function authenticate(req, res, next) {
   }
 }
 
-async function fetchJWTSecret() {
-  const jwtSecretURIFileName = path.join('/etc/liferay/lxc/ext-init-metadata', 'coupon-updated-nodejs-user-agent.oauth2.jwks.uri');
+async function fetchJwtKeySet() {
+  const dxpMainDomain = readDxpMetadata('com.liferay.lxc.dxp.mainDomain');
+  const dxpServerProtocol = readDxpMetadata('com.liferay.lxc.dxp.server.protocol');
+  const jwksUri = readInitMetadata('${id}-user-agent.oauth2.jwks.uri');
 
-  const jwtSecretURI = fs.readFileSync(jwtSecretURIFileName);
-
-  const res = await axios.get(jwtSecretURI);
+  const res = await axios.get(`${dxpServerProtocol}://${dxpMainDomain}${jwksUri}`);
 
   return res.data;
+}
+
+function readDxpMetadata(fileName) {
+  const filePath = path.join('/etc/liferay/lxc/dxp-metadata', fileName);
+
+  return fs.readFileSync(filePath);
+}
+
+function readInitMetadata(fileName) {
+  const filePath = path.join('/etc/liferay/lxc/ext-init-metadata', fileName);
+
+  return fs.readFileSync(filePath);
 }
 
 module.exports = authenticate;
