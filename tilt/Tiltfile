@@ -50,12 +50,15 @@ def process_extension(
         deps=[
             "/workspace/%s/Dockerfile" % projectPath,
             "/workspace/%s/assets" % projectPath,
+            "/workspace/%s/batch" % projectPath,
             "/workspace/%s/build.gradle" % projectPath,
             "/workspace/%s/client-extension.yaml" % projectPath,
             "/workspace/%s/src" % projectPath,
         ]
         + more_deps,
-        ignore=[],
+        ignore=[
+            "/workspace/%s/build" % projectPath,
+        ],
     )
 
     deploy_env = {
@@ -253,20 +256,15 @@ for client_extension_yaml_file in client_extension_yaml_files:
         lcpEnv = lcp_json.get("env", None)
         if lcpEnv:
             envs = lcpEnv
+        lcpPorts = lcp_json.get("ports", None)
+        if lcpPorts:
+            for lcpPort in lcpPorts:
+                lcpTargetPort = lcpPort.get("targetPort", None)
+                if lcpTargetPort:
+                    targetPort = lcpTargetPort
 
     if workload != "job":
         links = [link("https://%s.%s" % (client_extension_name, lfrdev_domain))]
-
-    if client_extension_object.get("runtime"):
-        runtime = client_extension_object["runtime"]
-
-        readyPath = runtime.get("readyPath", "")
-
-        if runtime.get("port"):
-            targetPort = runtime["port"]
-
-        if runtime.get("watch"):
-            watch = runtime["watch"]
 
     for key in client_extension_object:
         client_extension = client_extension_object.get(key)
