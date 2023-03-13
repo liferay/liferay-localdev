@@ -18,20 +18,20 @@ spec:
       containers:
       - name: #@ data.values.serviceId
         image: #@ data.values.image
-        resources:
-          limits:
-            memory: #@ data.values.memory
-            cpu: #@ data.values.cpu
         env:
           - name: DEBUG_PORT
             value: #@ "{}".format(data.values.debugPort)
-          #@ for/end name in data.values.envs:
+          #@ for name in data.values.envs:
           - name: #@ name
             value: #@ "{}".format(data.values.envs[name])
           #@ end
         ports:
           - containerPort: #@ data.values.debugPort
           - containerPort: #@ data.values.targetPort
+        resources:
+          limits:
+            memory: #@ "{}".format(data.values.memory)
+            cpu: #@ "{}".format(data.values.cpu)
         #@ if data.values.readyPath:
         readinessProbe:
           httpGet:

@@ -2,3 +2,4 @@
 ---
 hostAliases: ["dxp"]
 lfrdevDomain: "lfr.dev"
+rootCA: ""
