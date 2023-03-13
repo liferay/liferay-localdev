@@ -2,38 +2,24 @@
 client_extension_dir_key = os.environ.get("CLIENT_EXTENSION_DIR_KEY")
 lfrdev_domain = os.environ.get("LFRDEV_DOMAIN")
 repo = os.environ.get("LOCALDEV_REPO", "/repo")
+workspace = os.environ.get("WORKSPACE", "/workspace")
 
 
 # Function process_extension
 def process_extension(
     name,
     projectPath,
-    workload,
-    targetPort,
+    client_extension_yaml_file,
     virtual_instance_id="dxp.%s" % lfrdev_domain,
-    source_deps=[],
-    objects=[],
     port_forwards=[],
-    resource_deps=[],
-    links=[],
-    cpu="",
-    memory="",
-    envs=[],
-    readyPath="",
-    init_metadata="",
-    schedule="",
 ):
-    more_deps = []
-    for source_dep in source_deps:
-        more_deps.append("/workspace/%s/%s" % (projectPath, source_dep))
-
     gradlePath = projectPath.replace("/", ":")
 
     build_args = " ".join(
         [
-            "/workspace/gradlew",
+            "%s/gradlew" % workspace,
             "--project-dir",
-            "/workspace",
+            workspace,
             ":%s:clean" % gradlePath,
             ":%s:buildClientExtensionDockerImage" % gradlePath,
             "--stacktrace",
@@ -48,51 +34,58 @@ def process_extension(
         name,
         build_args,
         deps=[
-            "/workspace/%s/Dockerfile" % projectPath,
-            "/workspace/%s/assets" % projectPath,
-            "/workspace/%s/batch" % projectPath,
-            "/workspace/%s/build.gradle" % projectPath,
-            "/workspace/%s/client-extension.yaml" % projectPath,
-            "/workspace/%s/src" % projectPath,
-        ]
-        + more_deps,
+            "%s/%s" % (workspace, projectPath),
+        ],
         ignore=[
-            "/workspace/%s/build" % projectPath,
+            "%s/%s/bin" % (workspace, projectPath),
+            "%s/%s/build" % (workspace, projectPath),
+            "%s/%s/dist" % (workspace, projectPath),
         ],
     )
 
     deploy_env = {
-        "CPU": cpu,
-        "ENVS": str(envs),
         "LFRDEV_DOMAIN": lfrdev_domain,
         "LOCALDEV_REPO": repo,
-        "MEMORY": memory,
         "NAME": name,
         "PROJECT_PATH": projectPath,
-        "READY_PATH": readyPath,
-        "TARGET_PORT": str(targetPort),
         "VIRTUAL_INSTANCE_ID": virtual_instance_id,
-        "INIT_METADATA": init_metadata,
-        "WORKLOAD": workload,
-        "SCHEDULE": schedule,
-        "ROOT_CA_FILEPATH": "%s/k8s/tls/rootCA.pem" % repo,
+        "WORKSPACE": workspace,
     }
 
     k8s_custom_deploy(
         name,
-        "%s/scripts/k8s/delete.py 2>/dev/null && %s/scripts/k8s/create.py"
-        % (repo, repo),
+        "%s/scripts/k8s/delete.py 2>/dev/null && %s/scripts/k8s/create.py" % (repo, repo),
         "%s/scripts/k8s/delete.py" % repo,
-        deps=["/workspace/client-extensions/%s/build/clientExtension/" % projectPath],
+        deps=["%s/client-extensions/%s/build/clientExtension/" % (workspace, projectPath)],
         apply_env=deploy_env,
         delete_env=deploy_env,
         image_deps=[name],
     )
 
+    links = []
+    resource_deps = []
+    workload = "deployment"
+
+    lcp_json_file = "%s/%s/LCP.json" % (workspace, projectPath)
+
+    # check if lcp.json exists
+    if os.path.exists(lcp_json_file):
+        lcp_json = read_json(lcp_json_file)
+        kind = lcp_json.get("kind", None)
+        if kind == "Deployment":
+            workload = "deployment"
+        elif kind == "Job":
+            workload = "job"
+        elif kind == "CronJob":
+            workload = "cronjob"
+        resource_deps = lcp_json.get("dependencies", [])
+
+    if workload != "job":
+        links = [link("https://%s.%s" % (name, lfrdev_domain))]
+
     k8s_resource(
         labels=["Extensions"],
         port_forwards=port_forwards,
-        objects=objects,
         resource_deps=["dxp.%s" % lfrdev_domain] + resource_deps,
         workload=name,
         links=links,
@@ -108,7 +101,7 @@ def workspace_search(pattern):
         "--exclude '*/node_modules/'",
         "--exclude '*/node_modules_cache/'",
         "--glob '%s'" % pattern,
-        "/workspace/client-extensions",
+        "%s/client-extensions" % workspace,
         "2>/dev/null",
     ]
     return str(local(" ".join(find_args))).splitlines()
@@ -204,7 +197,7 @@ local_resource(
 client_extension_yaml_files = workspace_search("client-extension.yaml")
 
 tiltignores = str(
-    read_file("/workspace/client-extensions/.tiltignore", "")
+    read_file("%s/client-extensions/.tiltignore" % workspace, "")
 ).splitlines()
 
 # for each client extension project, read yaml and process the extension
@@ -212,99 +205,19 @@ tiltignores = str(
 for client_extension_yaml_file in client_extension_yaml_files:
     project_path = os.path.dirname(client_extension_yaml_file)
     client_extension_name = os.path.basename(project_path)
-    project_relative_path = os.path.relpath(project_path, "/workspace/")
+    project_relative_path = os.path.relpath(project_path, "%s/" % workspace)
 
     if client_extension_name in tiltignores:
         continue
-
-    client_extension_object = read_yaml(client_extension_yaml_file)
-
-    # defaults
-    cpu = "100m"
-    envs = []
-    links = []
-    memory = "50Mi"
-    resource_deps = []
-    readyPath = ""
-    targetPort = 80
-    watch = []
-    workload = "static"
-    init_metadata = "false"
-    schedule = "* * * * *"
-
-    # check for a LCP.json to determine workload type
-    # if LCP.json doesn't exist then just default to "static" workload
-    lcp_json_file = "%s/build/LCP.json" % project_path
-
-    # check if lcp.json exists
-    if os.path.exists(lcp_json_file):
-        lcp_json = read_json(lcp_json_file)
-        kind = lcp_json.get("kind", None)
-        if kind == "Deployment":
-            workload = "deployment"
-        elif kind == "Job":
-            workload = "job"
-        elif kind == "CronJob":
-            workload = "cronjob"
-            schedule = lcp_json.get("schedule", "* * * * *")
-        lcpMemory = lcp_json.get("memory", None)
-        if lcpMemory:
-            memory = "%sM" % lcpMemory
-        lcpCpu = lcp_json.get("cpu", None)
-        if lcpCpu:
-            cpu = "%s" % lcpCpu
-        lcpEnv = lcp_json.get("env", None)
-        if lcpEnv:
-            envs = lcpEnv
-        lcpPorts = lcp_json.get("ports", None)
-        if lcpPorts:
-            for lcpPort in lcpPorts:
-                lcpTargetPort = lcpPort.get("targetPort", None)
-                if lcpTargetPort:
-                    targetPort = lcpTargetPort
-
-    if workload != "job":
-        links = [link("https://%s.%s" % (client_extension_name, lfrdev_domain))]
-
-    for key in client_extension_object:
-        client_extension = client_extension_object.get(key)
-        if type(client_extension) == "dict":
-            client_extension_type = client_extension.get("type", None)
-            if client_extension_type and client_extension_type.startswith(
-                "oAuthApplication"
-            ):
-                init_metadata = "true"
-                break
-
-    # check project Tiltfile
-    project_tiltfile = "%s/Tiltfile" % project_path
-
-    # check if Tiltfile exists
-    if os.path.exists(project_tiltfile):
-        symbols = load_dynamic(project_tiltfile)
-        files = symbols.get("watch_files", None)
-        if files:
-            for file in files:
-                watch.append(file)
 
     # TODO call a script that can expand globs that may be passed into watch property
     # paths=local(/repo/scripts/unroll-globs.sh watch)
     # source_deps=paths
 
     process_extension(
-        client_extension_name,
+        client_extension_name.replace("-", ""),
         project_relative_path,
-        source_deps=watch,
-        targetPort=targetPort,
-        workload=workload,
-        cpu=cpu,
-        memory=memory,
-        envs=envs,
-        resource_deps=resource_deps,
-        links=links,
-        readyPath=readyPath,
-        init_metadata=init_metadata,
-        schedule=schedule,
+        client_extension_yaml_file,
     )
 
 # if user Tiltfile defines an after_all, call it
