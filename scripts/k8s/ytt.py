@@ -1,35 +1,86 @@
 #!/usr/bin/env python3
-import ast
+import json
 import os
+import yaml
 
-cpu = os.environ.get("CPU", None)
-envs = ast.literal_eval(os.environ.get("ENVS", None))
 lfrdev_domain = os.environ.get("LFRDEV_DOMAIN", "lfr.dev")
-memory = os.environ.get("MEMORY", None)
 name = os.environ.get("NAME")
 project_path = os.environ.get("PROJECT_PATH")
-readyPath = os.environ.get("READY_PATH", None)
 repo = os.environ.get("LOCALDEV_REPO", "/repo")
-target_port = os.environ.get("TARGET_PORT", 8080)
 tilt_image_0 = os.environ.get("TILT_IMAGE_0", "default")
 virtual_instance_id = os.environ.get("VIRTUAL_INSTANCE_ID", "dxp.lfr.dev")
-workload = os.environ.get("WORKLOAD")
-init_metadata = os.environ.get("INIT_METADATA", False)
 workspace = os.environ.get("WORKSPACE", "/workspace")
-root_ca_filepath = os.environ.get("ROOT_CA_FILEPATH", "")
 
 
 def generate_workload_yaml():
+    cpu = "100m"
+    envs = []
+    memory = "50M"
+    readyPath = ""
+    targetPort = 80
+    workload = "static"
+    init_metadata = "False"
+    schedule = None
+
+    # check for a LCP.json to determine workload type
+    # if LCP.json doesn't exist then just default to "static" workload
+    lcp_json_file = "%s/%s/build/LCP.json" % (workspace, project_path)
+
+    # check if lcp.json exists
+    if os.path.exists(lcp_json_file):
+        f = open(lcp_json_file)
+        lcp_json = json.load(f)
+        kind = lcp_json.get("kind", None)
+        if kind == "Deployment":
+            workload = "deployment"
+        elif kind == "Job":
+            workload = "job"
+        elif kind == "CronJob":
+            workload = "cronjob"
+            schedule = lcp_json.get("schedule", "* * * * *")
+        lcpMemory = lcp_json.get("memory", None)
+        if lcpMemory:
+            memory = "%sM" % lcpMemory
+        lcpCpu = lcp_json.get("cpu", None)
+        if lcpCpu:
+            cpu = "%sm" % (lcpCpu * 1000)
+        lcpEnv = lcp_json.get("env", None)
+        if lcpEnv:
+            envs = lcpEnv
+        lcpPorts = lcp_json.get("ports", None)
+        if lcpPorts:
+            for lcpPort in lcpPorts:
+                lcpTargetPort = lcpPort.get("targetPort", None)
+                if lcpTargetPort:
+                    targetPort = lcpTargetPort
+        f.close()
+
+    client_extension_yaml_file = "%s/%s/client-extension.yaml" % (workspace, project_path)
+
+    if os.path.exists(client_extension_yaml_file):
+        f = open(client_extension_yaml_file)
+        client_extension_object = yaml.safe_load(f)
+
+        for key in client_extension_object:
+            client_extension = client_extension_object.get(key)
+            if isinstance(client_extension, dict):
+                client_extension_type = client_extension.get("type", None)
+                if client_extension_type and client_extension_type.startswith(
+                    "oAuthApplication"
+                ):
+                    init_metadata = "True"
+                    break
+        f.close()
+
     ytt_args = [
         "ytt",
         "-f %s/k8s/workloads/%s" % (repo, workload),
         "--data-value-yaml initMetadata=%s" % init_metadata,
         "--data-value image=%s" % tilt_image_0,
         "--data-value serviceId=%s" % name,
-        "--data-value-yaml targetPort=%s" % target_port,
+        "--data-value-yaml targetPort=%s" % targetPort,
         "--data-value virtualInstanceId=%s" % virtual_instance_id,
         "--data-value lfrdevDomain=%s" % lfrdev_domain,
-        "-f %s" % root_ca_filepath,
     ]
 
     if cpu:
@@ -43,6 +94,9 @@ def generate_workload_yaml():
 
     if readyPath:
         ytt_args.append("--data-value readyPath=%s" % readyPath)
+
+    if schedule:
+        ytt_args.append("--data-value schedule='%s'" % schedule)
 
     find_args = [
         "fdfind",
@@ -63,4 +117,11 @@ def generate_workload_yaml():
     for json_file in client_extension_config_json_files:
         ytt_args.append("-f %s" % json_file)
 
-    return os.popen(" ".join(ytt_args)).read()
+    cmd=" ".join(ytt_args)
+
+    tmpfile = "/tmp/.%s.yttc" % name
+
+    with open(tmpfile, "w") as f:
+        f.write(cmd)
+
+    return os.popen(cmd).read()

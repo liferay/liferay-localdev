@@ -23,7 +23,9 @@ RUN apt-get update && \
         libnss3-tools \
         lsb-release \
         openssl \
+        python3-yaml \
         sudo \
+        tree \
         vim
 
 # Add all the repos
