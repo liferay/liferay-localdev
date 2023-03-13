@@ -18,18 +18,17 @@ spec:
       containers:
       - name: #@ data.values.serviceId
         image: #@ data.values.image
-        #@ if data.values.envs:
         env:
-        #@ for/end name in data.values.envs:
+        #@ for name in data.values.envs:
         - name: #@ name
           value: #@ "{}".format(data.values.envs[name])
         #@ end
-        resources:
-          limits:
-            memory: #@ data.values.memory
-            cpu: #@ data.values.cpu
         ports:
           - containerPort: #@ data.values.targetPort
+        resources:
+          limits:
+            memory: #@ "{}".format(data.values.memory)
+            cpu: #@ "{}".format(data.values.cpu)
         volumeMounts:
           #@ if data.values.dxpMetadata:
           - mountPath: /etc/liferay/lxc/dxp-metadata

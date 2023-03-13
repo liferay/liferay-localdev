@@ -14,9 +14,8 @@ spec:
       containers:
       - name: #@ data.values.serviceId
         image: #@ data.values.image
-        #@ if data.values.envs:
         env:
-        #@ for/end name in data.values.envs:
+        #@ for name in data.values.envs:
         - name: #@ name
           value: #@ "{}".format(data.values.envs[name])
         #@ end

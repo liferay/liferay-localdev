@@ -49,6 +49,14 @@ until [ "${SA}" == "1" ]; do
 done
 echo -e "SERVICEACOUNT_STATUS: Available."
 
+ytt \
+	-f ${REPO}/k8s/k3d/localdev-configmap.yaml \
+	-f ${REPO}/k8s/tls/rootCA.pem \
+	--data-value-yaml "hostAliases=$HOST_ALIASES" \
+	--data-value-yaml "lfrdevDomain=$LFRDEV_DOMAIN" \
+	> /tmp/.localdev-configmap.yaml
+
+kubectl create -f /tmp/.localdev-configmap.yaml
 kubectl create -f ${REPO}/k8s/k3d/token.yaml
 kubectl create -f ${REPO}/k8s/k3d/rbac.yaml
 
