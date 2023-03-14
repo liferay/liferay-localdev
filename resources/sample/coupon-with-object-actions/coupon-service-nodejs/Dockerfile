@@ -1,31 +1,37 @@
 FROM node:16
 
+RUN apt-get update && \
+	apt-get install -y tini && \
+	rm -rf /var/lib/apt/lists/*
+
+# Use this to enable Localdev root CA, this is a no-op in the cloud
 RUN \
-  export ARCH=$(dpkg --print-architecture) && \
-    curl -JLO "https://dl.filippo.io/mkcert/latest?for=linux/${ARCH}" && \
-    chmod +x mkcert-v*-linux-${ARCH} && \
-    cp mkcert-v*-linux-${ARCH} /usr/local/bin/mkcert && \
-    mkdir /var/lib/caroot
-ENV TRUST_STORES=system
-ENV CAROOT=/var/lib/caroot
-COPY rootCA.pem /var/lib/caroot
-RUN mkcert -install
+	export ARCH=$(dpkg --print-architecture) && \
+	curl -fsSL "https://dl.filippo.io/mkcert/latest?for=linux/${ARCH}" -o /usr/local/bin/mkcert && \
+	chmod +x /usr/local/bin/mkcert && \
+	mkdir /var/lib/caroot && \
+	\
+	echo "if [ -e /etc/liferay/localdev/rootCA.pem ];then" >> /app.sh && \
+	echo "	export TRUST_STORES=java,system" >> /app.sh && \
+	echo "	export CAROOT=/var/lib/caroot" >> /app.sh && \
+	echo "	cp -f /etc/liferay/localdev/rootCA.pem /var/lib/caroot" >> /app.sh && \
+	echo "	mkcert -install" >> /app.sh && \
+	echo "fi" >> /app.sh
 
-# Create app directory
-WORKDIR /usr/src/app
+# Application specific parts
+WORKDIR /opt/app
 
-# Install app dependencies
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-# where available (npm@5+)
 COPY package*.json ./
 
 RUN npm install --only=production
-# If you are building your code for production
-# RUN npm ci --only=production
 
-# Bundle app source
-COPY src/* /usr/src/app/
-COPY . .
+COPY src/* ./
 
-EXPOSE 3000
-CMD [ "npm", "run", "startLocaldev" ]
+# Append application start commands to /app.sh
+RUN \
+	echo "export DENO_TLS_CA_STORE=system" >> /app.sh && \
+	echo "cd /opt/app" >> /app.sh && \
+	echo "npm run start" >> /app.sh && \
+	chmod +x /app.sh
+
+ENTRYPOINT ["/usr/bin/tini", "--", "/app.sh"]
