@@ -1,44 +1,26 @@
 {
   "actions": {
-    "updateBatch": {
-      "method": "PUT",
-      "href": "https://dxp.lfr.dev/o/object-admin/v1.0/object-definitions/batch"
-    },
-    "create": {
-      "method": "POST",
-      "href": "https://dxp.lfr.dev/o/object-admin/v1.0/object-definitions"
-    },
     "createBatch": {
-      "method": "POST",
-      "href": "https://dxp.lfr.dev/o/object-admin/v1.0/object-definitions/batch"
-    },
-    "deleteBatch": {
-      "method": "DELETE",
-      "href": "https://dxp.lfr.dev/o/object-admin/v1.0/object-definitions/batch"
+      "href": "/o/headless-batch-engine/v1.0/import-task/com.liferay.object.admin.rest.dto.v1_0.ObjectDefinition",
+      "method": "POST"
     }
   },
-  "facets": [],
+  "configuration": {
+    "className": "com.liferay.object.admin.rest.dto.v1_0.ObjectDefinition",
+    "companyId": 0,
+    "parameters": {
+      "containsHeaders": "true",
+      "createStrategy": "UPSERT",
+      "onErrorFail": "false",
+      "taskItemDelegateName": "DEFAULT",
+      "updateStrategy": "UPDATE"
+    },
+    "userId": 0,
+    "version": "v1.0"
+  },
   "items": [
     {
       "accountEntryRestricted": false,
-      "actions": {
-        "permissions": {
-          "method": "PATCH",
-          "href": "https://dxp.lfr.dev/o/object-admin/v1.0/object-definitions/48480"
-        },
-        "get": {
-          "method": "GET",
-          "href": "https://dxp.lfr.dev/o/object-admin/v1.0/object-definitions/48480"
-        },
-        "update": {
-          "method": "PUT",
-          "href": "https://dxp.lfr.dev/o/object-admin/v1.0/object-definitions/48480"
-        },
-        "delete": {
-          "method": "DELETE",
-          "href": "https://dxp.lfr.dev/o/object-admin/v1.0/object-definitions/48480"
-        }
-      },
       "active": true,
       "dateCreated": "2022-10-31T02:53:42Z",
       "dateModified": "2022-10-31T02:53:42Z",
