@@ -5,7 +5,7 @@
 			"deploy": false
 		}
 	},
-	"id": "servicenodejs",
+	"id": "couponservicenodejs",
 	"kind": "Deployment",
 	"memory": 512,
 	"scale": 1
