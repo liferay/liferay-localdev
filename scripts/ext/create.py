@@ -28,7 +28,7 @@ if create_args.get("args") != None:
     for i in create_args["args"]:
         arr = i[0].split("=")
         template_args[arr[0]] = arr[1]
-        template_args[arr[0] + "-alnum"] = re.sub('[\W_]+', '', arr[1])
+        template_args[arr[0] + "-alnum"] = re.sub("[\W_]+", "", arr[1])
 
 project_path = os.path.join(workspace_base_path, create_args["workspace_path"])
 
