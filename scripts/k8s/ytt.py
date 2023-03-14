@@ -55,7 +55,10 @@ def generate_workload_yaml():
                     targetPort = lcpTargetPort
         f.close()
 
-    client_extension_yaml_file = "%s/%s/client-extension.yaml" % (workspace, project_path)
+    client_extension_yaml_file = "%s/%s/client-extension.yaml" % (
+        workspace,
+        project_path,
+    )
 
     if os.path.exists(client_extension_yaml_file):
         f = open(client_extension_yaml_file)
@@ -117,7 +120,7 @@ def generate_workload_yaml():
     for json_file in client_extension_config_json_files:
         ytt_args.append("-f %s" % json_file)
 
-    cmd=" ".join(ytt_args)
+    cmd = " ".join(ytt_args)
 
     tmpfile = "/tmp/.%s.yttc" % name
 
