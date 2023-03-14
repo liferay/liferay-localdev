@@ -11,9 +11,9 @@ if [ -z "$EXISTING_DXP_SERVER" ]; then
 	exit 1
 fi
 
-STATUS=$(docker exec -i dxp-server curl -s http://127.0.0.1:8080/health | jq -r '.status')
+STATUS=$(docker exec -i dxp-server curl -m 1 -s -o /dev/null -w "%{http_code}" http://127.0.0.1:8080/c/portal/robots)
 
-if [ "$STATUS" != "UP" ]; then
+if [ "$STATUS" != "200" ]; then
 	echo "dxp-server is not up yet."
 	exit 1
 fi
