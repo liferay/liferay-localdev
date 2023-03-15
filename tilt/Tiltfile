@@ -21,7 +21,7 @@ def process_extension(
             "--project-dir",
             workspace,
             ":%s:clean" % gradlePath,
-            ":%s:buildClientExtensionDockerImage" % gradlePath,
+            ":%s:buildDockerImage" % gradlePath,
             "--stacktrace",
             "-PserviceId=%s" % name,
             "-PvirtualInstanceId=%s" % virtual_instance_id,

@@ -1,5 +1,3 @@
-import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
-
 // workaround since tilt assumes that there is at least one of these tasks available
 task createClientExtensionConfig
 
@@ -8,26 +6,6 @@ gradle.projectsEvaluated {
 
   subprojects {
     if (path.startsWith(":client-extensions") && file("client-extension.yaml").exists()) {
-      apply plugin: "com.bmuschko.docker-remote-api"
-
-      if (file("Dockerfile").exists()) {
-        task buildClientExtensionDockerImage(type: DockerBuildImage) {
-          dependsOn "assembleClientExtension"
-          inputDir = project.file("${buildDir}/clientExtension")
-          if (project.hasProperty("imageId")) {
-            images.add(project.property("imageId"))
-          }
-        }
-      } else {
-        task buildClientExtensionDockerImage(type: DockerBuildImage) {
-          dependsOn "assembleClientExtension"
-          inputDir = project.file("${buildDir}/clientExtension")
-          if (project.hasProperty("imageId")) {
-            images.add(project.property("imageId"))
-          }
-        }
-      }
-
       assembleClientExtension {
         from "/repo/k8s/tls/rootCA.pem"
       }

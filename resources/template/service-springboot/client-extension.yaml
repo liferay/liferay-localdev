@@ -1,3 +1,2 @@
 assemble:
-  - include:
-    - build/libs/${id}.jar
+  - fromTask: bootJar
