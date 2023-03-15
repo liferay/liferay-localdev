@@ -1,0 +1,15 @@
+{
+	"cpu": 0.2,
+	"env": {
+		"BATCH_OAUTH_APP_ERC": "coupon-configuration"
+	},
+	"environments": {
+		"infra": {
+			"deploy": false
+		}
+	},
+	"id": "couponconfiguration",
+	"kind": "Job",
+	"memory": 300,
+	"scale": 1
+}

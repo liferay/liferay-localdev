@@ -40,7 +40,7 @@ async function authenticate(req, res, next) {
 async function fetchJwtKeySet() {
   const dxpMainDomain = readDxpMetadata('com.liferay.lxc.dxp.mainDomain');
   const dxpServerProtocol = readDxpMetadata('com.liferay.lxc.dxp.server.protocol');
-  const jwksUri = readInitMetadata('${id}-user-agent.oauth2.jwks.uri');
+  const jwksUri = readInitMetadata('coupon-updated-nodejs-user-agent.oauth2.jwks.uri');
 
   const res = await axios.get(`${dxpServerProtocol}://${dxpMainDomain}${jwksUri}`);
 
