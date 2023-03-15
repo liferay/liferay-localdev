@@ -5,7 +5,7 @@
 			"deploy": false
 		}
 	},
-	"id": "couponservicespringboot",
+	"id": "couponupdatedspringboot",
 	"kind": "Deployment",
 	"memory": 512,
 	"scale": 1
