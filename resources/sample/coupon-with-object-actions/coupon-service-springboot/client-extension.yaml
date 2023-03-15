@@ -1,8 +1,5 @@
-runtime:
-  type: service
-  template: service-springboot
-  cpu: 500m
-  memory: 256Mi
+assemble:
+  - fromTask: bootJar
 
 coupon-updated-springboot-user-agent:
   name: Coupon Updated (Springboot)
