@@ -1,10 +1,7 @@
 FROM liferay/jdk11:latest
 
-RUN apt-get update && \
-	apt-get install -y tini && \
-	rm -rf /var/lib/apt/lists/*
-
 RUN \
+	echo "#!/usr/bin/env bash" >> /app.sh && \
 	echo "export JAVA_VERSION=zulu11" >> /app.sh && \
 	echo ". set_java_version.sh" >> /app.sh
 
