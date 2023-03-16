@@ -1,7 +1,7 @@
 {
 	"cpu": 0.2,
 	"env": {
-		"BATCH_OAUTH_APP_ERC": "coupon-configuration"
+		"LIFERAY_BATCH_OAUTH_APP_ERC": "coupon-configuration"
 	},
 	"environments": {
 		"infra": {
