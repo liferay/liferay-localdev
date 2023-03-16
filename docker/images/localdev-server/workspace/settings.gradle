@@ -1,7 +1,7 @@
 buildscript {
 	dependencies {
 		classpath group: "biz.aQute.bnd", name: "biz.aQute.bnd", version: "5.2.0"
-		classpath(group: "com.liferay", name: "com.liferay.gradle.plugins.workspace", version: "4.1.24") {
+		classpath(group: "com.liferay", name: "com.liferay.gradle.plugins.workspace", version: "4.1.25") {
 			exclude group: "biz.aQute.bnd", module: "biz.aQute.bnd"
 		}
 	}
@@ -15,9 +15,9 @@ buildscript {
 			url "https://repository.liferay.com/nexus/content/groups/public"
 		}
 
-		maven {
-			url new File(rootProject.projectDir.getAbsolutePath() + "/temp_repo/").toURI()
-		}
+		//maven {
+			//url new File(rootProject.projectDir.getAbsolutePath() + "/temp_repo/").toURI()
+		//}
 	}
 }
 

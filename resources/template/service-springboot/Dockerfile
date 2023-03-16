@@ -3,7 +3,8 @@ FROM liferay/jdk11:latest
 RUN \
 	echo "#!/usr/bin/env bash" >> /app.sh && \
 	echo "export JAVA_VERSION=zulu11" >> /app.sh && \
-	echo ". set_java_version.sh" >> /app.sh
+	echo ". set_java_version.sh" >> /app.sh && \
+	echo "export JAVA_HOME=/usr/lib/jvm/$JAVA_VERSION"
 
 # Use this to enable Localdev root CA, this is a no-op in the cloud
 RUN \

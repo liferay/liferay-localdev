@@ -41,6 +41,7 @@ def process_extension(
             "%s/%s/build" % (workspace, projectPath),
             "%s/%s/dist" % (workspace, projectPath),
             "%s/%s/node_modules" % (workspace, projectPath),
+            "%s/%s/target" % (workspace, projectPath),
         ],
     )
 
