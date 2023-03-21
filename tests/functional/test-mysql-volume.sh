@@ -41,7 +41,9 @@ $CLI ext create \
 	--noprompt \
 	-- \
 	--resource-path="template/global-css" \
-	--workspace-path="test-global-css"
+	--workspace-path="test-global-css" \
+	--args=id="test-global-css" \
+	--args=name="Test Global CSS"
 
 # copy the Tiltfile.mysql into workspace
 
