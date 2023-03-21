@@ -44,7 +44,7 @@ SA="0"
 
 echo "SERVICEACOUNT_STATUS: waiting..."
 until [ "${SA}" == "1" ]; do
-	SA=$(kubectl get sa -o json | jq -r '.items | length')
+	SA=$(kubectl get sa -o json 2>/dev/null | jq -r '.items | length')
 	sleep 1
 done
 echo -e "SERVICEACOUNT_STATUS: Available."
@@ -56,14 +56,14 @@ ytt \
 	--data-value-yaml "lfrdevDomain=$LFRDEV_DOMAIN" \
 	> /tmp/.localdev-configmap.yaml
 
-kubectl create -f /tmp/.localdev-configmap.yaml
-kubectl create -f ${REPO}/k8s/k3d/token.yaml
-kubectl create -f ${REPO}/k8s/k3d/rbac.yaml
+kubectl apply --force -f /tmp/.localdev-configmap.yaml 2>/dev/null
+kubectl apply --force -f ${REPO}/k8s/k3d/token.yaml 2>/dev/null
+kubectl apply --force -f ${REPO}/k8s/k3d/rbac.yaml 2>/dev/null
 
 kubectl create secret generic lfrdev-tls-secret \
 	--from-file=tls.crt=${REPO}/k8s/tls/${LFRDEV_DOMAIN}.crt \
 	--from-file=tls.key=${REPO}/k8s/tls/${LFRDEV_DOMAIN}.key  \
-	--namespace default
+	--namespace default 2>/dev/null
 
 # poll until coredns is updated with docker host address
 
@@ -71,7 +71,10 @@ ADDRESS=""
 
 echo "DOCKER_HOST_ADDRESS: waiting..."
 until [ "${ADDRESS}" != "" ]; do
-	ADDRESS=$(kubectl get cm coredns --namespace kube-system -o jsonpath='{.data.NodeHosts}' | grep host.k3d.internal | awk '{print $1}')
+	ADDRESS=$(\
+		kubectl get cm coredns --namespace kube-system \
+		-o jsonpath='{.data.NodeHosts}' 2>/dev/null \
+		| grep host.k3d.internal | awk '{print $1}')
 	sleep 1
 done
 echo -e "DOCKER_HOST_ADDRESS: ${ADDRESS}"
@@ -82,7 +85,9 @@ CRD=""
 
 echo "INGRESSROUTE_CRD: waiting..."
 until [ "$CRD" != "" ]; do
-	CRD=$(kubectl get crd ingressroutes.traefik.containo.us --ignore-not-found)
+	CRD=$(\
+		kubectl get crd ingressroutes.traefik.containo.us \
+		--ignore-not-found 2>/dev/null)
 	sleep 1
 done
 echo -e "INGRESSROUTE_CRD: ${CRD}"
@@ -95,7 +100,10 @@ do
 		--data-value "id=${hostAlias}" \
 		--data-value-yaml "dockerHostAddress=${ADDRESS}" \
 		--data-value "lfrdevDomain=${LFRDEV_DOMAIN}" \
-		--data-value "virtualInstanceId=dxp.${LFRDEV_DOMAIN}" | kubectl apply -f-
+		--data-value "virtualInstanceId=dxp.${LFRDEV_DOMAIN}" \
+		> /tmp/.localdev-endpoint-${hostAlias}.yaml
+
+	kubectl apply --force -f /tmp/.localdev-endpoint-${hostAlias}.yaml 2>/dev/null
 done
 
 echo "'localdev' runtime environment created."
