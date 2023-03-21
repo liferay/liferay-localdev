@@ -4,33 +4,9 @@ load("ext://uibutton", "cmd_button", "text_input", "location")
 db_container_name = "mysql"
 db_username = "dxpcloud"
 db_password = "passw0rd"
-dxp_data_volume = "dxpData"
 mysql_data_volume = "mysqlData"
 
 # api docs for adding UIButtons found here: https://docs.tilt.dev/buttons.html
-cmd_button(
-    "Kill DXP!",
-    argv=[
-        "sh",
-        "-c",
-        "docker container rm -f dxp-server",
-    ],
-    resource="dxp.lfr.dev",
-    icon_name="delete",
-    text="Kill DXP!",
-)
-
-cmd_button(
-    "Drop DXP Data Volume!",
-    argv=[
-        "sh",
-        "-c",
-        "docker volume rm -f %s" % dxp_data_volume,
-    ],
-    resource="dxp.lfr.dev",
-    icon_name="delete",
-    text="Drop DXP Data Volume!",
-)
 
 cmd_button(
     "Kill mysql!",
@@ -68,6 +44,7 @@ dxp_buildargs = {
 # To see full list of ENV VARs supported see portal.properties for possible ENVs
 # https://github.com/liferay/liferay-portal/blob/master/portal-impl/src/portal.properties
 dxp_envs = {
+    "DATABASE_PERIOD_PARTITION_PERIOD_ENABLED": "true",
     "LIFERAY_USERS_PERIOD_REMINDER_PERIOD_QUERIES_PERIOD_ENABLED": "false",
     "LCP_PROJECT_ENVIRONMENT": "local",
     "LCP_PROJECT_ID": "local",
@@ -130,7 +107,6 @@ local_resource(
         ),
     ),
 )
-
 
 def on_down():
     local("docker container stop %s" % db_container_name)
