@@ -79,8 +79,8 @@ ADDRESS=""
 echo "DOCKER_HOST_ADDRESS: waiting..."
 until [ "${ADDRESS}" != "" ]; do
 	ADDRESS=$(\
-		kubectl get cm coredns --namespace kube-system \
-		-o jsonpath='{.data.NodeHosts}' 2>/dev/null \
+			kubectl get cm coredns --namespace kube-system \
+			-o jsonpath='{.data.NodeHosts}' 2>/dev/null \
 		| grep host.k3d.internal | awk '{print $1}')
 	sleep 1
 done
@@ -93,7 +93,7 @@ CRD=""
 echo "INGRESSROUTE_CRD: waiting..."
 until [ "$CRD" != "" ]; do
 	CRD=$(\
-		kubectl get crd ingressroutes.traefik.containo.us \
+			kubectl get crd ingressroutes.traefik.containo.us \
 		--ignore-not-found 2>/dev/null)
 	sleep 1
 done
