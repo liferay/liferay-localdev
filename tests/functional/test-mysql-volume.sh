@@ -47,7 +47,7 @@ $CLI ext create \
 
 # copy the Tiltfile.mysql into workspace
 
-cp ${LOCALDEV_REPO}/resources/tilt/Tiltfile.mysql ${WORKSPACE_BASE_PATH}/Tiltfile
+cp ${LOCALDEV_REPO}/resources/tilt/Tiltfile.mysql ${WORKSPACE_BASE_PATH}/
 
 $CLI ext start -d ${WORKSPACE_BASE_PATH} &
 
