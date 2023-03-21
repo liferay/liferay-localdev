@@ -2,6 +2,10 @@
 
 set -e
 
+REPO="${LOCALDEV_REPO:-/repo}"
+
+${REPO}/scripts/ext/stop.sh
+
 k3d cluster stop localdev
 
 # Ignore the result of the following command
