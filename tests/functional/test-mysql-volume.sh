@@ -77,15 +77,6 @@ done
 
 $CLI ext stop -v
 
-DXP_DOCKER_VOLUME_NAME=$(docker volume ls | grep dxpData | awk '{print $2}')
-
-if [ "$DXP_DOCKER_VOLUME_NAME" == "" ]; then
-	echo "Could not find expected docker volume named 'dxpData'"
-	exit 1
-else
-	echo "Found docker volume named $DXP_DOCKER_VOLUME_NAME"
-fi
-
 MYSQL_DOCKER_VOLUME_NAME=$(docker volume ls | grep mysqlData | awk '{print $2}')
 
 if [ "$MYSQL_DOCKER_VOLUME_NAME" == "" ]; then
