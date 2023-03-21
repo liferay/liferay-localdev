@@ -14,11 +14,9 @@ CLUSTER=$(k3d cluster list -o json | jq -r '.[] | select(.name=="localdev")')
 # is cluster running?
 CLUSTER_STATUS=$(jq -r '.serversRunning > 0' <<< $CLUSTER)
 
-if [ "$CLUSTER_STATUS" == "true" ];then
-	echo "'localdev' runtime environment is started."
-	exit 0
+if [ "$CLUSTER_STATUS" != "true" ];then
+	echo "'localdev' runtime environment is not started."
+	exit 1
 fi
-
-k3d cluster start localdev
 
 echo "'localdev' runtime environment is started."

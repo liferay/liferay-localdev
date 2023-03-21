@@ -4,36 +4,40 @@ set -e
 
 REPO="${LOCALDEV_REPO:-/repo}"
 
-# create k3d cluster with local registry
-CLUSTER=$(k3d cluster list -o json | jq -r '.[] | select(.name=="localdev")')
-
-if [ "$CLUSTER" != "" ];then
-	echo "'localdev' runtime environment already exists"
-
-	kubectl config use-context k3d-localdev
-	kubectl config set-context --current --namespace=default
-
-	exit 0
-fi
-
 # Make sure that extensions can resolve host aliases
 
 declare -a host_aliases=("dxp" "vi")
 HOST_ALIASES="['dxp', 'vi']"
 
-ytt \
-	-f ${REPO}/k8s/k3d \
-	--data-value-yaml "hostAliases=$HOST_ALIASES" \
-	--data-value-yaml "lfrdevDomain=$LFRDEV_DOMAIN" \
-	> /tmp/.cluster_config.yaml
+# create k3d cluster with local registry
+CLUSTER=$(k3d cluster list -o json | jq -r '.[] | select(.name=="localdev")')
+
+# if [ "$CLUSTER" != "" ];then
+# 	echo "'localdev' runtime environment already exists"
+
+# 	kubectl config use-context k3d-localdev
+# 	kubectl config set-context --current --namespace=default
+
+# 	exit 0
+# fi
+
+if [ "$CLUSTER" == "" ];then
+	ytt \
+		-f ${REPO}/k8s/k3d \
+		--data-value-yaml "hostAliases=$HOST_ALIASES" \
+		--data-value-yaml "lfrdevDomain=$LFRDEV_DOMAIN" \
+		> /tmp/.cluster_config.yaml
+
+	k3d cluster create \
+		--config /tmp/.cluster_config.yaml \
+		--registry-create registry.lfr.dev:50505 \
+		--wait
+else
+	k3d cluster start localdev
+fi
 
 echo "uid=$UID"
 echo "user=$(whoami)"
-
-k3d cluster create \
-	--config /tmp/.cluster_config.yaml \
-	--registry-create registry.lfr.dev:50505 \
-	--wait
 
 kubectl config use-context k3d-localdev
 kubectl config set-context --current --namespace=default
@@ -63,7 +67,10 @@ kubectl apply --force -f ${REPO}/k8s/k3d/rbac.yaml 2>/dev/null
 kubectl create secret generic lfrdev-tls-secret \
 	--from-file=tls.crt=${REPO}/k8s/tls/${LFRDEV_DOMAIN}.crt \
 	--from-file=tls.key=${REPO}/k8s/tls/${LFRDEV_DOMAIN}.key  \
-	--namespace default 2>/dev/null
+	--namespace default --dry-run=client -oyaml \
+	> /tmp/.localdev-lfrdev-tls-secret.yaml
+
+kubectl apply --force -f /tmp/.localdev-lfrdev-tls-secret.yaml 2>/dev/null
 
 # poll until coredns is updated with docker host address
 
