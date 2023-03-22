@@ -41,5 +41,5 @@ startLocaldev() {
 }
 
 stopLocaldev() {
-	($CLI ext stop -v | sed 's/^/ localdev stop │ /')
+	($CLI rt delete -v | sed 's/^/ localdev stop │ /')
 }
