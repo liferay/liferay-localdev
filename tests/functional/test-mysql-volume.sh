@@ -52,27 +52,27 @@ cp ${LOCALDEV_REPO}/resources/tilt/Tiltfile.mysql ${WORKSPACE_BASE_PATH}/
 $CLI ext start -v -d ${WORKSPACE_BASE_PATH} &
 
 FOUND_LOCALDEV_SERVER=0
+echo "[CHECKING] FOUND_LOCALDEV_SERVER"
 
 until [ "$FOUND_LOCALDEV_SERVER" == "1" ]; do
 	sleep 5
 	FOUND_LOCALDEV_SERVER=$(docker ps | grep localdev-extension-runtime | wc -l)
-	echo "FOUND_LOCALDEV_SERVER=${FOUND_LOCALDEV_SERVER}"
 done
 
 FOUND_DB_SERVER=0
+echo "[CHECKING] FOUND_DB_SERVER"
 
 until [ "$FOUND_DB_SERVER" == "1" ]; do
 	sleep 5
 	FOUND_DB_SERVER=$(docker ps | grep mysql | wc -l)
-	echo "FOUND_DB_SERVER=${FOUND_DB_SERVER}"
 done
 
 FOUND_EXT_PROVISION_CONFIG_MAPS=0
+echo "[CHECKING] FOUND_EXT_PROVISION_CONFIG_MAPS"
 
 until [ "$FOUND_EXT_PROVISION_CONFIG_MAPS" == "1" ]; do
 	sleep 5
 	FOUND_EXT_PROVISION_CONFIG_MAPS=$(docker exec -i localdev-extension-runtime kubectl get cm | grep ext-provision-metadata | wc -l | xargs)
-	echo "FOUND_EXT_PROVISION_CONFIG_MAPS=${FOUND_EXT_PROVISION_CONFIG_MAPS}"
 done
 
 $CLI ext stop -v
