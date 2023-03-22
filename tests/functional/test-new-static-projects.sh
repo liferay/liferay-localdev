@@ -128,7 +128,7 @@ done
 FOUND_EXT_PROVISION_CONFIG_MAPS=0
 
 until [ "$FOUND_EXT_PROVISION_CONFIG_MAPS" == "8" ]; do
-	sleep 60
+	sleep 5
 	FOUND_EXT_PROVISION_CONFIG_MAPS=$(docker exec -i localdev-extension-runtime /entrypoint.sh kubectl get cm | grep ext-provision-metadata | wc -l | xargs)
 	echo "FOUND_EXT_PROVISION_CONFIG_MAPS=${FOUND_EXT_PROVISION_CONFIG_MAPS}"
 done
