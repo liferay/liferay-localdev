@@ -93,7 +93,7 @@ $CLI ext create \
 	--args=packagePath="com/company/service" \
 	--args=resourcePath="/mynotificationtype/send"
 
-($CLI ext start -v -d ${WORKSPACE_BASE_PATH} | sed 's/^/localdev │ /') &
+startLocaldev
 
 FOUND_LOCALDEV_SERVER=0
 echo "testcheck │ FOUND_LOCALDEV_SERVER"
@@ -119,7 +119,7 @@ until [ "$FOUND_EXT_INIT_CONFIG_MAPS" == "4" ]; do
 	FOUND_EXT_INIT_CONFIG_MAPS=$(docker exec -i localdev-extension-runtime /entrypoint.sh kubectl get cm | grep ext-init-metadata | wc -l | xargs)
 done
 
-$CLI ext stop -v | sed 's/^/localdev │ /'
+stopLocaldev
 
 DOCKER_VOLUME_NAME=$(docker volume ls | grep dxp-data- | awk '{print $2}')
 

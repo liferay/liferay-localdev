@@ -17,7 +17,7 @@ $CLI ext create \
 
 cp ${LOCALDEV_REPO}/resources/tilt/Tiltfile.mysql ${WORKSPACE_BASE_PATH}/
 
-($CLI ext start -v -d ${WORKSPACE_BASE_PATH} | sed 's/^/localdev │ /') &
+startLocaldev
 
 FOUND_LOCALDEV_SERVER=0
 echo "testcheck │ FOUND_LOCALDEV_SERVER"
@@ -43,7 +43,7 @@ until [ "$FOUND_EXT_PROVISION_CONFIG_MAPS" == "1" ]; do
 	FOUND_EXT_PROVISION_CONFIG_MAPS=$(docker exec -i localdev-extension-runtime kubectl get cm | grep ext-provision-metadata | wc -l | xargs)
 done
 
-$CLI ext stop -v | sed 's/^/localdev │ /'
+stopLocaldev
 
 MYSQL_DOCKER_VOLUME_NAME=$(docker volume ls | grep mysqlData | awk '{print $2}')
 
