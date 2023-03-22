@@ -5,11 +5,20 @@ set -e
 LIFERAY_CLI_BRANCH="next"
 
 if [ "$LIFERAY_CLI_BRANCH" != "" ]; then
-	git clone \
-		--branch $LIFERAY_CLI_BRANCH \
-		--depth 1 \
-		https://github.com/liferay/liferay-cli \
-		${LOCALDEV_REPO}/tests/work/liferay
+	if [ $(git -C ${LOCALDEV_REPO}/tests/work/liferay rev-parse --is-inside-work-tree 2> /dev/null) ]; then
+		git \
+			-C ${LOCALDEV_REPO}/tests/work/liferay \
+			pull \
+			--depth 1 \
+			https://github.com/liferay/liferay-cli \
+			$LIFERAY_CLI_BRANCH
+	else
+		git clone \
+			--branch $LIFERAY_CLI_BRANCH \
+			--depth 1 \
+			https://github.com/liferay/liferay-cli \
+			${LOCALDEV_REPO}/tests/work/liferay
+	fi
 
 	cd ${LOCALDEV_REPO}/tests/work/liferay
 
