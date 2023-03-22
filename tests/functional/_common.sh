@@ -37,9 +37,9 @@ export WORKSPACE_BASE_PATH="$BASE_PATH"
 export BUILD_PROJECTS="false"
 
 startLocaldev() {
-	($CLI ext start -v -d ${WORKSPACE_BASE_PATH} | sed 's/^/localdev │ /') &
+	($CLI ext start -v -d ${WORKSPACE_BASE_PATH} | sed 's/^/localdev start │ /') &
 }
 
 stopLocaldev() {
-	($CLI ext stop -v | sed 's/^/localdev │ /')
+	($CLI ext stop -v | sed 's/^/ localdev stop │ /')
 }
