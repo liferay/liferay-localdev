@@ -16,7 +16,7 @@ $CLI ext create \
 startLocaldev
 
 FOUND_LOCALDEV_SERVER=0
-echo "testcheck │ FOUND_LOCALDEV_SERVER"
+echo "     testcheck │ FOUND_LOCALDEV_SERVER"
 
 until [ "$FOUND_LOCALDEV_SERVER" == "1" ]; do
 	sleep 5
@@ -24,7 +24,7 @@ until [ "$FOUND_LOCALDEV_SERVER" == "1" ]; do
 done
 
 FOUND_EXT_PROVISION_CONFIG_MAPS=0
-echo "testcheck │ FOUND_EXT_PROVISION_CONFIG_MAPS"
+echo "     testcheck │ FOUND_EXT_PROVISION_CONFIG_MAPS"
 
 until [ "$FOUND_EXT_PROVISION_CONFIG_MAPS" == "1" ]; do
 	sleep 5
@@ -32,7 +32,7 @@ until [ "$FOUND_EXT_PROVISION_CONFIG_MAPS" == "1" ]; do
 done
 
 FOUND_EXT_INIT_CONFIG_MAPS=0
-echo "testcheck │ FOUND_EXT_INIT_CONFIG_MAPS"
+echo "     testcheck │ FOUND_EXT_INIT_CONFIG_MAPS"
 
 until [ "$FOUND_EXT_INIT_CONFIG_MAPS" == "1" ]; do
 	sleep 5

@@ -20,7 +20,7 @@ cp ${LOCALDEV_REPO}/resources/tilt/Tiltfile.mysql ${WORKSPACE_BASE_PATH}/
 startLocaldev
 
 FOUND_LOCALDEV_SERVER=0
-echo "testcheck │ FOUND_LOCALDEV_SERVER"
+echo "     testcheck │ FOUND_LOCALDEV_SERVER"
 
 until [ "$FOUND_LOCALDEV_SERVER" == "1" ]; do
 	sleep 5
@@ -28,7 +28,7 @@ until [ "$FOUND_LOCALDEV_SERVER" == "1" ]; do
 done
 
 FOUND_DB_SERVER=0
-echo "testcheck │ FOUND_DB_SERVER"
+echo "     testcheck │ FOUND_DB_SERVER"
 
 until [ "$FOUND_DB_SERVER" == "1" ]; do
 	sleep 5
@@ -36,7 +36,7 @@ until [ "$FOUND_DB_SERVER" == "1" ]; do
 done
 
 FOUND_EXT_PROVISION_CONFIG_MAPS=0
-echo "testcheck │ FOUND_EXT_PROVISION_CONFIG_MAPS"
+echo "     testcheck │ FOUND_EXT_PROVISION_CONFIG_MAPS"
 
 until [ "$FOUND_EXT_PROVISION_CONFIG_MAPS" == "1" ]; do
 	sleep 5
