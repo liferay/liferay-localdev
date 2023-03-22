@@ -49,10 +49,10 @@ $CLI ext create \
 
 cp ${LOCALDEV_REPO}/resources/tilt/Tiltfile.mysql ${WORKSPACE_BASE_PATH}/
 
-$CLI ext start -v -d ${WORKSPACE_BASE_PATH} &
+($CLI ext start -v -d ${WORKSPACE_BASE_PATH} | sed 's/^/localdev │ /') &
 
 FOUND_LOCALDEV_SERVER=0
-echo "[CHECKING] FOUND_LOCALDEV_SERVER"
+echo "testcheck │ FOUND_LOCALDEV_SERVER"
 
 until [ "$FOUND_LOCALDEV_SERVER" == "1" ]; do
 	sleep 5
@@ -60,7 +60,7 @@ until [ "$FOUND_LOCALDEV_SERVER" == "1" ]; do
 done
 
 FOUND_DB_SERVER=0
-echo "[CHECKING] FOUND_DB_SERVER"
+echo "testcheck │ FOUND_DB_SERVER"
 
 until [ "$FOUND_DB_SERVER" == "1" ]; do
 	sleep 5
@@ -68,14 +68,14 @@ until [ "$FOUND_DB_SERVER" == "1" ]; do
 done
 
 FOUND_EXT_PROVISION_CONFIG_MAPS=0
-echo "[CHECKING] FOUND_EXT_PROVISION_CONFIG_MAPS"
+echo "testcheck │ FOUND_EXT_PROVISION_CONFIG_MAPS"
 
 until [ "$FOUND_EXT_PROVISION_CONFIG_MAPS" == "1" ]; do
 	sleep 5
 	FOUND_EXT_PROVISION_CONFIG_MAPS=$(docker exec -i localdev-extension-runtime kubectl get cm | grep ext-provision-metadata | wc -l | xargs)
 done
 
-$CLI ext stop -v
+$CLI ext stop -v | sed 's/^/localdev │ /'
 
 MYSQL_DOCKER_VOLUME_NAME=$(docker volume ls | grep mysqlData | awk '{print $2}')
 
