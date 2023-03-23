@@ -23,6 +23,8 @@ until [ "$FOUND_LOCALDEV_SERVER" == "1" ]; do
 	FOUND_LOCALDEV_SERVER=$(docker ps | grep localdev-extension-runtime | wc -l)
 done
 
+echo "     testcheck │ FOUND_LOCALDEV_SERVER - PASSED"
+
 FOUND_EXT_PROVISION_CONFIG_MAPS=0
 echo "     testcheck │ FOUND_EXT_PROVISION_CONFIG_MAPS"
 
@@ -30,6 +32,8 @@ until [ "$FOUND_EXT_PROVISION_CONFIG_MAPS" == "1" ]; do
 	sleep 5
 	FOUND_EXT_PROVISION_CONFIG_MAPS=$(docker exec -i localdev-extension-runtime /entrypoint.sh kubectl get cm | grep ext-provision-metadata | wc -l | xargs)
 done
+
+echo "     testcheck │ FOUND_EXT_PROVISION_CONFIG_MAPS - PASSED"
 
 FOUND_EXT_INIT_CONFIG_MAPS=0
 echo "     testcheck │ FOUND_EXT_INIT_CONFIG_MAPS"
