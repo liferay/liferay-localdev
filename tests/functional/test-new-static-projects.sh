@@ -101,8 +101,6 @@ until [ "$FOUND_EXT_PROVISION_CONFIG_MAPS" == "8" ]; do
 	FOUND_EXT_PROVISION_CONFIG_MAPS=$(docker exec -i localdev-extension-runtime /entrypoint.sh kubectl get cm | grep ext-provision-metadata | wc -l | xargs)
 done
 
-stopLocaldev
-
 DOCKER_VOLUME_NAME=$(docker volume ls | grep dxp-data- | awk '{print $2}')
 
 if [ "$DOCKER_VOLUME_NAME" == "" ]; then

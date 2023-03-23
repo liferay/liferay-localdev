@@ -43,8 +43,6 @@ until [ "$FOUND_EXT_PROVISION_CONFIG_MAPS" == "1" ]; do
 	FOUND_EXT_PROVISION_CONFIG_MAPS=$(docker exec -i localdev-extension-runtime kubectl get cm | grep ext-provision-metadata | wc -l | xargs)
 done
 
-stopLocaldev
-
 MYSQL_DOCKER_VOLUME_NAME=$(docker volume ls | grep mysqlData | awk '{print $2}')
 
 if [ "$MYSQL_DOCKER_VOLUME_NAME" == "" ]; then
