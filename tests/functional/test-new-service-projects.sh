@@ -120,10 +120,11 @@ until [ "$FOUND_EXT_INIT_CONFIG_MAPS" == "4" ]; do
 done
 
 DOCKER_VOLUME_NAME=$(docker volume ls | grep dxp-data- | awk '{print $2}')
+echo "     testcheck │ DOCKER_VOLUME_NAME"
 
 if [ "$DOCKER_VOLUME_NAME" == "" ]; then
-	echo "Could not find expected docker volumn named 'dxp-data-*'"
+	echo "     testcheck │ DOCKER_VOLUME_NAME - FAILED"
 	exit 1
 else
-	echo "Found docker volume named $DOCKER_VOLUME_NAME"
+	echo "     testcheck │ DOCKER_VOLUME_NAME - PASSED"
 fi
