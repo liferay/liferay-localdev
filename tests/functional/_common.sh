@@ -2,6 +2,8 @@
 
 set -e
 
+trap stopLocaldev EXIT
+
 LIFERAY_CLI_BRANCH="next"
 
 if [ "$LIFERAY_CLI_BRANCH" != "" ]; then
