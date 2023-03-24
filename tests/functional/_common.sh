@@ -31,6 +31,10 @@ else
 	CLI="liferay"
 fi
 
+if [ -e ${LOCALDEV_REPO}/tests/work/workspace ]; then
+	rm -rf ${LOCALDEV_REPO}/tests/work/workspace
+fi
+
 $CLI config set localdev.resources.dir ${LOCALDEV_REPO}
 
 $CLI config set localdev.resources.sync false
