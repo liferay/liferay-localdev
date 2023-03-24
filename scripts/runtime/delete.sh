@@ -2,8 +2,10 @@
 
 set -e
 
-k3d cluster delete localdev
+REPO="${LOCALDEV_REPO:-/repo}"
 
-docker container rm -f dxp-server localdev-dnsmasq localdev-extension-runtime >/dev/null 2>&1
+${REPO}/scripts/runtime/stop.sh
+
+k3d cluster delete localdev
 
 echo "'localdev' runtime environment deleted."
