@@ -1,5 +1,12 @@
 #!/bin/bash
 
+a="/$0"; a="${a%/*}"; a="${a:-.}"; a="${a##/}/"; BASEDIR=$(cd "$a"; pwd)
+
+if [ "${LOCALDEV_REPO}" == "x" ]; then
+	LOCALDEV_REPO=$(realpath ${BASEDIR}/../..)
+	echo "LOCALDEV_REPO=${LOCALDEV_REPO}"
+fi
+
 set -e
 
 trap stopLocaldev EXIT
