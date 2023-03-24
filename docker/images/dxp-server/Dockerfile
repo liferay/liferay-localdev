@@ -1,4 +1,4 @@
-ARG DXP_BASE_IMAGE=liferay/dxp:7.4.13-u68
+ARG DXP_BASE_IMAGE=liferay/dxp:7.4.13.nightly
 
 FROM ${DXP_BASE_IMAGE}
 
