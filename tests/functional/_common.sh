@@ -53,6 +53,5 @@ startLocaldev() {
 
 stopLocaldev() {
 	($CLI rt delete -v | sed 's/^/ localdev stop │ /')
-
-	docker volume rm $(docker volume ls -q --filter dangling=true)
+	(docker volume rm $(docker volume ls -q --filter dangling=true) | sed 's/^/ localdev stop │ /')
 }
