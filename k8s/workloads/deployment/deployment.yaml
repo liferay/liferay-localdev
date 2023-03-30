@@ -39,9 +39,6 @@ spec:
             port: #@ data.values.targetPort
         #@ end
         volumeMounts:
-          - mountPath: /etc/liferay/localdev
-            name: localdev
-            readOnly: true
           #@ if data.values.dxpMetadata:
           - mountPath: /etc/liferay/lxc/dxp-metadata
             name: lxc-dxp-metadata
@@ -52,10 +49,13 @@ spec:
             name: lxc-ext-init-metadata
             readOnly: true
           #@ end
+          - mountPath: /opt/liferay/caroot
+            name: caroot
+            readOnly: true
       volumes:
-        - name: localdev
+        - name: caroot
           configMap:
-            name: localdev
+            name: caroot
         #@ if data.values.dxpMetadata:
         - name: lxc-dxp-metadata
           configMap:
