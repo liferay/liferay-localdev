@@ -37,6 +37,7 @@ def process_extension(
             "%s/%s" % (workspace, projectPath),
         ],
         ignore=[
+            "%s/%s/.angular" % (workspace, projectPath),
             "%s/%s/bin" % (workspace, projectPath),
             "%s/%s/build" % (workspace, projectPath),
             "%s/%s/dist" % (workspace, projectPath),
