@@ -27,9 +27,6 @@ spec:
                 memory: #@ data.values.memory
                 cpu: #@ data.values.cpu
             volumeMounts:
-              - mountPath: /etc/liferay/localdev
-                name: localdev
-                readOnly: true
               - mountPath: /etc/liferay/lxc/dxp-metadata
                 name: lxc-dxp-metadata
                 readOnly: true
@@ -38,11 +35,14 @@ spec:
                 name: lxc-ext-init-metadata
                 readOnly: true
               #@ end
+              - mountPath: /opt/liferay/caroot
+                name: caroot
+                readOnly: true
           restartPolicy: OnFailure
           volumes:
-            - name: localdev
+            - name: caroot
               configMap:
-                name: localdev
+                name: caroot
             - name: lxc-dxp-metadata
               configMap:
                 name: #@ "{}-lxc-dxp-metadata".format(data.values.virtualInstanceId)

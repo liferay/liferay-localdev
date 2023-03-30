@@ -4,7 +4,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: localdev
+  name: caroot
 data:
 #@ for/end root_ca_file in [ f for f in files if f.endswith("rootCA.pem") ]:
   rootCA.pem: #@ data.read(root_ca_file)

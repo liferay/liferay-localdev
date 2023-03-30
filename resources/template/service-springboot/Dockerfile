@@ -13,10 +13,10 @@ RUN \
 	chmod +x /usr/local/bin/mkcert && \
 	mkdir /var/lib/caroot && \
 	\
-	echo "if [ -e /etc/liferay/localdev/rootCA.pem ];then" >> /app.sh && \
+	echo "if [ -e /opt/liferay/caroot/rootCA.pem ];then" >> /app.sh && \
 	echo "	export TRUST_STORES=java,system" >> /app.sh && \
 	echo "	export CAROOT=/var/lib/caroot" >> /app.sh && \
-	echo "	cp -f /etc/liferay/localdev/rootCA.pem /var/lib/caroot" >> /app.sh && \
+	echo "	cp -f /opt/liferay/caroot/rootCA.pem /var/lib/caroot" >> /app.sh && \
 	echo "	mkcert -install" >> /app.sh && \
 	echo "fi" >> /app.sh
 
