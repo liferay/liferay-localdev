@@ -1,9 +1,12 @@
 assemble:
-    - include: "batch/*"
+    - from: batch
+      into: batch
 batch:
-    oAuth2ApplicationExternalReferenceCode: coupon-configuration
+    name: Liferay Sample Batch
+    oAuthApplicationHeadlessServer: coupon-configuration
+    type: batch
 coupon-configuration:
-    name: Sample OAuth Application Headless Server
+    name: Liferay Sample OAuth Application Headless Server
     scopes:
         - Liferay.Headless.Admin.Workflow.everything
         - Liferay.Headless.Batch.Engine.everything
