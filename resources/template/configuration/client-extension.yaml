@@ -1,9 +1,12 @@
 assemble:
-    - include: "batch/*"
+    - from: batch
+      into: batch
 batch:
-    oAuth2ApplicationExternalReferenceCode: ${id}
+    name: Liferay Sample Batch
+    oAuthApplicationHeadlessServer: ${id}
+    type: batch
 ${id}:
-    name: Sample OAuth Application Headless Server
+    name: Liferay Sample OAuth Application Headless Server
     scopes:
         - Liferay.Headless.Admin.Workflow.everything
         - Liferay.Headless.Batch.Engine.everything
