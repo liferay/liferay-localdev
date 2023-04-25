@@ -24,7 +24,7 @@ def generate_workload_yaml():
 
     # check for a LCP.json to determine workload type
     # if LCP.json doesn't exist then just default to "static" workload
-    lcp_json_file = "%s/%s/build/LCP.json" % (workspace, project_path)
+    lcp_json_file = "%s/%s/build/liferay-client-extension-build/LCP.json" % (workspace, project_path)
 
     # check if lcp.json exists
     if os.path.exists(lcp_json_file):
@@ -33,6 +33,7 @@ def generate_workload_yaml():
         kind = lcp_json.get("kind", None)
         if kind == "Deployment":
             workload = "deployment"
+            readyPath = "/ready"
         elif kind == "Job":
             workload = "job"
         elif kind == "CronJob":
@@ -47,12 +48,11 @@ def generate_workload_yaml():
         lcpEnv = lcp_json.get("env", None)
         if lcpEnv:
             envs = lcpEnv
-        lcpPorts = lcp_json.get("ports", None)
-        if lcpPorts:
-            for lcpPort in lcpPorts:
-                lcpTargetPort = lcpPort.get("targetPort", None)
-                if lcpTargetPort:
-                    targetPort = lcpTargetPort
+        lcpLoadBalancer = lcp_json.get("loadBalancer", None)
+        if lcpLoadBalancer:
+            lcpTargetPort = lcpLoadBalancer.get("targetPort", None)
+            if lcpTargetPort:
+                targetPort = lcpTargetPort
         f.close()
 
     client_extension_yaml_file = "%s/%s/client-extension.yaml" % (
@@ -109,7 +109,7 @@ def generate_workload_yaml():
         "--glob '*.client-extension-config.json'",
         "--no-ignore",
         "%s/%s" % (workspace, project_path),
-        "%s/%s/build/clientExtension" % (workspace, project_path),
+        "%s/%s/build/liferay-client-extension-build" % (workspace, project_path),
         "2>/dev/null",
     ]
 

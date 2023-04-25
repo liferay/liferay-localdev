@@ -21,6 +21,7 @@ def process_extension(
             "--project-dir",
             workspace,
             ":%s:clean" % gradlePath,
+            ":%s:createClientExtensionConfig" % gradlePath,
             ":%s:buildDockerImage" % gradlePath,
             "--stacktrace",
             "-PserviceId=%s" % name,
@@ -61,7 +62,7 @@ def process_extension(
         % (repo, repo),
         "%s/scripts/k8s/delete.py" % repo,
         deps=[
-            "%s/client-extensions/%s/build/clientExtension/" % (workspace, projectPath)
+            "%s/client-extensions/%s/build/liferay-client-extension-build/" % (workspace, projectPath)
         ],
         apply_env=deploy_env,
         delete_env=deploy_env,
