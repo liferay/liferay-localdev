@@ -13,10 +13,10 @@ rm -rf $WORKSPACE_BASE_PATH && mkdir -p $WORKSPACE_BASE_PATH
 # Warning, these CREATE_ARGS are whitespace sensitive!
 
 CREATE_ARGS="\
---workspace-path=coupon-configuration|\
---resource-path=template/configuration|\
---args=id=coupon-configuration|\
---args=name=Coupon Configuration as Code" $CREATE_CMD
+--workspace-path=coupon-batch|\
+--resource-path=template/batch|\
+--args=id=coupon-batch|\
+--args=name=Coupon Batch" $CREATE_CMD
 
 CREATE_ARGS="\
 --workspace-path=coupon-service-nodejs|\
