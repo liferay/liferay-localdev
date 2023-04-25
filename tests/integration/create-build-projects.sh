@@ -17,10 +17,10 @@ mkdir -p "${WORK_PATH}/workspace/client-extensions"
 # Warning, these CREATE_ARGS are whitespace sensitive!
 
 CREATE_ARGS="\
---workspace-path=casc/alpha-casc|\
---resource-path=template/configuration|\
---args=id=alpha-casc|\
---args=name=Alpha Configuration as Code" $CREATE_CMD
+--workspace-path=casc/alpha-batch|\
+--resource-path=template/batch|\
+--args=id=alpha-batch|\
+--args=name=Alpha Batch" $CREATE_CMD
 
 CREATE_ARGS="\
 --workspace-path=static/bravo-global-css|\

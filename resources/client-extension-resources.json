@@ -135,19 +135,37 @@
   },
   {
     "category": "General",
-    "description": "Configuration as Code (CasC) Client Extension",
-    "name": "configuration",
+    "description": "Batch Client Extension",
+    "name": "batch",
     "type": "template",
     "args": [
       {
         "name": "id",
-        "description": "This is the id of the headless server OAuth2 Profile",
-        "default": "my-configuration-profile"
+        "description": "This is the id of the Batch",
+        "default": "my-batch"
       },
       {
         "name": "name",
-        "description": "This is display name of headless server OAuth2 Profile",
-        "default": "My Configuration Profile"
+        "description": "This is display name of the Batch",
+        "default": "My Batch"
+      }
+    ]
+  },
+  {
+    "category": "General",
+    "description": "Instance Configuration Client Extension",
+    "name": "instance-configuration",
+    "type": "template",
+    "args": [
+      {
+        "name": "id",
+        "description": "This is the id of the instance configuration",
+        "default": "my-instance-configuration"
+      },
+      {
+        "name": "name",
+        "description": "This is display name of the instance configuration",
+        "default": "My Instance Configuration"
       }
     ]
   },

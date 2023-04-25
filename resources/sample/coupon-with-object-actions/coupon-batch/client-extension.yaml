@@ -1,12 +1,12 @@
 assemble:
     - from: batch
       into: batch
-batch:
-    name: Liferay Sample Batch
-    oAuthApplicationHeadlessServer: ${id}
+coupon-batch:
+    name: Coupon Batch
+    oAuthApplicationHeadlessServer: coupon-batch-oauth-application-headless-server
     type: batch
-${id}:
-    name: Liferay Sample OAuth Application Headless Server
+coupon-batch-oauth-application-headless-server:
+    name: Sample OAuth Application Headless Server
     scopes:
         - Liferay.Headless.Admin.Workflow.everything
         - Liferay.Headless.Batch.Engine.everything

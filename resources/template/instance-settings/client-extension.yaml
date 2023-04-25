@@ -1,0 +1,5 @@
+${id}:
+    name: ${name}
+    service.pid: sample.instance.configuration.factory.pid
+    some.property: some value
+    type: instanceSettings

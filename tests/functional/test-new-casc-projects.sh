@@ -8,10 +8,10 @@ $CLI ext create \
 	-v \
 	--noprompt \
 	-- \
-	--resource-path="template/configuration" \
-	--workspace-path="casc/able-configuration" \
-	--args=id="able-configuration" \
-	--args=name="Able Configuration"
+	--resource-path="template/batch" \
+	--workspace-path="casc/able-batch" \
+	--args=id="able-batch" \
+	--args=name="Able Batch"
 
 startLocaldev
 
