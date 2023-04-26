@@ -52,17 +52,33 @@ CREATE_ARGS="\
 --args=id=fox-remote-app|\
 --args=name=Fox Remote App" $CREATE_CMD
 
-#CREATE_ARGS="\
-#--workspace-path=service/golf-nodejs-service|\
-#--resource-path=template/service-nodejs|\
-#--args=id=golf-nodejs-service|\
-#--args=name=Golf Nodejs Service" $CREATE_CMD
+CREATE_ARGS="\
+--workspace-path=service/golf-nodejs-service|\
+--resource-path=template/service-nodejs|\
+--args=id=golf-nodejs-service|\
+--args=name=Golf Nodejs Service" $CREATE_CMD
+
+CREATE_ARGS="\
+--workspace-path=service/golf-nodejs-service|\
+--resource-path=partial/object-action-nodejs|\
+--args=id=myAction|\
+--args=name=myAction|\
+--args=Object=Foo|\
+--args=resourcePath=/object/action" $CREATE_CMD
 
 CREATE_ARGS="\
 --workspace-path=service/hotel-springboot-service|\
 --resource-path=template/service-springboot|\
 --args=package=com.company.hotel|\
 --args=packagePath=com/company/hotel" $CREATE_CMD
+
+CREATE_ARGS="\
+--workspace-path=service/hotel-springboot-service|\
+--resource-path=partial/workflow-action-springboot|\
+--args=actionName=myAction|\
+--args=package=com.company.hotel|\
+--args=packagePath=com/company/hotel|\
+--args=resourcePath=/workflow/action" $CREATE_CMD
 
 CREATE_ARGS="\
 --workspace-path=static/india-theme-css|\
