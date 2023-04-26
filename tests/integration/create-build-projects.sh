@@ -97,7 +97,7 @@ CREATE_ARGS="\
 --args=resourcePath=/workflow/action" $CREATE_CMD
 
 if [ "$BUILD_PROJECTS" == "true" ]; then
-	"${WORK_PATH}/workspace/gradlew" --project-dir "${WORK_PATH}/workspace" build
+	"${WORK_PATH}/workspace/gradlew" --project-dir "${WORK_PATH}/workspace" --stacktrace build
 
 	ZIP_FILE_COUNT=$(find "${WORKSPACE_BASE_PATH}" -name '*.zip' | wc -l | awk '{print $1}' )
 
