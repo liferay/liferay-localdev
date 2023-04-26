@@ -62,7 +62,8 @@ def process_extension(
         % (repo, repo),
         "%s/scripts/k8s/delete.py" % repo,
         deps=[
-            "%s/client-extensions/%s/build/liferay-client-extension-build/" % (workspace, projectPath)
+            "%s/client-extensions/%s/build/liferay-client-extension-build/"
+            % (workspace, projectPath)
         ],
         apply_env=deploy_env,
         delete_env=deploy_env,

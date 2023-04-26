@@ -24,7 +24,10 @@ def generate_workload_yaml():
 
     # check for a LCP.json to determine workload type
     # if LCP.json doesn't exist then just default to "static" workload
-    lcp_json_file = "%s/%s/build/liferay-client-extension-build/LCP.json" % (workspace, project_path)
+    lcp_json_file = "%s/%s/build/liferay-client-extension-build/LCP.json" % (
+        workspace,
+        project_path,
+    )
 
     # check if lcp.json exists
     if os.path.exists(lcp_json_file):
