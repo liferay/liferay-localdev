@@ -52,11 +52,11 @@ CREATE_ARGS="\
 --args=id=fox-remote-app|\
 --args=name=Fox Remote App" $CREATE_CMD
 
-CREATE_ARGS="\
---workspace-path=service/golf-nodejs-service|\
---resource-path=template/service-nodejs|\
---args=id=golf-nodejs-service|\
---args=name=Golf Nodejs Service" $CREATE_CMD
+#CREATE_ARGS="\
+#--workspace-path=service/golf-nodejs-service|\
+#--resource-path=template/service-nodejs|\
+#--args=id=golf-nodejs-service|\
+#--args=name=Golf Nodejs Service" $CREATE_CMD
 
 CREATE_ARGS="\
 --workspace-path=service/hotel-springboot-service|\
@@ -101,8 +101,8 @@ if [ "$BUILD_PROJECTS" == "true" ]; then
 
 	ZIP_FILE_COUNT=$(find "${WORKSPACE_BASE_PATH}" -name '*.zip' | wc -l | awk '{print $1}' )
 
-	if [ "$ZIP_FILE_COUNT" != "12" ]; then
-		echo "ZIP_FILE_COUNT=$ZIP_FILE_COUNT expected 12"
+	if [ "$ZIP_FILE_COUNT" != "11" ]; then
+		echo "ZIP_FILE_COUNT=$ZIP_FILE_COUNT expected 11"
 		exit 1
 	fi
 fi
