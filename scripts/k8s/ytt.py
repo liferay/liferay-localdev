@@ -36,7 +36,6 @@ def generate_workload_yaml():
         kind = lcp_json.get("kind", None)
         if kind == "Deployment":
             workload = "deployment"
-            readyPath = "/ready"
         elif kind == "Job":
             workload = "job"
         elif kind == "CronJob":
@@ -56,6 +55,13 @@ def generate_workload_yaml():
             lcpTargetPort = lcpLoadBalancer.get("targetPort", None)
             if lcpTargetPort:
                 targetPort = lcpTargetPort
+        lcpReadinessProbe = lcp_json.get("readinessProbe", None)
+        if lcpReadinessProbe:
+            lcpHttpGet = lcpReadinessProbe.get("httpGet", None)
+            if lcpHttpGet:
+                lcpReadyPath = lcpHttpGet.get("path", None)
+                if lcpReadyPath:
+                    readyPath = lcpReadyPath
         f.close()
 
     client_extension_yaml_file = "%s/%s/client-extension.yaml" % (
