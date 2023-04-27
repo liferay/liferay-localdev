@@ -23,6 +23,8 @@ spec:
           limits:
             memory: #@ data.values.memory
             cpu: #@ data.values.cpu
+        securityContext:
+          runAsUser: 0
         volumeMounts:
           - mountPath: /etc/liferay/lxc/dxp-metadata
             name: lxc-dxp-metadata

@@ -38,6 +38,8 @@ spec:
             path: #@ data.values.readyPath
             port: #@ data.values.targetPort
         #@ end
+        securityContext:
+          runAsUser: 0
         volumeMounts:
           #@ if data.values.dxpMetadata:
           - mountPath: /etc/liferay/lxc/dxp-metadata
