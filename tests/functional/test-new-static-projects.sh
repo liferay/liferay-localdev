@@ -104,8 +104,8 @@ done
 DOCKER_VOLUME_NAME=$(docker volume ls | grep dxp-data- | awk '{print $2}')
 
 if [ "$DOCKER_VOLUME_NAME" == "" ]; then
-	echo "Could not find expected docker volumn named 'dxp-data-*'"
+	echo "     testcheck │ Could not find expected docker volumn named 'dxp-data-*'"
 	exit 1
 else
-	echo "Found docker volume named $DOCKER_VOLUME_NAME"
+	echo "     testcheck │ Found docker volume named $DOCKER_VOLUME_NAME"
 fi
