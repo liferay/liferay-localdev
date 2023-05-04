@@ -85,8 +85,8 @@ RUN \
     useradd -d /home/$UNAME -g $GID -m -s /bin/bash -u $UID $UNAME && \
     echo "$UNAME ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
     \
-    mkdir /workspace && \
-    chown $UNAME:$UNAME /workspace
+    mkdir -p /home/$UNAME/.local/cx /workspace && \
+    chown -R $UNAME:$UNAME /home/$UNAME /workspace
 
 USER $UNAME
 
