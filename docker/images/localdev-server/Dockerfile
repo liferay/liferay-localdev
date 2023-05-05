@@ -95,7 +95,7 @@ WORKDIR /workspace
 # setup a workspace to build client-extensions with
 
 # use latest available
-RUN blade init -v dxp-7.4-u59
+RUN blade init -v $(blade init --list --all | grep dxp-7.4 | head -1)
 
 # these commands are sorted from least likely to most likely to change to better cache layers
 COPY --chown=$UNAME:$UNAME workspace/gradle/ /workspace/gradle/
@@ -107,9 +107,6 @@ COPY --chown=$UNAME:$UNAME workspace/settings.gradle /workspace/settings.gradle
 COPY --chown=$UNAME:$UNAME workspace/gradle.properties /workspace/gradle.properties
 
 #COPY --chown=$UNAME:$UNAME workspace/temp_repo /workspace/temp_repo
-
-# warm up gradle & yarn install
-RUN /workspace/gradlew --no-daemon :yarnInstall
 
 COPY --chown=$UNAME:$UNAME entrypoint.sh /entrypoint.sh
 
