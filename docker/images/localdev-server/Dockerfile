@@ -95,7 +95,7 @@ WORKDIR /workspace
 # setup a workspace to build client-extensions with
 
 # use latest available
-RUN blade init -v dxp-7.4-u59
+RUN blade init -v $(blade init --list --all | grep dxp-7.4 | head -1)
 
 # these commands are sorted from least likely to most likely to change to better cache layers
 COPY --chown=$UNAME:$UNAME workspace/gradle/ /workspace/gradle/
