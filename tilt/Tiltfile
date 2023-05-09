@@ -30,6 +30,12 @@ def process_extension(
         ]
     )
 
+    gitignore_path = "%s/%s/.gitignore" % (workspace, projectPath)
+    gitignores = []
+
+    if os.path.exists(gitignore_path):
+        gitignores = str(read_file(gitignore_path)).splitlines()
+
     custom_build(
         name,
         build_args,
@@ -43,7 +49,8 @@ def process_extension(
             "%s/%s/dist" % (workspace, projectPath),
             "%s/%s/node_modules" % (workspace, projectPath),
             "%s/%s/target" % (workspace, projectPath),
-        ],
+        ]
+        + gitignores,
     )
 
     deploy_env = {
