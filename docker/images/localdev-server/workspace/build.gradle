@@ -1,0 +1,8 @@
+import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
+
+// workaround until LPS-184062 is fixed
+subprojects {
+  it.tasks.withType(DockerBuildImage) {
+    pull = true
+  }
+}

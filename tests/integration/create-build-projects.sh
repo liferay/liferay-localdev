@@ -74,8 +74,19 @@ CREATE_ARGS="\
 
 CREATE_ARGS="\
 --workspace-path=service/hotel-springboot-service|\
+--resource-path=partial/object-action-springboot|\
+--args=actionName=myObjectAction|\
+--args=id=my-object-action|\
+--args=Object=Foo|\
+--args=package=com.company.hotel|\
+--args=packagePath=com/company/hotel|\
+--args=resourcePath=/object/action" $CREATE_CMD
+
+CREATE_ARGS="\
+--workspace-path=service/hotel-springboot-service|\
 --resource-path=partial/workflow-action-springboot|\
---args=actionName=myAction|\
+--args=actionName=myWorkflowAction|\
+--args=id=my-workflow-action|\
 --args=package=com.company.hotel|\
 --args=packagePath=com/company/hotel|\
 --args=resourcePath=/workflow/action" $CREATE_CMD
