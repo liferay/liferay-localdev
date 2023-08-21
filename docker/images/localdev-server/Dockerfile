@@ -77,9 +77,6 @@ RUN export ARCH=$(dpkg --print-architecture) && \
     curl -fsSL https://github.com/mikefarah/yq/releases/latest/download/yq_linux_${ARCH} -o /usr/local/bin/yq && \
     chmod a+x /usr/local/bin/yq
 
-# Install blade
-RUN curl -fsSL https://raw.githubusercontent.com/liferay/liferay-blade-cli/master/cli/installers/global | bash
-
 RUN \
     groupadd -g $GID -o $UNAME && \
     useradd -d /home/$UNAME -g $GID -m -s /bin/bash -u $UID $UNAME && \
@@ -93,9 +90,6 @@ USER $UNAME
 WORKDIR /workspace
 
 # setup a workspace to build client-extensions with
-
-# use latest available
-RUN blade init -v $(blade init --list --all | grep dxp-7.4 | head -1)
 
 # these commands are sorted from least likely to most likely to change to better cache layers
 COPY --chown=$UNAME:$UNAME workspace/gradle/ /workspace/gradle/
