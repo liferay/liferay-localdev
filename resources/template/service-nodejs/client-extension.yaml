@@ -1,6 +1,4 @@
 assemble:
-  - include:
-      - "package*.json"
-      - "bin/*"
-      - "src/"
-      - "util/"
+    - include:
+          - "**/*.js"
+          - package.json
