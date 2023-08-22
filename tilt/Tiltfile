@@ -1,8 +1,8 @@
 # global envs
-client_extension_dir_key = os.environ.get("CLIENT_EXTENSION_DIR_KEY")
 lfrdev_domain = os.environ.get("LFRDEV_DOMAIN")
 repo = os.environ.get("LOCALDEV_REPO", "/repo")
 workspace = os.environ.get("WORKSPACE", "/workspace")
+workspace_dir_key = os.environ.get("WORKSPACE_DIR_KEY")
 
 
 # Function process_extension
@@ -147,9 +147,9 @@ for user_tiltfile in workspace_search("Tiltfile*"):
 
     user_tiltfiles.append(symbols)
 
-# if user didn't define data volume, define one based on CLIENT_EXTENSION_DIR_KEY
+# if user didn't define data volume, define one based on WORKSPACE_DIR_KEY
 if dxp_data_volume == None:
-    dxp_data_volume = "dxp-data-%s" % client_extension_dir_key
+    dxp_data_volume = "dxp-data-%s" % workspace_dir_key
 
 # setup tilt
 docker_prune_settings()
