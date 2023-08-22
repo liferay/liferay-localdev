@@ -53,19 +53,21 @@ def copy_partial(src, dst):
 
 
 if template_path.startswith(resources_base_path + "partial/"):
-    shutil.copytree(
-        template_path + "/overwrite",
-        project_path,
-        copy_function=copy_partial,
-        dirs_exist_ok=True,
-    )
+    if os.path.exists(template_path + "/overwrite"):
+        shutil.copytree(
+            template_path + "/overwrite",
+            project_path,
+            copy_function=copy_partial,
+            dirs_exist_ok=True,
+        )
 
-    shutil.copytree(
-        template_path + "/append",
-        project_path,
-        copy_function=copy_partial,
-        dirs_exist_ok=True,
-    )
+    if os.path.exists(template_path + "/append"):
+        shutil.copytree(
+            template_path + "/append",
+            project_path,
+            copy_function=copy_partial,
+            dirs_exist_ok=True,
+        )
 else:
     shutil.copytree(
         template_path,
