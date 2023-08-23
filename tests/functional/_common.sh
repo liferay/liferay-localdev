@@ -11,8 +11,8 @@ set -e
 
 trap stopLocaldev EXIT
 
-LIFERAY_CLI_BRANCH="${LIFERAY_CLI_BRANCH:-next}"
-LIFERAY_CLI_REMOTE="${LIFERAY_CLI_REMOTE:-https://github.com/liferay/liferay-cli}"
+#LIFERAY_CLI_BRANCH="${LIFERAY_CLI_BRANCH:-next}"
+#LIFERAY_CLI_REMOTE="${LIFERAY_CLI_REMOTE:-https://github.com/liferay/liferay-cli}"
 
 if [ "$LIFERAY_CLI_BRANCH" != "" ]; then
 	if [ $(git -C ${LOCALDEV_REPO}/tests/work/liferay rev-parse --is-inside-work-tree 2> /dev/null) ]; then
