@@ -36,6 +36,10 @@ if [ "$LIFERAY_CLI_BRANCH" != "" ]; then
 else
 	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/liferay/liferay-cli/HEAD/install.sh)"
 
+	wget https://github.com/liferay/liferay-cli/releases/download/v0.2.1/liferay-linux-amd64 -O /usr/local/bin/liferay
+
+	chmod +x /usr/local/bin/liferay
+
 	CLI="liferay"
 fi
 
@@ -50,7 +54,6 @@ $CLI config set localdev.resources.sync false
 $CLI runtime mkcert
 
 $CLI runtime mkcert --install
-
 
 BASE_PATH=${LOCALDEV_REPO}/tests/work
 
