@@ -34,7 +34,7 @@ if [ "$LIFERAY_CLI_BRANCH" != "" ]; then
 
 	CLI="./gow run main.go"
 else
-	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/liferay/liferay-cli/HEAD/install.sh)"
+	#/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/liferay/liferay-cli/HEAD/install.sh)"
 
 	wget https://github.com/liferay/liferay-cli/releases/download/v0.2.1/liferay-linux-amd64 -O /usr/local/bin/liferay
 
