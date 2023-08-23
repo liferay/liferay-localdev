@@ -51,12 +51,13 @@ $CLI runtime mkcert
 
 $CLI runtime mkcert --install
 
-BASE_PATH=${LOCALDEV_REPO}/tests/work/workspace/client-extensions
 
-mkdir -p $BASE_PATH
+BASE_PATH=${LOCALDEV_REPO}/tests/work
+
+cp -R "${LOCALDEV_REPO}/tests/workspace" "${BASE_PATH}"
 
 export CLI
-export WORKSPACE_BASE_PATH="$BASE_PATH"
+export WORKSPACE_BASE_PATH="$BASE_PATH"/workspace
 export BUILD_PROJECTS="false"
 
 startLocaldev() {
