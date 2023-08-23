@@ -11,7 +11,7 @@ BUILD_PROJECTS=${BUILD_PROJECTS:-true}
 
 rm -rf $WORK_PATH && mkdir -p $WORK_PATH
 
-cp -R "${LOCALDEV_REPO}/docker/images/localdev-server/workspace" "${WORK_PATH}"
+cp -R "${LOCALDEV_REPO}/tests/integration/workspace" "${WORK_PATH}"
 mkdir -p "${WORK_PATH}/workspace/client-extensions"
 
 # Warning, these CREATE_ARGS are whitespace sensitive!
