@@ -1,9 +1,8 @@
 assemble:
-  - include:
-      - "package*.json"
-      - "bin/*"
-      - "src/"
-      - "util/"
+    - include:
+          - "**/*.js"
+          - package.json
+
 
 coupon-updated-nodejs-user-agent:
   name: Coupon Updated (Nodejs)

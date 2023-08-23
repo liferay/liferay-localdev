@@ -60,6 +60,11 @@ export WORKSPACE_BASE_PATH="$BASE_PATH"
 export BUILD_PROJECTS="false"
 
 startLocaldev() {
+	cat >> ${BASE_PATH}/Tiltfile <<EOF
+dxp_buildargs = {
+        "DXP_BASE_IMAGE": "gamerson/dxp:7.4.13.LOCALDEV-SNAPSHOT-20230818122409"
+}
+EOF
 	($CLI ext start -v -d ${WORKSPACE_BASE_PATH} | sed 's/^/localdev start │ /') &
 }
 
