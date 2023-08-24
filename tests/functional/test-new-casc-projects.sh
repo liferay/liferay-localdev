@@ -4,12 +4,13 @@ a="/$0"; a="${a%/*}"; a="${a:-.}"; a="${a##/}/"; BASEDIR=$(cd "$a"; pwd)
 source ${BASEDIR}/_common.sh
 
 $CLI ext create \
-	-d ${WORKSPACE_BASE_PATH} \
+	-d ${WORKSPACE_PATH} \
 	-v \
 	--noprompt \
 	-- \
 	--resource-path="template/batch" \
-	--workspace-path="casc/able-batch" \
+	--project-path="client-extensions/casc/able-batch" \
+	--workspace-path="/workspace" \
 	--args=id="able-batch" \
 	--args=name="Able Batch"
 

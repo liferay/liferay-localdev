@@ -1,0 +1,2 @@
+config.clear_enabled_resources()
+config.set_enabled_resources(["client-extension-able", "client-extension-baker"])

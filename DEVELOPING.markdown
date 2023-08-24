@@ -58,14 +58,14 @@ template. Plan out the operations you need to perform.
     template using the wizard. At the end, rather than selecting `Create`,
     select `Just show the command`. Copy and save the command that is shown.
 
-        e.g. `liferay ext create --noprompt -- --resource-path="template/service-springboot" --workspace-path="service-springboot" --args=package="com.company.service" --args=packagePath="com/company/service"`
+        e.g. `liferay ext create --noprompt -- --resource-path="template/service-springboot" --project-path="client-extensions/service-springboot" --args=package="com.company.service" --args=packagePath="com/company/service"`
 
     1. Execute this command one time to ensure the project is created.
 
     1. Generate a one-line command which executes the partial using the wizard.
     At the end, rather than selecting `Create`, select `Just show the command`. Copy and save the command that is shown.
 
-        e.g. `liferay ext create --noprompt -- --resource-path="partial/object-action-springboot" --workspace-path="service-springboot" --args=id="my-object-action" --args=Object="MyObject" --args=package="com.company.service" --args=packagePath="com/company/service" --args=resourcePath="/myobject/action"`
+        e.g. `liferay ext create --noprompt -- --resource-path="partial/object-action-springboot" --project-path="client-extensions/service-springboot" --args=id="my-object-action" --args=Object="MyObject" --args=package="com.company.service" --args=packagePath="com/company/service" --args=resourcePath="/myobject/action"`
 
     1. Execute the command one time to see the result. The linux `tree` command is ideal for reviewing the outputs of the wizard.
 
@@ -106,12 +106,12 @@ template. Plan out the operations you need to perform.
             rm -rf * && \
             liferay ext create --noprompt -- \
                 --resource-path="template/service-springboot" \
-                --workspace-path="service-springboot" \
+                --project-path="client-extensions/service-springboot" \
                 --args=package="com.company.service" \
                 --args=packagePath="com/company/service" && \
             liferay ext create --noprompt -- \
                 --resource-path="partial/object-action-springboot" \
-                --workspace-path="service-springboot" \
+                --project-path="client-extensions/service-springboot" \
                 --args=id="my-object-action" \
                 --args=Object="MyObject" \
                 --args=package="com.company.service" \

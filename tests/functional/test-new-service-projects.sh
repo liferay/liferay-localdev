@@ -4,43 +4,47 @@ a="/$0"; a="${a%/*}"; a="${a:-.}"; a="${a##/}/"; BASEDIR=$(cd "$a"; pwd)
 source ${BASEDIR}/_common.sh
 
 $CLI ext create \
-	-d ${WORKSPACE_BASE_PATH} \
+	-d ${WORKSPACE_PATH} \
 	-v \
 	--noprompt \
 	-- \
 	--resource-path="template/service-nodejs" \
-	--workspace-path="service/able-nodejs-service" \
+	--project-path="client-extensions/service/able-nodejs-service" \
+	--workspace-path="/workspace" \
 	--args=id="able-nodejs-service" \
 	--args=name="Able Nodejs Service"
 
 $CLI ext create \
-	-d ${WORKSPACE_BASE_PATH} \
+	-d ${WORKSPACE_PATH} \
 	-v \
 	--noprompt \
 	-- \
 	--resource-path="partial/object-action-nodejs" \
-	--workspace-path="service/able-nodejs-service" \
+	--project-path="client-extensions/service/able-nodejs-service" \
+	--workspace-path="/workspace" \
 	--args=Object="Able" \
 	--args=id="able-updated-nodejs" \
 	--args=resourcePath="/able/updated"
 
 $CLI ext create \
-	-d ${WORKSPACE_BASE_PATH} \
+	-d ${WORKSPACE_PATH} \
 	-v \
 	--noprompt \
 	-- \
 	--resource-path="template/service-springboot" \
-	--workspace-path="service/bravo-springboot-service" \
+	--project-path="client-extensions/service/bravo-springboot-service" \
+	--workspace-path="/workspace" \
 	--args=package="com.company.service"\
 	--args=packagePath="com/company/service"
 
 $CLI ext create \
-	-d ${WORKSPACE_BASE_PATH} \
+	-d ${WORKSPACE_PATH} \
 	-v \
 	--noprompt \
 	-- \
 	--resource-path="partial/object-action-springboot" \
-	--workspace-path="service/bravo-springboot-service" \
+	--project-path="client-extensions/service/bravo-springboot-service" \
+	--workspace-path="/workspace" \
 	--args=package="com.company.service" \
 	--args=packagePath="com/company/service" \
 	--args=Object="Bravo" \
@@ -48,22 +52,24 @@ $CLI ext create \
 	--args=resourcePath="/bravo/updated"
 
 $CLI ext create \
-	-d ${WORKSPACE_BASE_PATH} \
+	-d ${WORKSPACE_PATH} \
 	-v \
 	--noprompt \
 	-- \
 	--resource-path="template/service-springboot" \
-	--workspace-path="service/charlie-springboot-service" \
+	--project-path="client-extensions/service/charlie-springboot-service" \
+	--workspace-path="/workspace" \
 	--args=package="com.company.service" \
 	--args=packagePath="com/company/service"
 
 $CLI ext create \
-	-d ${WORKSPACE_BASE_PATH} \
+	-d ${WORKSPACE_PATH} \
 	-v \
 	--noprompt \
 	-- \
 	--resource-path="partial/workflow-action-springboot" \
-	--workspace-path="service/charlie-springboot-service" \
+	--project-path="client-extensions/service/charlie-springboot-service" \
+	--workspace-path="/workspace" \
 	--args=id="my-workflow-action" \
 	--args=actionName="MyWorkflowAction" \
 	--args=package="com.company.service" \
@@ -71,22 +77,24 @@ $CLI ext create \
 	--args=resourcePath="/workflow/action"
 
 $CLI ext create \
-	-d ${WORKSPACE_BASE_PATH} \
+	-d ${WORKSPACE_PATH} \
 	-v \
 	--noprompt \
 	-- \
 	--resource-path="template/service-springboot" \
-	--workspace-path="service/delta-springboot-service" \
+	--project-path="client-extensions/service/delta-springboot-service" \
+	--workspace-path="/workspace" \
 	--args=package="com.company.service" \
 	--args=packagePath="com/company/service"
 
 $CLI ext create \
-	-d ${WORKSPACE_BASE_PATH} \
+	-d ${WORKSPACE_PATH} \
 	-v \
 	--noprompt \
 	-- \
 	--resource-path="partial/notification-type-springboot" \
-	--workspace-path="service/delta-springboot-service" \
+	--project-path="client-extensions/service/delta-springboot-service" \
+	--workspace-path="/workspace" \
 	--args=id="my-notification-type" \
 	--args=notificationTypeName="MyNotificationType" \
 	--args=package="com.company.service" \

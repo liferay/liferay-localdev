@@ -4,84 +4,81 @@ a="/$0"; a="${a%/*}"; a="${a:-.}"; a="${a##/}/"; BASEDIR=$(cd "$a"; pwd)
 source ${BASEDIR}/_common.sh
 
 $CLI ext create \
-	-d ${WORKSPACE_BASE_PATH} \
+	-d ${WORKSPACE_PATH} \
 	-v \
 	--noprompt \
 	-- \
 	--resource-path="template/global-css" \
-	--workspace-path="static/able-global-css" \
+	--project-path="client-extensions/static/able-global-css" \
+	--workspace-path="/workspace" \
 	--args=id="able-global-css" \
 	--args=name="Able Global CSS"
 
 $CLI ext create \
-	-d ${WORKSPACE_BASE_PATH} \
+	-d ${WORKSPACE_PATH} \
 	-v \
 	--noprompt \
 	-- \
 	--resource-path="template/global-js" \
-	--workspace-path="static/bravo-global-js" \
+	--project-path="client-extensions/static/bravo-global-js" \
+	--workspace-path="/workspace" \
 	--args=id="bravo-global-js" \
 	--args=name="Bravo Global JS"
 
 $CLI ext create \
-	-d ${WORKSPACE_BASE_PATH} \
+	-d ${WORKSPACE_PATH} \
 	-v \
 	--noprompt \
 	-- \
 	--resource-path="template/remote-app-iframe" \
-	--workspace-path="static/charlie-iframe" \
+	--project-path="client-extensions/static/charlie-iframe" \
+	--workspace-path="/workspace" \
 	--args=id="charlie-iframe" \
 	--args=name="Charlie iframe"
 
 $CLI ext create \
-	-d ${WORKSPACE_BASE_PATH} \
+	-d ${WORKSPACE_PATH} \
 	-v \
 	--noprompt \
 	-- \
 	--resource-path="template/remote-app-react" \
-	--workspace-path="static/delta-remote-app" \
+	--project-path="client-extensions/static/delta-remote-app" \
+	--workspace-path="/workspace" \
 	--args=id="delta-remote-app" \
 	--args=name="Delta Remote App"
 
 $CLI ext create \
-	-d ${WORKSPACE_BASE_PATH} \
+	-d ${WORKSPACE_PATH} \
 	-v \
 	--noprompt \
 	-- \
 	--resource-path="template/remote-app-vanilla" \
-	--workspace-path="static/echo-remote-app" \
+	--project-path="client-extensions/static/echo-remote-app" \
+	--workspace-path="/workspace" \
 	--args=id="echo-remote-app" \
 	--args=name="Echo Remote App"
 
 $CLI ext create \
-	-d ${WORKSPACE_BASE_PATH} \
+	-d ${WORKSPACE_PATH} \
 	-v \
 	--noprompt \
 	-- \
 	--resource-path="template/theme-css" \
-	--workspace-path="static/fox-theme-css" \
+	--project-path="client-extensions/static/fox-theme-css" \
+	--workspace-path="/workspace" \
 	--args=id="fox-theme-css" \
 	--args=name="Fox Theme CSS"
 
 $CLI ext create \
-	-d ${WORKSPACE_BASE_PATH} \
+	-d ${WORKSPACE_PATH} \
 	-v \
 	--noprompt \
 	-- \
 	--resource-path="template/theme-favicon" \
-	--workspace-path="static/golf-theme-favicon" \
+	--project-path="client-extensions/static/golf-theme-favicon" \
+	--workspace-path="/workspace" \
 	--args=id="golf-theme-favicon" \
 	--args=Name="Golf Theme Favicon"
-
-$CLI ext create \
-	-d ${WORKSPACE_BASE_PATH} \
-	-v \
-	--noprompt \
-	-- \
-	--resource-path="template/theme-spritemap" \
-	--workspace-path="static/hotel-theme-spritemap" \
-	--args=id="hotel-theme-spritemap" \
-	--args=Name="Hotel Theme Spritemap"
 
 startLocaldev
 
@@ -96,7 +93,7 @@ done
 FOUND_EXT_PROVISION_CONFIG_MAPS=0
 echo "     testcheck │ FOUND_EXT_PROVISION_CONFIG_MAPS"
 
-until [ "$FOUND_EXT_PROVISION_CONFIG_MAPS" == "8" ]; do
+until [ "$FOUND_EXT_PROVISION_CONFIG_MAPS" == "7" ]; do
 	sleep 5
 	FOUND_EXT_PROVISION_CONFIG_MAPS=$(docker exec -i localdev-extension-runtime /entrypoint.sh kubectl get cm | grep ext-provision-metadata | wc -l | xargs)
 done

@@ -11,8 +11,8 @@ set -e
 
 trap stopLocaldev EXIT
 
-LIFERAY_CLI_BRANCH="${LIFERAY_CLI_BRANCH:-next}"
-LIFERAY_CLI_REMOTE="${LIFERAY_CLI_REMOTE:-https://github.com/liferay/liferay-cli}"
+#LIFERAY_CLI_BRANCH="${LIFERAY_CLI_BRANCH:-next}"
+#LIFERAY_CLI_REMOTE="${LIFERAY_CLI_REMOTE:-https://github.com/liferay/liferay-cli}"
 
 if [ "$LIFERAY_CLI_BRANCH" != "" ]; then
 	if [ $(git -C ${LOCALDEV_REPO}/tests/work/liferay rev-parse --is-inside-work-tree 2> /dev/null) ]; then
@@ -43,6 +43,8 @@ if [ -e ${LOCALDEV_REPO}/tests/work/workspace ]; then
 	rm -rf ${LOCALDEV_REPO}/tests/work/workspace
 fi
 
+$CLI config set cli.update.check false
+
 $CLI config set localdev.resources.dir ${LOCALDEV_REPO}
 
 $CLI config set localdev.resources.sync false
@@ -51,21 +53,21 @@ $CLI runtime mkcert
 
 $CLI runtime mkcert --install
 
-BASE_PATH=${LOCALDEV_REPO}/tests/work/workspace/client-extensions
-
-mkdir -p $BASE_PATH
+BASE_PATH=${LOCALDEV_REPO}/tests/work
 
 export CLI
-export WORKSPACE_BASE_PATH="$BASE_PATH"
+export RESOURCES_BASE_PATH="${LOCALDEV_REPO}/resources/"
+export WORKSPACE_PATH="${LOCALDEV_REPO}/tests/workspace"
 export BUILD_PROJECTS="false"
 
 startLocaldev() {
-	cat >> ${BASE_PATH}/Tiltfile <<EOF
+	mkdir -p ${WORKSPACE_PATH}/client-extensions
+	cat >> ${WORKSPACE_PATH}/client-extensions/Tiltfile <<EOF
 dxp_buildargs = {
         "DXP_BASE_IMAGE": "gamerson/dxp:7.4.13.LOCALDEV-SNAPSHOT-20230818122409"
 }
 EOF
-	($CLI ext start -v -d ${WORKSPACE_BASE_PATH} | sed 's/^/localdev start │ /') &
+	($CLI ext start -v -d ${WORKSPACE_PATH} | sed 's/^/localdev start │ /') &
 }
 
 stopLocaldev() {

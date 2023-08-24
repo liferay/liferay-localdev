@@ -4,12 +4,13 @@ a="/$0"; a="${a%/*}"; a="${a:-.}"; a="${a##/}/"; BASEDIR=$(cd "$a"; pwd)
 source ${BASEDIR}/_common.sh
 
 $CLI ext create \
-	-d ${WORKSPACE_BASE_PATH} \
+	-d ${WORKSPACE_PATH} \
 	-v \
 	--noprompt \
 	-- \
 	--resource-path="sample/coupon-with-object-actions" \
-	--workspace-path="coupon-sample"
+	--workspace-path="/workspace" \
+	--project-path="client-extensions/coupon-sample"
 
 startLocaldev
 

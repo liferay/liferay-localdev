@@ -1,4 +1,3 @@
 .DS_Store
 .gradle
-docker/images/localdev-server/workspace/.gradle
 tests/work
