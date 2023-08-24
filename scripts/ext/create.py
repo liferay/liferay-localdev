@@ -65,6 +65,7 @@ if template_path.startswith(resources_base_path + "partial/"):
             dirs_exist_ok=True,
         )
 else:
+    print("Copying template from %s to %s" % (template_path, project_path))
     shutil.copytree(
         template_path,
         project_path,

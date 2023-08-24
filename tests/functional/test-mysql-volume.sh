@@ -3,13 +3,17 @@
 a="/$0"; a="${a%/*}"; a="${a:-.}"; a="${a##/}/"; BASEDIR=$(cd "$a"; pwd)
 source ${BASEDIR}/_common.sh
 
+echo "LOCALDEV_REPO=${LOCALDEV_REPO}"
+
+tree ${LOCALDEV_REPO}
+
 $CLI ext create \
 	-d ${WORKSPACE_PATH}/ \
 	-v \
 	--noprompt \
 	-- \
-	--resource-path="template/global-css" \
 	--project-path="client-extensions/test-global-css" \
+	--resource-path="template/global-css" \
 	--workspace-path="${WORKSPACE_PATH}" \
 	--args=id="test-global-css" \
 	--args=name="Test Global CSS"
