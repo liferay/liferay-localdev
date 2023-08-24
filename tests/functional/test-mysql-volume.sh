@@ -10,7 +10,7 @@ $CLI ext create \
 	-- \
 	--project-path="client-extensions/test-global-css" \
 	--resource-path="template/global-css" \
-	--workspace-path="${WORKSPACE_PATH}" \
+	--workspace-path="/workspace" \
 	--args=id="test-global-css" \
 	--args=name="Test Global CSS"
 
