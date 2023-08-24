@@ -55,11 +55,11 @@ $CLI runtime mkcert --install
 
 BASE_PATH=${LOCALDEV_REPO}/tests/work
 
-cp -R "${LOCALDEV_REPO}/tests/workspace" "${BASE_PATH}"
+#cp -R "${LOCALDEV_REPO}/tests/workspace" "${BASE_PATH}"
 
 export CLI
 export RESOURCES_BASE_PATH="${LOCALDEV_REPO}/resources/"
-export WORKSPACE_PATH="$BASE_PATH"/workspace
+export WORKSPACE_PATH="${LOCALDEV_REPO}/tests/workspace"
 export BUILD_PROJECTS="false"
 
 tree ${WORKSPACE_PATH}
@@ -71,7 +71,9 @@ dxp_buildargs = {
         "DXP_BASE_IMAGE": "gamerson/dxp:7.4.13.LOCALDEV-SNAPSHOT-20230818122409"
 }
 EOF
+
 	tree ${WORKSPACE_PATH}
+
 	($CLI ext start -v -d ${WORKSPACE_PATH} | sed 's/^/localdev start │ /') &
 }
 
