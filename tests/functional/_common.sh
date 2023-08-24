@@ -47,9 +47,15 @@ if [ -e ${LOCALDEV_REPO}/tests/work/workspace ]; then
 	rm -rf ${LOCALDEV_REPO}/tests/work/workspace
 fi
 
+mkdir -p ${HOME}/.liferay/cli
+
+echo "{}" > ${HOME}/.liferay/cli/cli-releases.json
+
 $CLI config set localdev.resources.dir ${LOCALDEV_REPO}
 
 $CLI config set localdev.resources.sync false
+
+tree ${HOME}/.liferay
 
 $CLI runtime mkcert
 
