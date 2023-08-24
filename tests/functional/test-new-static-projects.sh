@@ -10,6 +10,7 @@ $CLI ext create \
 	-- \
 	--resource-path="template/global-css" \
 	--project-path="client-extensions/static/able-global-css" \
+	--workspace-path="${WORKSPACE_PATH}" \
 	--args=id="able-global-css" \
 	--args=name="Able Global CSS"
 
@@ -20,6 +21,7 @@ $CLI ext create \
 	-- \
 	--resource-path="template/global-js" \
 	--project-path="client-extensions/static/bravo-global-js" \
+	--workspace-path="${WORKSPACE_PATH}" \
 	--args=id="bravo-global-js" \
 	--args=name="Bravo Global JS"
 
@@ -30,6 +32,7 @@ $CLI ext create \
 	-- \
 	--resource-path="template/remote-app-iframe" \
 	--project-path="client-extensions/static/charlie-iframe" \
+	--workspace-path="${WORKSPACE_PATH}" \
 	--args=id="charlie-iframe" \
 	--args=name="Charlie iframe"
 
@@ -40,6 +43,7 @@ $CLI ext create \
 	-- \
 	--resource-path="template/remote-app-react" \
 	--project-path="client-extensions/static/delta-remote-app" \
+	--workspace-path="${WORKSPACE_PATH}" \
 	--args=id="delta-remote-app" \
 	--args=name="Delta Remote App"
 
@@ -50,6 +54,7 @@ $CLI ext create \
 	-- \
 	--resource-path="template/remote-app-vanilla" \
 	--project-path="client-extensions/static/echo-remote-app" \
+	--workspace-path="${WORKSPACE_PATH}" \
 	--args=id="echo-remote-app" \
 	--args=name="Echo Remote App"
 
@@ -60,6 +65,7 @@ $CLI ext create \
 	-- \
 	--resource-path="template/theme-css" \
 	--project-path="client-extensions/static/fox-theme-css" \
+	--workspace-path="${WORKSPACE_PATH}" \
 	--args=id="fox-theme-css" \
 	--args=name="Fox Theme CSS"
 
@@ -70,6 +76,7 @@ $CLI ext create \
 	-- \
 	--resource-path="template/theme-favicon" \
 	--project-path="client-extensions/static/golf-theme-favicon" \
+	--workspace-path="${WORKSPACE_PATH}" \
 	--args=id="golf-theme-favicon" \
 	--args=Name="Golf Theme Favicon"
 
@@ -80,6 +87,7 @@ $CLI ext create \
 	-- \
 	--resource-path="template/theme-spritemap" \
 	--project-path="client-extensions/static/hotel-theme-spritemap" \
+	--workspace-path="${WORKSPACE_PATH}" \
 	--args=id="hotel-theme-spritemap" \
 	--args=Name="Hotel Theme Spritemap"
 

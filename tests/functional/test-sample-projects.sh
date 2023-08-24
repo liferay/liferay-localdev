@@ -9,6 +9,7 @@ $CLI ext create \
 	--noprompt \
 	-- \
 	--resource-path="sample/coupon-with-object-actions" \
+	--workspace-path="${WORKSPACE_PATH}" \
 	--project-path="client-extensions/coupon-sample"
 
 startLocaldev

@@ -10,6 +10,7 @@ $CLI ext create \
 	-- \
 	--resource-path="template/batch" \
 	--project-path="client-extensions/casc/able-batch" \
+	--workspace-path="${WORKSPACE_PATH}" \
 	--args=id="able-batch" \
 	--args=name="Able Batch"
 
