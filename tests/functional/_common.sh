@@ -58,6 +58,7 @@ BASE_PATH=${LOCALDEV_REPO}/tests/work
 cp -R "${LOCALDEV_REPO}/tests/workspace" "${BASE_PATH}"
 
 export CLI
+export RESOURCES_BASE_PATH="${LOCALDEV_REPO}/resources/"
 export WORKSPACE_PATH="$BASE_PATH"/workspace
 export BUILD_PROJECTS="false"
 

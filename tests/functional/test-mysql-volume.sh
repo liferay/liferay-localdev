@@ -3,10 +3,6 @@
 a="/$0"; a="${a%/*}"; a="${a:-.}"; a="${a##/}/"; BASEDIR=$(cd "$a"; pwd)
 source ${BASEDIR}/_common.sh
 
-echo "LOCALDEV_REPO=${LOCALDEV_REPO}"
-
-tree ${LOCALDEV_REPO}
-
 $CLI ext create \
 	-d ${WORKSPACE_PATH}/ \
 	-v \
