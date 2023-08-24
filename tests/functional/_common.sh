@@ -34,11 +34,7 @@ if [ "$LIFERAY_CLI_BRANCH" != "" ]; then
 
 	CLI="./gow run main.go"
 else
-	#/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/liferay/liferay-cli/HEAD/install.sh)"
-
-	wget https://github.com/liferay/liferay-cli/releases/download/v0.2.1/liferay-linux-amd64 -O /usr/local/bin/liferay
-
-	chmod +x /usr/local/bin/liferay
+	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/liferay/liferay-cli/HEAD/install.sh)"
 
 	CLI="liferay"
 fi
@@ -47,15 +43,11 @@ if [ -e ${LOCALDEV_REPO}/tests/work/workspace ]; then
 	rm -rf ${LOCALDEV_REPO}/tests/work/workspace
 fi
 
-mkdir -p ${HOME}/.liferay/cli
-
-echo "{}" > ${HOME}/.liferay/cli/cli-releases.json
+$CLI config set cli.update.check false
 
 $CLI config set localdev.resources.dir ${LOCALDEV_REPO}
 
 $CLI config set localdev.resources.sync false
-
-tree ${HOME}/.liferay
 
 $CLI runtime mkcert
 
