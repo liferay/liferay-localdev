@@ -58,17 +58,17 @@ BASE_PATH=${LOCALDEV_REPO}/tests/work
 cp -R "${LOCALDEV_REPO}/tests/workspace" "${BASE_PATH}"
 
 export CLI
-export WORKSPACE_BASE_PATH="$BASE_PATH"/workspace
+export WORKSPACE_PATH="$BASE_PATH"/workspace
 export BUILD_PROJECTS="false"
 
 startLocaldev() {
-	mkdir -p ${WORKSPACE_BASE_PATH}/client-extensions
-	cat >> ${WORKSPACE_BASE_PATH}/client-extensions/Tiltfile <<EOF
+	mkdir -p ${WORKSPACE_PATH}/client-extensions
+	cat >> ${WORKSPACE_PATH}/client-extensions/Tiltfile <<EOF
 dxp_buildargs = {
         "DXP_BASE_IMAGE": "gamerson/dxp:7.4.13.LOCALDEV-SNAPSHOT-20230818122409"
 }
 EOF
-	($CLI ext start -v -d ${WORKSPACE_BASE_PATH} | sed 's/^/localdev start │ /') &
+	($CLI ext start -v -d ${WORKSPACE_PATH} | sed 's/^/localdev start │ /') &
 }
 
 stopLocaldev() {

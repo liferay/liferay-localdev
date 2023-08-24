@@ -4,18 +4,18 @@ a="/$0"; a="${a%/*}"; a="${a:-.}"; a="${a##/}/"; BASEDIR=$(cd "$a"; pwd)
 source ${BASEDIR}/_common.sh
 
 $CLI ext create \
-	-d ${WORKSPACE_BASE_PATH} \
+	-d ${WORKSPACE_PATH}/ \
 	-v \
 	--noprompt \
 	-- \
 	--resource-path="template/global-css" \
-	--workspace-path="test-global-css" \
+	--project-path="client-extensions/test-global-css" \
 	--args=id="test-global-css" \
 	--args=name="Test Global CSS"
 
 # copy the Tiltfile.mysql into workspace
 
-cp ${LOCALDEV_REPO}/resources/tilt/Tiltfile.mysql ${WORKSPACE_BASE_PATH}/
+cp ${LOCALDEV_REPO}/resources/tilt/Tiltfile.mysql ${WORKSPACE_PATH}/client-extensions/
 
 startLocaldev
 

@@ -6,18 +6,18 @@ import pathlib
 import re
 import shutil
 
-workspace_base_path = os.environ.get(
-    "WORKSPACE_BASE_PATH", "/workspace/client-extensions/"
-)
 resources_base_path = os.environ.get("RESOURCES_BASE_PATH", "/repo/resources/")
 create_argsline = os.environ.get("CREATE_ARGS", "")
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
-    "--workspace-path", help="The workspace relative path", required=True
+    "--project-path", help="The workspace relative path", required=True
 )
 parser.add_argument(
     "--resource-path", help="The resource path inside /repo/resources/", required=True
+)
+parser.add_argument(
+    "--workspace-path", help="The workspace path", required=True
 )
 parser.add_argument("--args", action="append", nargs="+")
 
@@ -30,7 +30,7 @@ if create_args.get("args") != None:
         template_args[arr[0]] = arr[1]
         template_args[arr[0] + "-alnum"] = re.sub("[\W_]+", "", arr[1])
 
-project_path = os.path.join(workspace_base_path, create_args["workspace_path"])
+project_path = os.path.join(create_args["workspace_path"], create_args["project_path"])
 
 template_path = os.path.join(resources_base_path, create_args["resource_path"])
 

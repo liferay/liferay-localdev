@@ -4,7 +4,7 @@ from shutil import copytree, ignore_patterns, make_archive
 import os
 import tempfile
 
-workspace_base_path = "/workspace"
+workspace_path = "/workspace"
 client_extensions_path = "/workspace/client-extensions/"
 
 # python create a user temp dir and delete it when done
