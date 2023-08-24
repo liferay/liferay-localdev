@@ -62,7 +62,8 @@ export WORKSPACE_BASE_PATH="$BASE_PATH"/workspace
 export BUILD_PROJECTS="false"
 
 startLocaldev() {
-	cat >> ${BASE_PATH}/Tiltfile <<EOF
+	mkdir -p ${WORKSPACE_BASE_PATH}/client-extensions
+	cat >> ${WORKSPACE_BASE_PATH}/client-extensions/Tiltfile <<EOF
 dxp_buildargs = {
         "DXP_BASE_IMAGE": "gamerson/dxp:7.4.13.LOCALDEV-SNAPSHOT-20230818122409"
 }
