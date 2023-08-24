@@ -10,15 +10,11 @@ resources_base_path = os.environ.get("RESOURCES_BASE_PATH", "/repo/resources/")
 create_argsline = os.environ.get("CREATE_ARGS", "")
 
 parser = argparse.ArgumentParser()
-parser.add_argument(
-    "--project-path", help="The workspace relative path", required=True
-)
+parser.add_argument("--project-path", help="The workspace relative path", required=True)
 parser.add_argument(
     "--resource-path", help="The resource path inside /repo/resources/", required=True
 )
-parser.add_argument(
-    "--workspace-path", help="The workspace path", required=True
-)
+parser.add_argument("--workspace-path", help="The workspace path", required=True)
 parser.add_argument("--args", action="append", nargs="+")
 
 create_args = vars(parser.parse_args(args=create_argsline.split("|")))
